@@ -3,7 +3,7 @@
         xmlns:vm="using:MonopolyAdminPanel.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:svg="using:Svg.Controls.Skia.Avalonia"
+        xmlns:svg="using:Svg.Controls.Skia.Avalonia"
         mc:Ignorable="d"
         d:DesignWidth="1200"
         d:DesignHeight="700"
@@ -13,7 +13,7 @@
         Title="Admin panel"
         Width="1200"
         Height="700"
-		WindowState="Maximized"
+        WindowState="Maximized"
         MinWidth="900"
         MinHeight="600"
         Background="#151515">
@@ -22,8 +22,28 @@
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
 
-	<Grid Background="#151515">
+	<Window.Styles>
+		<Style Selector="TextBox.loginTextBox">
+			<Setter Property="Height" Value="52"/>
+			<Setter Property="FontSize" Value="18"/>
+			<Setter Property="Padding" Value="16,0"/>
+			<Setter Property="Background" Value="#1E1E1E"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="WatermarkForeground" Value="#8A8A8A"/>
+			<Setter Property="BorderBrush" Value="#3A3A3A"/>
+			<Setter Property="BorderThickness" Value="2"/>
+			<Setter Property="CornerRadius" Value="6"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
 
+		<Style Selector="TextBox.loginTextBox:focus">
+			<Setter Property="Background" Value="#24242A"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="BorderBrush" Value="#6B6B78"/>
+		</Style>
+	</Window.Styles>
+
+	<Grid Background="#151515">
 		<Border Width="600"
                 Padding="46"
                 HorizontalAlignment="Center"
@@ -32,23 +52,22 @@
                 CornerRadius="18">
 
 			<StackPanel Spacing="26">
-
 				<StackPanel HorizontalAlignment="Center" Spacing="8">
 					<Svg Path="/Assets/logo3.svg"
-						 Width="300"
-						 Height="300"
-						 HorizontalAlignment="Center"/>
+                         Width="300"
+                         Height="300"
+                         HorizontalAlignment="Center"/>
 
 					<TextBlock Text="Админ-панель"
-							   FontSize="28"
-							   FontWeight="SemiBold"
-							   Foreground="White"
-							   HorizontalAlignment="Center"/>
+                               FontSize="28"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"/>
 
 					<TextBlock Text="TCP Monopoly"
-							   FontSize="15"
-							   Foreground="#A8A8A8"
-							   HorizontalAlignment="Center"/>
+                               FontSize="15"
+                               Foreground="#A8A8A8"
+                               HorizontalAlignment="Center"/>
 				</StackPanel>
 
 				<Border Height="1"
@@ -56,68 +75,28 @@
                         Margin="30,6"/>
 
 				<StackPanel Spacing="18">
+					<TextBox x:Name="IpTextBox"
+                             Classes="loginTextBox"
+                             PlaceholderText="IP сервера"/>
 
-					<TextBox PlaceholderText="IP сервера"
-                                Height="52"
-                                FontSize="18"
-                                Padding="16,0"
-                                Background="#1E1E1E"
-                                Foreground="White"
-                                BorderBrush="#3A3A3A"
-                                BorderThickness="2"
-                                CornerRadius="6"
-								VerticalContentAlignment="Center">
-
-						<TextBox.Styles>
-							<Style Selector="TextBox:focus">
-								<Setter Property="Background" Value="#D8D8D8"/>
-								<Setter Property="Foreground" Value="#111111"/>
-								<Setter Property="BorderBrush" Value="#FFFFFF"/>
-							</Style>
-						</TextBox.Styles>
-
-					</TextBox>
-
-					<TextBox PlaceholderText="Пароль администратора"
-                                Height="52"
-                                FontSize="18"
-                                Padding="16,0"
-                                Background="#1E1E1E"
-                                Foreground="White"
-                                BorderBrush="#3A3A3A"
-                                BorderThickness="2"
-                                CornerRadius="6"
-                                PasswordChar="●"
-								VerticalContentAlignment="Center">
-
-						<TextBox.Styles>
-							<Style Selector="TextBox:focus">
-								<Setter Property="Background" Value="#D8D8D8"/>
-								<Setter Property="Foreground" Value="#111111"/>
-								<Setter Property="BorderBrush" Value="#FFFFFF"/>
-							</Style>
-						</TextBox.Styles>
-
-					</TextBox>
+					<TextBox Classes="loginTextBox"
+                             PlaceholderText="Пароль администратора"
+                             PasswordChar="●"/>
 
 					<Button Content="Войти"
                             Width="220"
                             Height="50"
                             HorizontalAlignment="Center"
-							HorizontalContentAlignment="Center"
-							VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
                             FontSize="18"
                             Background="#3A3A3A"
                             Foreground="White"
                             BorderThickness="0"
                             CornerRadius="4"
-							Click="LoginButton_Click"/>
-
+                            Click="LoginButton_Click"/>
 				</StackPanel>
-
 			</StackPanel>
-
 		</Border>
-
 	</Grid>
 </Window>
