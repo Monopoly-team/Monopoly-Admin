@@ -1,0 +1,496 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:svg="clr-namespace:Svg.Controls.Skia.Avalonia;assembly=Svg.Controls.Skia.Avalonia"
+             x:Class="MonopolyAdminPanel.Views.AdminPanelView"
+             x:CompileBindings="False">
+
+	<Grid Background="#151515"
+          ColumnDefinitions="420,*,430"
+          RowDefinitions="*">
+
+		<!-- ЛЕВАЯ ПАНЕЛЬ -->
+		<Grid Grid.Column="0"
+              RowDefinitions="300,Auto,*,Auto"
+              Margin="14">
+
+			<!-- ИНФОРМАЦИЯ ОБ ИГРЕ -->
+			<Border Grid.Row="0"
+                    Background="#1C1C22"
+                    CornerRadius="14"
+                    Padding="24"
+                    Margin="0,0,0,16">
+
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnDefinitions="*,140">
+
+					<TextBlock Grid.Row="0"
+                               Grid.ColumnSpan="2"
+                               Text="ИНФОРМАЦИЯ ОБ ИГРЕ"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,17"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="Всего игроков"
+                               FontSize="14"
+                               Foreground="#CFCFCF"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="6"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="Бюджет банка"
+                               FontSize="14"
+                               Foreground="#CFCFCF"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="1"
+                               Text="250 000 Rub"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0"
+                               Text="Всего покупок"
+                               FontSize="14"
+                               Foreground="#CFCFCF"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="1"
+                               Text="24"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="4" Grid.Column="0"
+                               Text="Всего штрафов"
+                               FontSize="14"
+                               Foreground="#CFCFCF"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="4" Grid.Column="1"
+                               Text="7"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="5" Grid.Column="0"
+                               Text="Всего бонусов"
+                               FontSize="14"
+                               Foreground="#CFCFCF"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="5" Grid.Column="1"
+                               Text="5"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="6" Grid.Column="0"
+                               Text="Всего событий"
+                               FontSize="14"
+                               Foreground="#CFCFCF"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="6" Grid.Column="1"
+                               Text="3"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="7" Grid.Column="0"
+                               Text="Всего ходов"
+                               FontSize="14"
+                               Foreground="#CFCFCF"
+                               Margin="0,14,0,0"/>
+
+					<TextBlock Grid.Row="7" Grid.Column="1"
+                               Text="47"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Margin="0,14,0,0"/>
+				</Grid>
+			</Border>
+
+			<!-- ТАБЛИЦА ИГРОКОВ -->
+			<Border Grid.Row="1"
+                    Background="#1C1C22"
+                    CornerRadius="14"
+                    Padding="16"
+                    Margin="0,0,0,14">
+
+				<Grid RowDefinitions="36,36,36,36,36,36,36"
+                      ColumnDefinitions="1.8*,1.3*,1.1*,1.1*,1.1*">
+
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="игрок" Foreground="#AFAFAF"/>
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="бюджет" Foreground="#AFAFAF"/>
+					<TextBlock Grid.Row="0" Grid.Column="2" Text="покупки" Foreground="#AFAFAF"/>
+					<TextBlock Grid.Row="0" Grid.Column="3" Text="штрафы" Foreground="#AFAFAF"/>
+					<TextBlock Grid.Row="0" Grid.Column="4" Text="клетки" Foreground="#AFAFAF"/>
+
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Malahit1" Foreground="White"/>
+					<TextBlock Grid.Row="1" Grid.Column="1" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="1" Grid.Column="2" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="1" Grid.Column="3" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="1" Grid.Column="4" Text="0" Foreground="White"/>
+
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Malahit2" Foreground="White"/>
+					<TextBlock Grid.Row="2" Grid.Column="1" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="2" Grid.Column="2" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="2" Grid.Column="3" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="2" Grid.Column="4" Text="0" Foreground="White"/>
+
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Malahit3" Foreground="White"/>
+					<TextBlock Grid.Row="3" Grid.Column="1" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="3" Grid.Column="2" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="3" Grid.Column="3" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="3" Grid.Column="4" Text="0" Foreground="White"/>
+
+					<TextBlock Grid.Row="4" Grid.Column="0" Text="Malahit4" Foreground="White"/>
+					<TextBlock Grid.Row="4" Grid.Column="1" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="4" Grid.Column="2" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="4" Grid.Column="3" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="4" Grid.Column="4" Text="0" Foreground="White"/>
+
+					<TextBlock Grid.Row="5" Grid.Column="0" Text="Malahit5" Foreground="White"/>
+					<TextBlock Grid.Row="5" Grid.Column="1" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="5" Grid.Column="2" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="5" Grid.Column="3" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="5" Grid.Column="4" Text="0" Foreground="White"/>
+
+					<TextBlock Grid.Row="6" Grid.Column="0" Text="Malahit6" Foreground="White"/>
+					<TextBlock Grid.Row="6" Grid.Column="1" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="6" Grid.Column="2" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="6" Grid.Column="3" Text="0" Foreground="White"/>
+					<TextBlock Grid.Row="6" Grid.Column="4" Text="0" Foreground="White"/>
+				</Grid>
+			</Border>
+
+			<!-- КУБИКИ -->
+			<Border Grid.Row="2"
+                    Background="#1C1C22"
+                    CornerRadius="14"
+                    Padding="18"
+                    Margin="0,0,0,14"
+                    VerticalAlignment="Bottom">
+
+				<StackPanel Spacing="18">
+
+					<TextBlock Text="КУБИКИ"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+
+					<StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="20">
+
+						<Svg Path="/Assets/dice1.svg"
+                             Width="100"
+                             Height="100"/>
+
+						<Svg Path="/Assets/dice2.svg"
+                             Width="100"
+                             Height="100"/>
+					</StackPanel>
+
+					<TextBlock Text="Последний бросок: 3"
+                               HorizontalAlignment="Center"
+                               Foreground="#A8A8A8"
+                               FontSize="15"/>
+				</StackPanel>
+			</Border>
+
+
+			<Border Grid.Row="3"
+					Background="#1F1F24"
+					CornerRadius="10"
+					Padding="16">
+				<StackPanel Spacing="10">
+					<TextBlock Text="СОЕДИНЕНИЕ С СЕРВЕРОМ"
+							FontSize="17"
+							Foreground="White"
+							FontWeight="SemiBold"/>
+
+					<Grid ColumnDefinitions="100,*">
+						<TextBlock Grid.Column="0" Text="Статус:" Foreground="#CFCFCF"/>
+						<TextBlock Grid.Column="1" Text="● Подключено" Foreground="#00FF62"/>
+					</Grid>
+
+					<Grid ColumnDefinitions="100,*">
+						<TextBlock Grid.Column="0" Text="IP-адрес:" Foreground="#CFCFCF"/>
+						<TextBlock Grid.Column="1" Text="192.168.0.1" Foreground="White"/>
+					</Grid>
+
+					<Button Content="⏻  ОТКЛЮЧИТЬСЯ"
+							Height="38"
+							Margin="0,8,0,0"
+							Background="#3A1F24"
+							Foreground="#FF4A4A"
+							BorderBrush="#7A2D38"
+							BorderThickness="1"
+							HorizontalContentAlignment="Center"
+							VerticalContentAlignment="Center"/>
+				</StackPanel>
+			</Border>
+		</Grid>
+
+	<!-- ЦЕНТР -->
+	<Grid Grid.Column="1"
+		  RowDefinitions="90,*,130"
+		  Margin="0,12">
+
+		<Border Grid.Row="0"
+				Background="#1F1F24"
+				CornerRadius="10"
+				Padding="24,12"
+				Margin="20,0">
+			<Grid ColumnDefinitions="*,*,*">
+				<StackPanel Grid.Column="0">
+					<TextBlock Text="ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ"
+							   FontSize="18"
+							   Foreground="White"
+							   FontWeight="SemiBold"/>
+					<TextBlock Text="СТАТУС" FontSize="13" Foreground="#A8A8A8" Margin="0,10,0,0"/>
+					<TextBlock Text="ЛОББИ" FontSize="15" Foreground="#00FF62"/>
+				</StackPanel>
+
+				<StackPanel Grid.Column="1" VerticalAlignment="Center">
+					<TextBlock Text="ХОД ИГРОКА" FontSize="13" Foreground="#A8A8A8"/>
+					<TextBlock Text="Игра не началась" FontSize="15" Foreground="White"/>
+				</StackPanel>
+
+				<StackPanel Grid.Column="2" VerticalAlignment="Center">
+					<TextBlock Text="ВРЕМЯ" FontSize="13" Foreground="#A8A8A8"/>
+					<TextBlock Text="00:15:24" FontSize="15" Foreground="White"/>
+				</StackPanel>
+			</Grid>
+		</Border>
+
+		<Grid Grid.Row="1" Margin="20,12">
+			<Viewbox Stretch="Uniform">
+				<Border Width="620"
+						Height="520"
+						Background="#0E0E10"
+						CornerRadius="8"
+						BorderBrush="#2E2E36"
+						BorderThickness="1">
+					<TextBlock Text="ИГРОВОЕ ПОЛЕ"
+							   Foreground="#4E4E56"
+							   FontSize="36"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
+				</Border>
+			</Viewbox>
+		</Grid>
+
+		<Border Grid.Row="2"
+				Background="#1F1F24"
+				CornerRadius="10"
+				Padding="16"
+				Margin="20,0">
+			<StackPanel Spacing="8">
+				<TextBlock Text="ИСТОРИЯ СОБЫТИЙ"
+						   Foreground="White"
+						   FontSize="17"
+						   FontWeight="SemiBold"/>
+				<TextBlock Text="22:20:11   Malahit1 бросил кубик - 4" Foreground="#CFCFCF"/>
+				<TextBlock Text="22:18:45   Malahit2 заплатил за аренду Malahit1" Foreground="#CFCFCF"/>
+				<TextBlock Text="22:16:03   Malahit2 взял кредит 5000" Foreground="#CFCFCF"/>
+			</StackPanel>
+		</Border>
+	</Grid>
+
+	<!-- ПРАВАЯ ПАНЕЛЬ -->
+	<Grid Grid.Column="2"
+	  RowDefinitions="Auto,*"
+	  Margin="14">
+
+		<Border Grid.Row="0"
+				Background="#1C1C22"
+				CornerRadius="14"
+				Padding="20"
+				Margin="0,0,0,14">
+
+			<StackPanel Spacing="14">
+				<TextBlock Text="БЫСТРЫЕ ДЕЙСТВИЯ"
+						   FontSize="18"
+						   Foreground="White"
+						   FontWeight="Bold"
+						   Margin="0,0,0,4"/>
+
+				<Button Content="Изменить баланс игрока"
+						Height="48"
+						HorizontalAlignment="Stretch"
+						Background="#2A2435"
+						Foreground="White"
+						BorderBrush="#5D43A8"
+						BorderThickness="1"
+						CornerRadius="8"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Padding="16,0"
+						HorizontalContentAlignment="Left"/>
+
+				<Button Content="Выдать штраф игроку"
+						Height="48"
+						HorizontalAlignment="Stretch"
+						Background="#2A2435"
+						Foreground="White"
+						BorderBrush="#5D43A8"
+						BorderThickness="1"
+						CornerRadius="8"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Padding="16,0"
+						HorizontalContentAlignment="Left"/>
+
+				<Button Content="Выдать бонус игроку"
+						Height="48"
+						HorizontalAlignment="Stretch"
+						Background="#2A2435"
+						Foreground="White"
+						BorderBrush="#5D43A8"
+						BorderThickness="1"
+						CornerRadius="8"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Padding="16,0"
+						HorizontalContentAlignment="Left"/>
+
+				<Button Content="Кикнуть игрока"
+						Height="48"
+						HorizontalAlignment="Stretch"
+						Background="#2A2435"
+						Foreground="White"
+						BorderBrush="#5D43A8"
+						BorderThickness="1"
+						CornerRadius="8"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Padding="16,0"
+						HorizontalContentAlignment="Left"/>
+
+				<Button Content="Остановить игру"
+						Height="48"
+						HorizontalAlignment="Stretch"
+						Background="#2A2435"
+						Foreground="White"
+						BorderBrush="#5D43A8"
+						BorderThickness="1"
+						CornerRadius="8"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Padding="16,0"
+						HorizontalContentAlignment="Left"/>
+
+				<Button Content="Начать новое событие"
+						Height="48"
+						HorizontalAlignment="Stretch"
+						Background="#2A2435"
+						Foreground="White"
+						BorderBrush="#5D43A8"
+						BorderThickness="1"
+						CornerRadius="8"
+						FontSize="16"
+						FontWeight="SemiBold"
+						Padding="16,0"
+						HorizontalContentAlignment="Left"/>
+			</StackPanel>
+		</Border>
+
+		<Border Grid.Row="1"
+				Background="#1F1F24"
+				CornerRadius="10"
+				Padding="16">
+			<StackPanel Spacing="12">
+				<TextBlock Text="ИГРОКИ ОНЛАЙН"
+						   FontSize="18"
+						   Foreground="White"
+						   FontWeight="SemiBold"/>
+
+				<Border Height="58" Background="#26262D" CornerRadius="6" Padding="12,8">
+					<Grid ColumnDefinitions="18,18,*,70">
+						<Ellipse Grid.Column="1" Width="10" Height="10" Fill="#2A8CFF" VerticalAlignment="Center"/>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Malahit1" Foreground="White"/>
+							<TextBlock Text="3.200$" Foreground="#CFCFCF" FontSize="12"/>
+						</StackPanel>
+						<TextBlock Grid.Column="3" Text="В игре" Foreground="#00FF62" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+
+				<Border Height="58" Background="#26262D" CornerRadius="6" Padding="12,8">
+					<Grid ColumnDefinitions="18,18,*,70">
+
+						<Ellipse Grid.Column="1" Width="10" Height="10" Fill="#35D04F" VerticalAlignment="Center"/>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Malahit2" Foreground="White"/>
+							<TextBlock Text="3.200$" Foreground="#CFCFCF" FontSize="12"/>
+						</StackPanel>
+						<TextBlock Grid.Column="3" Text="В игре" Foreground="#00FF62" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+
+				<Border Height="58" Background="#26262D" CornerRadius="6" Padding="12,8">
+					<Grid ColumnDefinitions="18,18,*,70">
+
+						<Ellipse Grid.Column="1" Width="10" Height="10" Fill="#FFD51E" VerticalAlignment="Center"/>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Malahit3" Foreground="White"/>
+							<TextBlock Text="3.200$" Foreground="#CFCFCF" FontSize="12"/>
+						</StackPanel>
+						<TextBlock Grid.Column="3" Text="В игре" Foreground="#00FF62" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+
+				<Border Height="58" Background="#26262D" CornerRadius="6" Padding="12,8">
+					<Grid ColumnDefinitions="18,18,*,70">
+
+						<Ellipse Grid.Column="1" Width="10" Height="10" Fill="#FF4FA3" VerticalAlignment="Center"/>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Malahit4" Foreground="White"/>
+							<TextBlock Text="3.200$" Foreground="#CFCFCF" FontSize="12"/>
+						</StackPanel>
+						<TextBlock Grid.Column="3" Text="Вышел" Foreground="#FF4A4A" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+
+				<Border Height="58" Background="#26262D" CornerRadius="6" Padding="12,8">
+					<Grid ColumnDefinitions="18,18,*,70">
+
+						<Ellipse Grid.Column="1" Width="10" Height="10" Fill="#8A4DFF" VerticalAlignment="Center"/>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Malahit5" Foreground="White"/>
+							<TextBlock Text="3.200$" Foreground="#CFCFCF" FontSize="12"/>
+						</StackPanel>
+						<TextBlock Grid.Column="3" Text="В игре" Foreground="#00FF62" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+
+				<Border Height="58" Background="#26262D" CornerRadius="6" Padding="12,8">
+					<Grid ColumnDefinitions="18,18,*,70">
+
+						<Ellipse Grid.Column="1" Width="10" Height="10" Fill="#19D6FF" VerticalAlignment="Center"/>
+						<StackPanel Grid.Column="2">
+							<TextBlock Text="Malahit6" Foreground="White"/>
+							<TextBlock Text="3.200$" Foreground="#CFCFCF" FontSize="12"/>
+						</StackPanel>
+						<TextBlock Grid.Column="3" Text="В игре" Foreground="#00FF62" VerticalAlignment="Center"/>
+					</Grid>
+				</Border>
+			</StackPanel>
+		</Border>
+	</Grid>
+	</Grid>
+</UserControl>
