@@ -11,8 +11,10 @@ public class NetworkMessageHandler
     private const string TypeConnectReject = "connect_reject";
     private const string TypeError = "error";
     private const string TypeServerDisconnect = "server_disconnect";
-    private const string TypePlayersList = "players_list";
+    private const string TypePlayersListLobby = "players_list_lobby";
+    private const string TypePlayersListGame = "players_list_game";
     private const string TypeGameState = "game_state";
+    private const string TypeGameStarted = "game_started";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -26,6 +28,8 @@ public class NetworkMessageHandler
 
     public event Action<IReadOnlyList<Player>>? PlayersListReceived;
     public event Action<NetworkMessage>? GameStateReceived;
+
+    public event Action? GameStarted;
 
     public void HandleRawMessage(string json)
     {
@@ -74,12 +78,20 @@ public class NetworkMessageHandler
                 HandleServerDisconnect();
                 break;
 
-            case TypePlayersList:
+            case TypePlayersListLobby:
+                HandlePlayersList(message);
+                break;
+
+            case TypePlayersListGame:
                 HandlePlayersList(message);
                 break;
 
             case TypeGameState:
                 HandleGameState(message);
+                break;
+
+            case TypeGameStarted:
+                HandleGameStarted();
                 break;
 
             default:
@@ -140,6 +152,11 @@ public class NetworkMessageHandler
     private void HandleGameState(NetworkMessage message)
     {
         GameStateReceived?.Invoke(message);
+    }
+
+    private void HandleGameStarted()
+    {
+        GameStarted?.Invoke();
     }
 
     private static string GetPayloadString(

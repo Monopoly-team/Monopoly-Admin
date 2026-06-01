@@ -27,11 +27,14 @@ public class NetworkService
     public event Action<string>? ErrorReceived;
     public event Action<IReadOnlyList<Player>>? PlayersListReceived;
 
+    public event Action? GameStarted;
+
     public NetworkService()
     {
         _messageHandler.ServerError += message => ErrorReceived?.Invoke(message);
         _messageHandler.ServerDisconnected += Disconnect;
         _messageHandler.PlayersListReceived += players => PlayersListReceived?.Invoke(players);
+        _messageHandler.GameStarted += () => GameStarted?.Invoke();
     }
 
     public async Task ConnectAsync(string ip, int port)

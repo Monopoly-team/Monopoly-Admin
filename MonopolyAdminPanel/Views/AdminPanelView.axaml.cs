@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Collections.Generic;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Interactivity;
@@ -6,7 +7,6 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using MonopolyAdminPanel.Models;
 using MonopolyAdminPanel.Services;
-using System.Collections.Generic;
 
 namespace MonopolyAdminPanel.Views;
 
@@ -16,8 +16,10 @@ public partial class AdminPanelView : UserControl
     private const string DisconnectedText = "● Не подключено";
 
     private NetworkService? _networkService;
+
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
+
     private TextBlock? _totalPlayersText;
     private TextBlock? _bankBalanceText;
     private TextBlock? _totalPurchasesText;
@@ -26,19 +28,14 @@ public partial class AdminPanelView : UserControl
     private TextBlock? _totalEventsText;
     private TextBlock? _totalTurnsText;
 
+    private bool _isGameStarted;
+    private IReadOnlyList<Player> _lastPlayers = [];
+
     public AdminPanelView()
     {
         InitializeComponent();
 
-        _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
-        _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
-        _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
-        _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
-        _totalPurchasesText = this.FindControl<TextBlock>("TotalPurchasesText");
-        _totalFinesText = this.FindControl<TextBlock>("TotalFinesText");
-        _totalBonusesText = this.FindControl<TextBlock>("TotalBonusesText");
-        _totalEventsText = this.FindControl<TextBlock>("TotalEventsText");
-        _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
+        FindControls();
 
         AddTableHeader();
     }
@@ -52,8 +49,24 @@ public partial class AdminPanelView : UserControl
 
         _networkService.ConnectionChanged += OnConnectionChanged;
         _networkService.PlayersListReceived += OnPlayersListReceived;
+        _networkService.GameStarted += OnGameStarted;
 
         UpdateConnectionStatus(_networkService.IsConnected);
+        UpdateGameStatus();
+    }
+
+    private void FindControls()
+    {
+        _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
+        _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
+
+        _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
+        _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
+        _totalPurchasesText = this.FindControl<TextBlock>("TotalPurchasesText");
+        _totalFinesText = this.FindControl<TextBlock>("TotalFinesText");
+        _totalBonusesText = this.FindControl<TextBlock>("TotalBonusesText");
+        _totalEventsText = this.FindControl<TextBlock>("TotalEventsText");
+        _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
@@ -70,9 +83,21 @@ public partial class AdminPanelView : UserControl
     {
         Dispatcher.UIThread.Post(() =>
         {
+            _lastPlayers = players;
+
             UpdatePlayersTable(players);
             UpdateOnlinePlayers(players);
             UpdateGameInfo(players);
+        });
+    }
+
+    private void OnGameStarted()
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            _isGameStarted = true;
+            UpdateGameStatus();
+            UpdateOnlinePlayers(_lastPlayers);
         });
     }
 
@@ -83,6 +108,23 @@ public partial class AdminPanelView : UserControl
 
         ConnectionStatusText.Text = isConnected ? ConnectedText : DisconnectedText;
         ConnectionStatusText.Foreground = isConnected ? Brushes.LimeGreen : Brushes.Red;
+    }
+
+    private void UpdateGameStatus()
+    {
+        if (GameStatusText == null)
+            return;
+
+        if (_isGameStarted)
+        {
+            GameStatusText.Text = "ИГРА АКТИВНА";
+            GameStatusText.Foreground = Brushes.DeepSkyBlue;
+        }
+        else
+        {
+            GameStatusText.Text = "ЛОББИ";
+            GameStatusText.Foreground = Brushes.LimeGreen;
+        }
     }
 
     private void UpdatePlayersTable(IReadOnlyList<Player> players)
@@ -158,13 +200,11 @@ public partial class AdminPanelView : UserControl
 
     private Control CreateOnlinePlayerCard(Player player)
     {
-        var statusBrush = player.IsConnected
+        IBrush statusBrush = player.IsConnected
             ? Brushes.LimeGreen
             : Brushes.Red;
 
-        string statusText = player.IsConnected
-            ? "В игре"
-            : "Вышел";
+        string statusText = GetPlayerStatusText(player);
 
         var card = new Border
         {
@@ -223,6 +263,15 @@ public partial class AdminPanelView : UserControl
 
         return card;
     }
+
+    private string GetPlayerStatusText(Player player)
+    {
+        if (!player.IsConnected)
+            return "Вышел";
+
+        return _isGameStarted ? "В игре" : "В лобби";
+    }
+
     private void UpdateGameInfo(IReadOnlyList<Player> players)
     {
         if (_totalPlayersText != null)

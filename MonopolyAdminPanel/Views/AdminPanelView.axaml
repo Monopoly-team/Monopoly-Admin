@@ -244,7 +244,10 @@
 							   Foreground="White"
 							   FontWeight="SemiBold"/>
 					<TextBlock Text="СТАТУС" FontSize="13" Foreground="#A8A8A8" Margin="0,10,0,0"/>
-					<TextBlock Text="ЛОББИ" FontSize="15" Foreground="#00FF62"/>
+					<TextBlock x:Name="GameStatusText"
+								Text="ЛОББИ"
+								FontSize="15"
+								Foreground="#00FF62"/>
 				</StackPanel>
 
 				<StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -415,9 +418,9 @@
 		</Border>
 
 		<Border Grid.Row="1"
-        Background="#1F1F24"
-        CornerRadius="10"
-        Padding="16">
+				Background="#1F1F24"
+				CornerRadius="10"
+				Padding="16">
 
 			<Grid RowDefinitions="Auto,*">
 
