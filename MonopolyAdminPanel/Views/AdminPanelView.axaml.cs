@@ -1,8 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
+using MonopolyAdminPanel.Models;
 using MonopolyAdminPanel.Services;
+using System.Collections.Generic;
 
 namespace MonopolyAdminPanel.Views;
 
@@ -12,10 +16,17 @@ public partial class AdminPanelView : UserControl
     private const string DisconnectedText = "● Не подключено";
 
     private NetworkService? _networkService;
+    private Grid? _playersTableGrid;
+    private StackPanel? _onlinePlayersPanel;
 
     public AdminPanelView()
     {
         InitializeComponent();
+
+        _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
+        _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
+
+        AddTableHeader();
     }
 
     public AdminPanelView(NetworkService networkService, string serverIp)
@@ -26,6 +37,7 @@ public partial class AdminPanelView : UserControl
         ServerIpText.Text = serverIp;
 
         _networkService.ConnectionChanged += OnConnectionChanged;
+        _networkService.PlayersListReceived += OnPlayersListReceived;
 
         UpdateConnectionStatus(_networkService.IsConnected);
     }
@@ -40,15 +52,160 @@ public partial class AdminPanelView : UserControl
         Dispatcher.UIThread.Post(() => UpdateConnectionStatus(isConnected));
     }
 
+    private void OnPlayersListReceived(IReadOnlyList<Player> players)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            UpdatePlayersTable(players);
+            UpdateOnlinePlayers(players);
+        });
+    }
+
     private void UpdateConnectionStatus(bool isConnected)
     {
         if (ConnectionStatusText == null)
             return;
 
-        ConnectionStatusText.Text =
-            isConnected ? ConnectedText : DisconnectedText;
+        ConnectionStatusText.Text = isConnected ? ConnectedText : DisconnectedText;
+        ConnectionStatusText.Foreground = isConnected ? Brushes.LimeGreen : Brushes.Red;
+    }
 
-        ConnectionStatusText.Foreground =
-            isConnected ? Brushes.LimeGreen : Brushes.Red;
+    private void UpdatePlayersTable(IReadOnlyList<Player> players)
+    {
+        if (_playersTableGrid == null)
+            return;
+
+        _playersTableGrid.Children.Clear();
+        _playersTableGrid.RowDefinitions.Clear();
+
+        AddTableHeader();
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            Player player = players[i];
+            int row = i + 1;
+
+            _playersTableGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+
+            AddCell(player.Name, row, 0, Brushes.White);
+            AddCell(player.Balance.ToString(), row, 1, Brushes.White);
+            AddCell(player.Purchases.ToString(), row, 2, Brushes.White);
+            AddCell(player.Fines.ToString(), row, 3, Brushes.White);
+            AddCell(player.OwnedCellsCount.ToString(), row, 4, Brushes.White);
+        }
+    }
+
+    private void AddTableHeader()
+    {
+        if (_playersTableGrid == null)
+            return;
+
+        _playersTableGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+
+        AddCell("игрок", 0, 0, Brushes.Gray);
+        AddCell("бюджет", 0, 1, Brushes.Gray);
+        AddCell("покупки", 0, 2, Brushes.Gray);
+        AddCell("штрафы", 0, 3, Brushes.Gray);
+        AddCell("клетки", 0, 4, Brushes.Gray);
+    }
+
+    private void AddCell(string text, int row, int column, IBrush foreground)
+    {
+        if (_playersTableGrid == null)
+            return;
+
+        var textBlock = new TextBlock
+        {
+            Text = text,
+            Foreground = foreground,
+            FontWeight = row == 0 ? FontWeight.SemiBold : FontWeight.Normal,
+            Margin = new Thickness(0, 7, 0, 7)
+        };
+
+        Grid.SetRow(textBlock, row);
+        Grid.SetColumn(textBlock, column);
+
+        _playersTableGrid.Children.Add(textBlock);
+    }
+
+    private void UpdateOnlinePlayers(IReadOnlyList<Player> players)
+    {
+        if (_onlinePlayersPanel == null)
+            return;
+
+        _onlinePlayersPanel.Children.Clear();
+
+        foreach (Player player in players)
+        {
+            _onlinePlayersPanel.Children.Add(CreateOnlinePlayerCard(player));
+        }
+    }
+
+    private Control CreateOnlinePlayerCard(Player player)
+    {
+        var statusBrush = player.IsConnected
+            ? Brushes.LimeGreen
+            : Brushes.Red;
+
+        string statusText = player.IsConnected
+            ? "В игре"
+            : "Вышел";
+
+        var card = new Border
+        {
+            Height = 58,
+            Background = new SolidColorBrush(Color.Parse("#26262D")),
+            CornerRadius = new CornerRadius(6),
+            Padding = new Thickness(12, 8)
+        };
+
+        var grid = new Grid
+        {
+            ColumnDefinitions = new ColumnDefinitions("18,*,70")
+        };
+
+        var dot = new Ellipse
+        {
+            Width = 10,
+            Height = 10,
+            Fill = statusBrush,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
+        };
+
+        var infoPanel = new StackPanel();
+
+        infoPanel.Children.Add(new TextBlock
+        {
+            Text = player.Name,
+            Foreground = Brushes.White,
+            FontWeight = FontWeight.SemiBold
+        });
+
+        infoPanel.Children.Add(new TextBlock
+        {
+            Text = $"{player.Balance}$",
+            Foreground = Brushes.LightGray,
+            FontSize = 12
+        });
+
+        var statusBlock = new TextBlock
+        {
+            Text = statusText,
+            Foreground = statusBrush,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
+            FontWeight = FontWeight.SemiBold
+        };
+
+        Grid.SetColumn(dot, 0);
+        Grid.SetColumn(infoPanel, 1);
+        Grid.SetColumn(statusBlock, 2);
+
+        grid.Children.Add(dot);
+        grid.Children.Add(infoPanel);
+        grid.Children.Add(statusBlock);
+
+        card.Child = grid;
+
+        return card;
     }
 }

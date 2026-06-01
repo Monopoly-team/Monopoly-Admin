@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using MonopolyAdminPanel.Models;
 
@@ -23,7 +24,7 @@ public class NetworkMessageHandler
     public event Action<string>? ServerError;
     public event Action? ServerDisconnected;
 
-    public event Action<NetworkMessage>? PlayersListReceived;
+    public event Action<IReadOnlyList<Player>>? PlayersListReceived;
     public event Action<NetworkMessage>? GameStateReceived;
 
     public void HandleRawMessage(string json)
@@ -58,7 +59,7 @@ public class NetworkMessageHandler
         switch (message.Type)
         {
             case TypeConnectAccept:
-                HandleConnectAccept(message);
+                HandleConnectAccept();
                 break;
 
             case TypeConnectReject:
@@ -70,7 +71,7 @@ public class NetworkMessageHandler
                 break;
 
             case TypeServerDisconnect:
-                HandleServerDisconnect(message);
+                HandleServerDisconnect();
                 break;
 
             case TypePlayersList:
@@ -87,7 +88,7 @@ public class NetworkMessageHandler
         }
     }
 
-    private void HandleConnectAccept(NetworkMessage message)
+    private void HandleConnectAccept()
     {
         ConnectAccepted?.Invoke();
     }
@@ -104,14 +105,36 @@ public class NetworkMessageHandler
         ServerError?.Invoke(error);
     }
 
-    private void HandleServerDisconnect(NetworkMessage message)
+    private void HandleServerDisconnect()
     {
         ServerDisconnected?.Invoke();
     }
 
     private void HandlePlayersList(NetworkMessage message)
     {
-        PlayersListReceived?.Invoke(message);
+        if (message.Payload.ValueKind != JsonValueKind.Object)
+        {
+            ServerError?.Invoke("Некорректный payload у players_list");
+            return;
+        }
+
+        if (!message.Payload.TryGetProperty("players", out JsonElement playersElement))
+        {
+            ServerError?.Invoke("В players_list отсутствует payload.players");
+            return;
+        }
+
+        List<Player>? players = JsonSerializer.Deserialize<List<Player>>(
+            playersElement.GetRawText(),
+            JsonOptions);
+
+        if (players == null)
+        {
+            ServerError?.Invoke("Не удалось прочитать список игроков");
+            return;
+        }
+
+        PlayersListReceived?.Invoke(players);
     }
 
     private void HandleGameState(NetworkMessage message)

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MonopolyAdminPanel.Models;
 
 namespace MonopolyAdminPanel.Services;
 
@@ -23,11 +25,13 @@ public class NetworkService
 
     public event Action<bool>? ConnectionChanged;
     public event Action<string>? ErrorReceived;
+    public event Action<IReadOnlyList<Player>>? PlayersListReceived;
 
     public NetworkService()
     {
         _messageHandler.ServerError += message => ErrorReceived?.Invoke(message);
         _messageHandler.ServerDisconnected += Disconnect;
+        _messageHandler.PlayersListReceived += players => PlayersListReceived?.Invoke(players);
     }
 
     public async Task ConnectAsync(string ip, int port)
