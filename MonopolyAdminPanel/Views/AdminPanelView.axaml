@@ -36,11 +36,13 @@
                                FontSize="14"
                                Foreground="#CFCFCF"/>
 
-					<TextBlock Grid.Row="1" Grid.Column="1"
-                               Text="6"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"/>
+					<TextBlock Grid.Row="1"
+           Grid.Column="1"
+           x:Name="TotalPlayersText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"/>
 
 					<TextBlock Grid.Row="2" Grid.Column="0"
                                Text="Бюджет банка"
@@ -48,12 +50,14 @@
                                Foreground="#CFCFCF"
                                Margin="0,14,0,0"/>
 
-					<TextBlock Grid.Row="2" Grid.Column="1"
-                               Text="250 000 Rub"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"
-                               Margin="0,14,0,0"/>
+					<TextBlock Grid.Row="2"
+           Grid.Column="1"
+           x:Name="BankBalanceText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"
+           Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="3" Grid.Column="0"
                                Text="Всего покупок"
@@ -61,12 +65,14 @@
                                Foreground="#CFCFCF"
                                Margin="0,14,0,0"/>
 
-					<TextBlock Grid.Row="3" Grid.Column="1"
-                               Text="24"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"
-                               Margin="0,14,0,0"/>
+					<TextBlock Grid.Row="3"
+           Grid.Column="1"
+           x:Name="TotalPurchasesText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"
+           Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="4" Grid.Column="0"
                                Text="Всего штрафов"
@@ -74,12 +80,14 @@
                                Foreground="#CFCFCF"
                                Margin="0,14,0,0"/>
 
-					<TextBlock Grid.Row="4" Grid.Column="1"
-                               Text="7"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"
-                               Margin="0,14,0,0"/>
+					<TextBlock Grid.Row="4"
+           Grid.Column="1"
+           x:Name="TotalFinesText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"
+           Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="5" Grid.Column="0"
                                Text="Всего бонусов"
@@ -87,25 +95,30 @@
                                Foreground="#CFCFCF"
                                Margin="0,14,0,0"/>
 
-					<TextBlock Grid.Row="5" Grid.Column="1"
-                               Text="5"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"
-                               Margin="0,14,0,0"/>
-
+					<TextBlock Grid.Row="5"
+           Grid.Column="1"
+           x:Name="TotalBonusesText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"
+           Margin="0,14,0,0"/>
+					
 					<TextBlock Grid.Row="6" Grid.Column="0"
                                Text="Всего событий"
                                FontSize="14"
                                Foreground="#CFCFCF"
                                Margin="0,14,0,0"/>
 
-					<TextBlock Grid.Row="6" Grid.Column="1"
-                               Text="3"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"
-                               Margin="0,14,0,0"/>
+					<TextBlock Grid.Row="6"
+           Grid.Column="1"
+           x:Name="TotalEventsText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"
+           Margin="0,14,0,0"/>
+
 
 					<TextBlock Grid.Row="7" Grid.Column="0"
                                Text="Всего ходов"
@@ -113,12 +126,14 @@
                                Foreground="#CFCFCF"
                                Margin="0,14,0,0"/>
 
-					<TextBlock Grid.Row="7" Grid.Column="1"
-                               Text="47"
-                               FontSize="14"
-                               FontWeight="SemiBold"
-                               Foreground="White"
-                               Margin="0,14,0,0"/>
+					<TextBlock Grid.Row="7"
+           Grid.Column="1"
+           x:Name="TotalTurnsText"
+           Text="0"
+           FontSize="14"
+           FontWeight="SemiBold"
+           Foreground="White"
+           Margin="0,14,0,0"/>
 				</Grid>
 			</Border>
 

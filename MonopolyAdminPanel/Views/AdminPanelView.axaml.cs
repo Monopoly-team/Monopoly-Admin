@@ -18,6 +18,13 @@ public partial class AdminPanelView : UserControl
     private NetworkService? _networkService;
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
+    private TextBlock? _totalPlayersText;
+    private TextBlock? _bankBalanceText;
+    private TextBlock? _totalPurchasesText;
+    private TextBlock? _totalFinesText;
+    private TextBlock? _totalBonusesText;
+    private TextBlock? _totalEventsText;
+    private TextBlock? _totalTurnsText;
 
     public AdminPanelView()
     {
@@ -25,6 +32,13 @@ public partial class AdminPanelView : UserControl
 
         _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
         _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
+        _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
+        _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
+        _totalPurchasesText = this.FindControl<TextBlock>("TotalPurchasesText");
+        _totalFinesText = this.FindControl<TextBlock>("TotalFinesText");
+        _totalBonusesText = this.FindControl<TextBlock>("TotalBonusesText");
+        _totalEventsText = this.FindControl<TextBlock>("TotalEventsText");
+        _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
 
         AddTableHeader();
     }
@@ -58,6 +72,7 @@ public partial class AdminPanelView : UserControl
         {
             UpdatePlayersTable(players);
             UpdateOnlinePlayers(players);
+            UpdateGameInfo(players);
         });
     }
 
@@ -207,5 +222,28 @@ public partial class AdminPanelView : UserControl
         card.Child = grid;
 
         return card;
+    }
+    private void UpdateGameInfo(IReadOnlyList<Player> players)
+    {
+        if (_totalPlayersText != null)
+            _totalPlayersText.Text = players.Count.ToString();
+
+        if (_bankBalanceText != null)
+            _bankBalanceText.Text = "0";
+
+        if (_totalPurchasesText != null)
+            _totalPurchasesText.Text = "0";
+
+        if (_totalFinesText != null)
+            _totalFinesText.Text = "0";
+
+        if (_totalBonusesText != null)
+            _totalBonusesText.Text = "0";
+
+        if (_totalEventsText != null)
+            _totalEventsText.Text = "0";
+
+        if (_totalTurnsText != null)
+            _totalTurnsText.Text = "0";
     }
 }
