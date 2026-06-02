@@ -6,22 +6,22 @@ using MonopolyAdminPanel.Models;
 
 namespace MonopolyAdminPanel.Views.Dialogs;
 
-public partial class ChangeBalanceDialog : Window
+public partial class FinePlayerDialog : Window
 {
     private ComboBox? _playersComboBox;
-    private TextBox? _balanceTextBox;
+    private TextBox? _amountTextBox;
     private TextBox? _reasonTextBox;
 
     public Player? SelectedPlayer => _playersComboBox?.SelectedItem as Player;
 
-    public int? Balance
+    public int? Amount
     {
         get
         {
-            string text = _balanceTextBox?.Text?.Trim() ?? "";
+            string text = _amountTextBox?.Text?.Trim() ?? "";
 
-            if (int.TryParse(text, out int balance))
-                return balance;
+            if (int.TryParse(text, out int amount))
+                return amount;
 
             return null;
         }
@@ -29,18 +29,18 @@ public partial class ChangeBalanceDialog : Window
 
     public string Reason => _reasonTextBox?.Text?.Trim() ?? string.Empty;
 
-    public ChangeBalanceDialog()
+    public FinePlayerDialog()
     {
         InitializeComponent();
 
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
         _playersComboBox = this.FindControl<ComboBox>("PlayersComboBox");
-        _balanceTextBox = this.FindControl<TextBox>("BalanceTextBox");
+        _amountTextBox = this.FindControl<TextBox>("AmountTextBox");
         _reasonTextBox = this.FindControl<TextBox>("ReasonTextBox");
     }
 
-    public ChangeBalanceDialog(IReadOnlyList<Player> players)
+    public FinePlayerDialog(IReadOnlyList<Player> players)
         : this()
     {
         if (_playersComboBox == null)

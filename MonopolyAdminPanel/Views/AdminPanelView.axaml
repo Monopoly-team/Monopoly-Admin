@@ -361,7 +361,8 @@
 						Foreground="White"
 						BorderBrush="#3A3A45"
 						BorderThickness="1"
-						CornerRadius="10"/>
+						CornerRadius="10"
+						Click="FinePlayerButton_Click"/>
 
 				<Button Content="Выдать бонус"
 						Height="58"

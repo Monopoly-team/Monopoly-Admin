@@ -359,6 +359,54 @@ public partial class AdminPanelView : UserControl
         await _networkService.SendAsync(json);
     }
 
+    private async void FinePlayerButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_networkService == null)
+            return;
+
+        if (_lastPlayers.Count == 0)
+            return;
+
+        var dialog = new FinePlayerDialog(_lastPlayers);
+
+        var parentWindow = TopLevel.GetTopLevel(this) as Window;
+
+        if (parentWindow == null)
+            return;
+
+        bool confirmed = await dialog.ShowDialog<bool>(parentWindow);
+
+        if (!confirmed)
+            return;
+
+        Player? selectedPlayer = dialog.SelectedPlayer;
+
+        if (selectedPlayer == null)
+            return;
+
+        int? amount = dialog.Amount;
+
+        if (amount == null)
+            return;
+
+        string reason = dialog.Reason;
+
+        string json;
+
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            json =
+                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"fine\",\"playerId\":{selectedPlayer.Id},\"amount\":{amount.Value}}}}}";
+        }
+        else
+        {
+            json =
+                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"fine\",\"playerId\":{selectedPlayer.Id},\"amount\":{amount.Value},\"reason\":\"{reason}\"}}}}";
+        }
+
+        await _networkService.SendAsync(json);
+    }
+
     private async void KickPlayerButton_Click(object? sender, RoutedEventArgs e)
     {
         if (_networkService == null)
