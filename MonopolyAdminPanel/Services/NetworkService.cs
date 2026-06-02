@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -20,8 +21,10 @@ public class NetworkService
     private StreamReader? _reader;
     private StreamWriter? _writer;
     private CancellationTokenSource? _cts;
+    private IReadOnlyList<Player> _lastPlayers = [];
 
     public bool IsConnected => _client?.Connected == true;
+    public IReadOnlyList<Player> LastPlayers => _lastPlayers;
 
     public event Action<bool>? ConnectionChanged;
     public event Action<string>? ErrorReceived;
@@ -31,18 +34,44 @@ public class NetworkService
 
     public NetworkService()
     {
-        _messageHandler.ServerError += message => ErrorReceived?.Invoke(message);
-        _messageHandler.ServerDisconnected += Disconnect;
-        _messageHandler.PlayersListReceived += players => PlayersListReceived?.Invoke(players);
-        _messageHandler.GameStarted += () => GameStarted?.Invoke();
+        _messageHandler.ServerError += message =>
+        {
+            Debug.WriteLine($"[NetworkService] ServerError: {message}");
+            ErrorReceived?.Invoke(message);
+        };
+
+        _messageHandler.ServerDisconnected += () =>
+        {
+            Debug.WriteLine("[NetworkService] ServerDisconnected event received");
+            Disconnect();
+        };
+
+        _messageHandler.PlayersListReceived += players =>
+        {
+            Debug.WriteLine($"[NetworkService] PlayersListReceived: {players.Count}");
+
+            _lastPlayers = players;
+
+            PlayersListReceived?.Invoke(players);
+        };
+
+        _messageHandler.GameStarted += () =>
+        {
+            Debug.WriteLine("[NetworkService] GameStarted event received");
+            GameStarted?.Invoke();
+        };
     }
 
     public async Task ConnectAsync(string ip, int port)
     {
+        Debug.WriteLine($"[NetworkService] Connecting to {ip}:{port}");
+
         Disconnect();
 
         _client = new TcpClient();
         await _client.ConnectAsync(ip, port);
+
+        Debug.WriteLine("[NetworkService] Connected");
 
         _stream = _client.GetStream();
         _reader = new StreamReader(_stream, Encoding.UTF8);
@@ -58,9 +87,13 @@ public class NetworkService
 
     public async Task<bool> SendConnectRequestAndWaitAnswerAsync()
     {
+        Debug.WriteLine("[NetworkService] Sending connect_request");
+
         await SendConnectRequestAsync();
 
         string? response = await ReadLineAsync();
+
+        Debug.WriteLine($"[NetworkService] Connect response raw: {response}");
 
         if (response == null)
         {
@@ -72,11 +105,13 @@ public class NetworkService
 
         void OnAccepted()
         {
+            Debug.WriteLine("[NetworkService] connect_accept received");
             accepted = true;
         }
 
         void OnRejected(string reason)
         {
+            Debug.WriteLine($"[NetworkService] connect_reject received: {reason}");
             ErrorReceived?.Invoke(reason);
         }
 
@@ -96,7 +131,8 @@ public class NetworkService
 
     public async Task SendConnectRequestAsync()
     {
-        string json = $"{{\"type\":\"connect_request\",\"senderId\":{AdminSenderId},\"payload\":{{\"role\":\"admin\"}}}}";
+        string json =
+            $"{{\"type\":\"connect_request\",\"senderId\":{AdminSenderId},\"payload\":{{\"role\":\"admin\"}}}}";
 
         await SendAsync(json);
     }
@@ -106,6 +142,8 @@ public class NetworkService
         if (_writer == null)
             throw new InvalidOperationException("Нет подключения к серверу");
 
+        Debug.WriteLine($"[NetworkService] SEND: {json}");
+
         await _writer.WriteLineAsync(json);
     }
 
@@ -113,6 +151,8 @@ public class NetworkService
     {
         if (_cts == null)
             return;
+
+        Debug.WriteLine("[NetworkService] Receive loop started");
 
         _ = Task.Run(() => ReceiveLoopAsync(_cts.Token));
     }
@@ -126,13 +166,19 @@ public class NetworkService
                 string? line = await ReadLineAsync();
 
                 if (line == null)
+                {
+                    Debug.WriteLine("[NetworkService] ReadLine returned null. Server closed connection.");
                     break;
+                }
+
+                Debug.WriteLine($"[NetworkService] RECEIVE: {line}");
 
                 _messageHandler.HandleRawMessage(line);
             }
         }
         catch (Exception ex)
         {
+            Debug.WriteLine($"[NetworkService] ReceiveLoop exception: {ex.Message}");
             ErrorReceived?.Invoke($"Ошибка чтения сообщения от сервера: {ex.Message}");
         }
 
@@ -149,6 +195,8 @@ public class NetworkService
 
     public void Disconnect()
     {
+        Debug.WriteLine("[NetworkService] Disconnect");
+
         _cts?.Cancel();
 
         _reader?.Dispose();

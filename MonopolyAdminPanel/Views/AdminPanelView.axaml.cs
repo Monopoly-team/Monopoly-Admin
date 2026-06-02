@@ -8,6 +8,7 @@ using MonopolyAdminPanel.Models;
 using MonopolyAdminPanel.Services;
 using MonopolyAdminPanel.Views.Dialogs;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MonopolyAdminPanel.Views;
 
@@ -44,7 +45,7 @@ public partial class AdminPanelView : UserControl
     }
 
     public AdminPanelView(NetworkService networkService, string serverIp)
-        : this()
+    : this()
     {
         _networkService = networkService;
 
@@ -56,6 +57,11 @@ public partial class AdminPanelView : UserControl
 
         UpdateConnectionStatus(_networkService.IsConnected);
         UpdateGameStatus();
+
+        if (_networkService.LastPlayers.Count > 0)
+        {
+            OnPlayersListReceived(_networkService.LastPlayers);
+        }
     }
 
     private void FindControls()
@@ -84,6 +90,8 @@ public partial class AdminPanelView : UserControl
 
     private void OnPlayersListReceived(IReadOnlyList<Player> players)
     {
+        Debug.WriteLine($"[AdminPanelView] OnPlayersListReceived: {players.Count} players");
+
         Dispatcher.UIThread.Post(() =>
         {
             _lastPlayers = players;
@@ -96,6 +104,8 @@ public partial class AdminPanelView : UserControl
 
     private void OnGameStarted()
     {
+        Debug.WriteLine("[AdminPanelView] OnGameStarted");
+
         Dispatcher.UIThread.Post(() =>
         {
             _isGameStarted = true;
@@ -132,6 +142,8 @@ public partial class AdminPanelView : UserControl
 
     private void UpdatePlayersTable(IReadOnlyList<Player> players)
     {
+        Debug.WriteLine($"[AdminPanelView] UpdatePlayersTable: {players.Count}");
+
         if (_playersTableGrid == null)
             return;
 
@@ -190,6 +202,8 @@ public partial class AdminPanelView : UserControl
 
     private void UpdateOnlinePlayers(IReadOnlyList<Player> players)
     {
+        Debug.WriteLine($"[AdminPanelView] UpdateOnlinePlayers: {players.Count}");
+
         if (_onlinePlayersPanel == null)
             return;
 
@@ -203,6 +217,8 @@ public partial class AdminPanelView : UserControl
 
     private Control CreateOnlinePlayerCard(Player player)
     {
+        Debug.WriteLine($"[AdminPanelView] CreateOnlinePlayerCard: {player.Name}");
+
         IBrush statusBrush;
 
         if (_isGameEnded)

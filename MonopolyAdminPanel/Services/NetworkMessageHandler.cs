@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using MonopolyAdminPanel.Models;
+using System.Diagnostics;
 
 namespace MonopolyAdminPanel.Services;
 
@@ -39,6 +40,7 @@ public class NetworkMessageHandler
         try
         {
             NetworkMessage? message = JsonSerializer.Deserialize<NetworkMessage>(json, JsonOptions);
+            Debug.WriteLine($"[MessageHandler] RAW TYPE = {message?.Type}");
 
             if (message == null)
             {
@@ -60,6 +62,8 @@ public class NetworkMessageHandler
 
     private void HandleMessage(NetworkMessage message)
     {
+        Debug.WriteLine($"[MessageHandler] HandleMessage: {message.Type}");
+
         switch (message.Type)
         {
             case TypeConnectAccept:
@@ -124,6 +128,8 @@ public class NetworkMessageHandler
 
     private void HandlePlayersList(NetworkMessage message)
     {
+        Debug.WriteLine("[MessageHandler] HandlePlayersList entered");
+
         if (message.Payload.ValueKind != JsonValueKind.Object)
         {
             ServerError?.Invoke("Некорректный payload у players_list");
@@ -136,14 +142,25 @@ public class NetworkMessageHandler
             return;
         }
 
+        Debug.WriteLine("[MessageHandler] payload.players found");
+        Debug.WriteLine(playersElement.GetRawText());
+
         List<Player>? players = JsonSerializer.Deserialize<List<Player>>(
             playersElement.GetRawText(),
             JsonOptions);
+
+        Debug.WriteLine($"[MessageHandler] Deserialized players count = {players?.Count ?? 0}");
 
         if (players == null)
         {
             ServerError?.Invoke("Не удалось прочитать список игроков");
             return;
+        }
+
+        foreach (Player player in players)
+        {
+            Debug.WriteLine(
+                $"[MessageHandler] Player: Id={player.Id} Name={player.Name} Connected={player.IsConnected}");
         }
 
         PlayersListReceived?.Invoke(players);
