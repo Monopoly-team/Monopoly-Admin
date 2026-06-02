@@ -17,4 +17,9 @@ public class Player
     public int Bonuses { get; set; }
 
     public int OwnedCellsCount { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

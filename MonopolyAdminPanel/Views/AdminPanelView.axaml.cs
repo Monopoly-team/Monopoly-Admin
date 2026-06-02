@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Interactivity;
@@ -7,6 +6,8 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using MonopolyAdminPanel.Models;
 using MonopolyAdminPanel.Services;
+using MonopolyAdminPanel.Views.Dialogs;
+using System.Collections.Generic;
 
 namespace MonopolyAdminPanel.Views;
 
@@ -294,5 +295,48 @@ public partial class AdminPanelView : UserControl
 
         if (_totalTurnsText != null)
             _totalTurnsText.Text = "0";
+    }
+
+    private async void KickPlayerButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_networkService == null)
+            return;
+
+        if (_lastPlayers.Count == 0)
+            return;
+
+        var dialog = new KickPlayerDialog(_lastPlayers);
+
+        var parentWindow = TopLevel.GetTopLevel(this) as Window;
+
+        if (parentWindow == null)
+            return;
+
+        bool confirmed = await dialog.ShowDialog<bool>(parentWindow);
+
+        if (!confirmed)
+            return;
+
+        Player? selectedPlayer = dialog.SelectedPlayer;
+
+        if (selectedPlayer == null)
+            return;
+
+        string reason = dialog.Reason.Trim();
+
+        string json;
+
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            json =
+                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"kick\",\"playerId\":{selectedPlayer.Id}}}}}";
+        }
+        else
+        {
+            json =
+                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"kick\",\"playerId\":{selectedPlayer.Id},\"reason\":\"{reason}\"}}}}";
+        }
+
+        await _networkService.SendAsync(json);
     }
 }

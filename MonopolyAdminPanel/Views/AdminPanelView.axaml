@@ -386,7 +386,8 @@
 						Foreground="White"
 						BorderBrush="#3A3A45"
 						BorderThickness="1"
-						CornerRadius="10"/>
+						CornerRadius="10"
+						Click="KickPlayerButton_Click"/>
 
 				<Button Content="Остановить игру"
 						Height="58"
