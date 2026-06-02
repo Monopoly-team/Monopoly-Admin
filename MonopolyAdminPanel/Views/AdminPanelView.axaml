@@ -375,7 +375,8 @@
 						Foreground="White"
 						BorderBrush="#3A3A45"
 						BorderThickness="1"
-						CornerRadius="10"/>
+						CornerRadius="10"
+						Click="BonusPlayerButton_Click"/>
 
 				<Button Content="Кикнуть игрока"
 						Height="58"
