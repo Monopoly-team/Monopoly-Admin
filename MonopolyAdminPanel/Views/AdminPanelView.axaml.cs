@@ -30,6 +30,8 @@ public partial class AdminPanelView : UserControl
     private TextBlock? _totalTurnsText;
 
     private bool _isGameStarted;
+    private bool _isGameEnded;
+
     private IReadOnlyList<Player> _lastPlayers = [];
 
     public AdminPanelView()
@@ -201,9 +203,18 @@ public partial class AdminPanelView : UserControl
 
     private Control CreateOnlinePlayerCard(Player player)
     {
-        IBrush statusBrush = player.IsConnected
-            ? Brushes.LimeGreen
-            : Brushes.Red;
+        IBrush statusBrush;
+
+        if (_isGameEnded)
+        {
+            statusBrush = Brushes.Red;
+        }
+        else
+        {
+            statusBrush = player.IsConnected
+                ? Brushes.LimeGreen
+                : Brushes.Red;
+        }
 
         string statusText = GetPlayerStatusText(player);
 
@@ -267,6 +278,9 @@ public partial class AdminPanelView : UserControl
 
     private string GetPlayerStatusText(Player player)
     {
+        if (_isGameEnded)
+            return "Отключен";
+
         if (!player.IsConnected)
             return "Вышел";
 
@@ -338,5 +352,16 @@ public partial class AdminPanelView : UserControl
         }
 
         await _networkService.SendAsync(json);
+
+        if (selectedPlayer.Id == 1)
+        {
+            _isGameStarted = false;
+            _isGameEnded = true;
+
+            GameStatusText.Text = "ИГРА ЗАКОНЧЕНА";
+            GameStatusText.Foreground = Brushes.Red;
+
+            UpdateOnlinePlayers(_lastPlayers);
+        }
     }
 }
