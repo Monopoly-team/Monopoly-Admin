@@ -311,6 +311,54 @@ public partial class AdminPanelView : UserControl
             _totalTurnsText.Text = "0";
     }
 
+    private async void ChangeBalanceButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_networkService == null)
+            return;
+
+        if (_lastPlayers.Count == 0)
+            return;
+
+        var dialog = new ChangeBalanceDialog(_lastPlayers);
+
+        var parentWindow = TopLevel.GetTopLevel(this) as Window;
+
+        if (parentWindow == null)
+            return;
+
+        bool confirmed = await dialog.ShowDialog<bool>(parentWindow);
+
+        if (!confirmed)
+            return;
+
+        Player? selectedPlayer = dialog.SelectedPlayer;
+
+        if (selectedPlayer == null)
+            return;
+
+        int? balance = dialog.Balance;
+
+        if (balance == null)
+            return;
+
+        string reason = dialog.Reason;
+
+        string json;
+
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            json =
+                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"set_balance\",\"playerId\":{selectedPlayer.Id},\"balance\":{balance.Value}}}}}";
+        }
+        else
+        {
+            json =
+                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"set_balance\",\"playerId\":{selectedPlayer.Id},\"balance\":{balance.Value},\"reason\":\"{reason}\"}}}}";
+        }
+
+        await _networkService.SendAsync(json);
+    }
+
     private async void KickPlayerButton_Click(object? sender, RoutedEventArgs e)
     {
         if (_networkService == null)
