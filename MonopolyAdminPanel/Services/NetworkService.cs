@@ -29,6 +29,7 @@ public class NetworkService
     public event Action<bool>? ConnectionChanged;
     public event Action<string>? ErrorReceived;
     public event Action<IReadOnlyList<Player>>? PlayersListReceived;
+    public event Action<string>? GameEventReceived;
 
     public event Action? GameStarted;
 
@@ -59,6 +60,12 @@ public class NetworkService
         {
             Debug.WriteLine("[NetworkService] GameStarted event received");
             GameStarted?.Invoke();
+        };
+
+        _messageHandler.GameEventReceived += text =>
+        {
+            Debug.WriteLine($"[NetworkService] GameEventReceived: {text}");
+            GameEventReceived?.Invoke(text);
         };
     }
 

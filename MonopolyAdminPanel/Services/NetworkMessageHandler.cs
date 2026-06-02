@@ -16,6 +16,7 @@ public class NetworkMessageHandler
     private const string TypePlayersListGame = "players_list_game";
     private const string TypeGameState = "game_state";
     private const string TypeGameStarted = "game_started";
+    private const string TypeGameEvent = "game_event";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -31,6 +32,7 @@ public class NetworkMessageHandler
     public event Action<NetworkMessage>? GameStateReceived;
 
     public event Action? GameStarted;
+    public event Action<string>? GameEventReceived;
 
     public void HandleRawMessage(string json)
     {
@@ -96,6 +98,10 @@ public class NetworkMessageHandler
 
             case TypeGameStarted:
                 HandleGameStarted();
+                break;
+
+            case TypeGameEvent:
+                HandleGameEvent(message);
                 break;
 
             default:
@@ -188,5 +194,18 @@ public class NetworkMessageHandler
             return defaultValue;
 
         return value.GetString() ?? defaultValue;
+    }
+
+    private void HandleGameEvent(NetworkMessage message)
+    {
+        string text = GetPayloadString(message, "text", "");
+
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            ServerError?.Invoke("В game_event отсутствует payload.text");
+            return;
+        }
+
+        GameEventReceived?.Invoke(text);
     }
 }

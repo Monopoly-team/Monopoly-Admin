@@ -293,22 +293,12 @@
 						   FontSize="17"
 						   FontWeight="SemiBold"/>
 
-				<ScrollViewer Grid.Row="1"
-							  Margin="0,10,0,0">
+				<ScrollViewer x:Name="EventsScrollViewer"
+								Grid.Row="1"
+								Margin="0,10,0,0">
 
 					<StackPanel x:Name="EventsPanel"
-								Spacing="8">
-
-						<TextBlock Text="22:20:11   Malahit1 бросил кубик - 4"
-								   Foreground="#CFCFCF"/>
-
-						<TextBlock Text="22:18:45   Malahit2 заплатил за аренду Malahit1"
-								   Foreground="#CFCFCF"/>
-
-						<TextBlock Text="22:16:03   Malahit2 взял кредит 5000"
-								   Foreground="#CFCFCF"/>
-
-					</StackPanel>
+								Spacing="8"/>
 
 				</ScrollViewer>
 

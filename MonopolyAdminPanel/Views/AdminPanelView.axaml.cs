@@ -21,6 +21,8 @@ public partial class AdminPanelView : UserControl
 
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
+    private StackPanel? _eventsPanel;
+    private ScrollViewer? _eventsScrollViewer;
 
     private TextBlock? _totalPlayersText;
     private TextBlock? _bankBalanceText;
@@ -54,6 +56,7 @@ public partial class AdminPanelView : UserControl
         _networkService.ConnectionChanged += OnConnectionChanged;
         _networkService.PlayersListReceived += OnPlayersListReceived;
         _networkService.GameStarted += OnGameStarted;
+        _networkService.GameEventReceived += OnGameEventReceived;
 
         UpdateConnectionStatus(_networkService.IsConnected);
         UpdateGameStatus();
@@ -68,6 +71,8 @@ public partial class AdminPanelView : UserControl
     {
         _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
         _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
+        _eventsPanel = this.FindControl<StackPanel>("EventsPanel");
+        _eventsScrollViewer = this.FindControl<ScrollViewer>("EventsScrollViewer");
 
         _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
         _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
@@ -109,8 +114,37 @@ public partial class AdminPanelView : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             _isGameStarted = true;
+            AddEventLog("[СОБЫТИЕ] Игра началась");
+
             UpdateGameStatus();
             UpdateOnlinePlayers(_lastPlayers);
+        });
+    }
+    private void OnGameEventReceived(string text)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            AddEventLog(text);
+        });
+    }
+
+    private void AddEventLog(string text)
+    {
+        if (_eventsPanel == null)
+            return;
+
+        var textBlock = new TextBlock
+        {
+            Text = text,
+            Foreground = Brushes.LightGray,
+            FontSize = 14
+        };
+
+        _eventsPanel.Children.Add(textBlock);
+
+        Dispatcher.UIThread.Post(() =>
+        {
+            _eventsScrollViewer?.ScrollToEnd();
         });
     }
 
