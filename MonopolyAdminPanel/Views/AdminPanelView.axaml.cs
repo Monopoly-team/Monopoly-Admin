@@ -35,6 +35,10 @@ public partial class AdminPanelView : UserControl
     private bool _isGameStarted;
     private bool _isGameEnded;
 
+    private int _totalFines;
+    private int _totalBonuses;
+    private int _totalEvents;
+
     private IReadOnlyList<Player> _lastPlayers = [];
 
     public AdminPanelView()
@@ -114,7 +118,7 @@ public partial class AdminPanelView : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             _isGameStarted = true;
-            AddEventLog("[СОБЫТИЕ] Игра началась");
+            RegisterGameEvent("[СОБЫТИЕ] Игра началась");
 
             UpdateGameStatus();
             UpdateOnlinePlayers(_lastPlayers);
@@ -124,7 +128,7 @@ public partial class AdminPanelView : UserControl
     {
         Dispatcher.UIThread.Post(() =>
         {
-            AddEventLog(text);
+            RegisterGameEvent(text);
         });
     }
 
@@ -140,12 +144,26 @@ public partial class AdminPanelView : UserControl
             FontSize = 14
         };
 
+        bool shouldAutoScroll = true;
+
+        if (_eventsScrollViewer != null)
+        {
+            double offset = _eventsScrollViewer.Offset.Y;
+            double viewportHeight = _eventsScrollViewer.Viewport.Height;
+            double extentHeight = _eventsScrollViewer.Extent.Height;
+
+            shouldAutoScroll = offset + viewportHeight >= extentHeight - 40;
+        }
+
         _eventsPanel.Children.Add(textBlock);
 
-        Dispatcher.UIThread.Post(() =>
+        if (shouldAutoScroll)
         {
-            _eventsScrollViewer?.ScrollToEnd();
-        });
+            Dispatcher.UIThread.Post(() =>
+            {
+                _eventsScrollViewer?.ScrollToEnd();
+            });
+        }
     }
 
     private void UpdateConnectionStatus(bool isConnected)
@@ -348,17 +366,10 @@ public partial class AdminPanelView : UserControl
         if (_totalPurchasesText != null)
             _totalPurchasesText.Text = "0";
 
-        if (_totalFinesText != null)
-            _totalFinesText.Text = "0";
-
-        if (_totalBonusesText != null)
-            _totalBonusesText.Text = "0";
-
-        if (_totalEventsText != null)
-            _totalEventsText.Text = "0";
-
         if (_totalTurnsText != null)
             _totalTurnsText.Text = "0";
+
+        UpdateLocalStatistics();
     }
 
     private async void ChangeBalanceButton_Click(object? sender, RoutedEventArgs e)
@@ -455,6 +466,16 @@ public partial class AdminPanelView : UserControl
         }
 
         await _networkService.SendAsync(json);
+        _totalFines++;
+        UpdateLocalStatistics();
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            RegisterGameEvent($"[ADMIN] Выдан штраф игроку {selectedPlayer.Name} на {amount.Value}");
+        }
+        else
+        {
+            RegisterGameEvent($"[ADMIN] Выдан штраф игроку {selectedPlayer.Name} на {amount.Value}. Причина: {reason}");
+        }
     }
 
     private async void BonusPlayerButton_Click(object? sender, RoutedEventArgs e)
@@ -503,6 +524,16 @@ public partial class AdminPanelView : UserControl
         }
 
         await _networkService.SendAsync(json);
+        _totalBonuses++;
+        UpdateLocalStatistics();
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            RegisterGameEvent($"[ADMIN] Выдан бонус игроку {selectedPlayer.Name} на {amount.Value}");
+        }
+        else
+        {
+            RegisterGameEvent($"[ADMIN] Выдан бонус игроку {selectedPlayer.Name} на {amount.Value}. Причина: {reason}");
+        }
     }
 
     private async void KickPlayerButton_Click(object? sender, RoutedEventArgs e)
@@ -557,5 +588,21 @@ public partial class AdminPanelView : UserControl
 
             UpdateOnlinePlayers(_lastPlayers);
         }
+    }
+    private void RegisterGameEvent(string text)
+    {
+        AddEventLog(text);
+    }
+
+    private void UpdateLocalStatistics()
+    {
+        if (_totalFinesText != null)
+            _totalFinesText.Text = _totalFines.ToString();
+
+        if (_totalBonusesText != null)
+            _totalBonusesText.Text = _totalBonuses.ToString();
+
+        if (_totalEventsText != null)
+            _totalEventsText.Text = _totalEvents.ToString();
     }
 }
