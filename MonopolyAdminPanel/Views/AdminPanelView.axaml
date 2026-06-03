@@ -37,12 +37,14 @@
                                Foreground="#CFCFCF"/>
 
 					<TextBlock Grid.Row="1"
-           Grid.Column="1"
-           x:Name="TotalPlayersText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"/>
+							   Grid.Column="1"
+           				       x:Name="TotalPlayersText"
+           				       Text="0"
+           				       FontSize="14"
+           				       FontWeight="SemiBold"
+           				       Foreground="White"
+		   				       HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
 
 					<TextBlock Grid.Row="2" Grid.Column="0"
                                Text="Бюджет банка"
@@ -51,13 +53,15 @@
                                Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="2"
-           Grid.Column="1"
-           x:Name="BankBalanceText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"
-           Margin="0,14,0,0"/>
+           				       Grid.Column="1"
+           				       x:Name="BankBalanceText"
+           				       Text="0"
+           				       FontSize="14"
+           				       FontWeight="SemiBold"
+           				       Foreground="White"
+           				       Margin="0,14,0,0"
+							   HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
 
 					<TextBlock Grid.Row="3" Grid.Column="0"
                                Text="Всего покупок"
@@ -66,13 +70,15 @@
                                Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="3"
-           Grid.Column="1"
-           x:Name="TotalPurchasesText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"
-           Margin="0,14,0,0"/>
+           				       Grid.Column="1"
+           				       x:Name="TotalPurchasesText"
+           				       Text="0"
+           				       FontSize="14"
+           				       FontWeight="SemiBold"
+           				       Foreground="White"
+           				       Margin="0,14,0,0"
+							   HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
 
 					<TextBlock Grid.Row="4" Grid.Column="0"
                                Text="Всего штрафов"
@@ -81,13 +87,15 @@
                                Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="4"
-           Grid.Column="1"
-           x:Name="TotalFinesText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"
-           Margin="0,14,0,0"/>
+           				       Grid.Column="1"
+           				       x:Name="TotalFinesText"
+           				       Text="0"
+           				       FontSize="14"
+           				       FontWeight="SemiBold"
+           				       Foreground="White"
+           				       Margin="0,14,0,0"   
+							   HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
 
 					<TextBlock Grid.Row="5" Grid.Column="0"
                                Text="Всего бонусов"
@@ -96,13 +104,15 @@
                                Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="5"
-           Grid.Column="1"
-           x:Name="TotalBonusesText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"
-           Margin="0,14,0,0"/>
+           				       Grid.Column="1"
+           				       x:Name="TotalBonusesText"
+           				       Text="0"
+           				       FontSize="14"
+           				       FontWeight="SemiBold"
+           				       Foreground="White"
+           				       Margin="0,14,0,0"
+							   HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
 					
 					<TextBlock Grid.Row="6" Grid.Column="0"
                                Text="Всего событий"
@@ -111,13 +121,15 @@
                                Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="6"
-           Grid.Column="1"
-           x:Name="TotalEventsText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"
-           Margin="0,14,0,0"/>
+           				       Grid.Column="1"
+           				       x:Name="TotalEventsText"
+           				       Text="0"
+           				       FontSize="14"
+           				       FontWeight="SemiBold"
+           					   Foreground="White"
+           				       Margin="0,14,0,0"
+							   HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
 
 
 					<TextBlock Grid.Row="7" Grid.Column="0"
@@ -127,13 +139,16 @@
                                Margin="0,14,0,0"/>
 
 					<TextBlock Grid.Row="7"
-           Grid.Column="1"
-           x:Name="TotalTurnsText"
-           Text="0"
-           FontSize="14"
-           FontWeight="SemiBold"
-           Foreground="White"
-           Margin="0,14,0,0"/>
+							   Grid.Column="1"
+							   x:Name="TotalTurnsText"
+							   Text="0"
+						       FontSize="14"
+							   FontWeight="SemiBold"
+							   Foreground="White"
+							   Margin="0,14,0,0"
+							   HorizontalAlignment="Right"
+           				       TextAlignment="Right"/>
+					
 				</Grid>
 			</Border>
 
@@ -233,33 +248,64 @@
 		  Margin="0,12">
 
 		<Border Grid.Row="0"
-				Background="#1F1F24"
-				CornerRadius="10"
-				Padding="24,12"
-				Margin="20,0">
-			<Grid ColumnDefinitions="*,*,*">
-				<StackPanel Grid.Column="0">
-					<TextBlock Text="ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ"
-							   FontSize="18"
-							   Foreground="White"
-							   FontWeight="SemiBold"/>
-					<TextBlock Text="СТАТУС" FontSize="13" Foreground="#A8A8A8" Margin="0,10,0,0"/>
-					<TextBlock x:Name="GameStatusText"
-								Text="ЛОББИ"
-								FontSize="15"
-								Foreground="#00FF62"/>
-				</StackPanel>
+        Background="#1F1F24"
+        CornerRadius="10"
+        Padding="20"
+        Margin="20,0">
 
-				<StackPanel Grid.Column="1" VerticalAlignment="Center">
-					<TextBlock Text="ХОД ИГРОКА" FontSize="13" Foreground="#A8A8A8"/>
-					<TextBlock Text="Игра не началась" FontSize="15" Foreground="White"/>
-				</StackPanel>
+			<Grid RowDefinitions="Auto,*">
 
-				<StackPanel Grid.Column="2" VerticalAlignment="Center">
-					<TextBlock Text="ВРЕМЯ" FontSize="13" Foreground="#A8A8A8"/>
-					<TextBlock Text="00:15:24" FontSize="15" Foreground="White"/>
-				</StackPanel>
+				<TextBlock Grid.Row="0"
+						   Text="ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ"
+						   FontSize="18"
+						   FontWeight="SemiBold"
+						   Foreground="White"
+						   Margin="0,0,0,4"/>
+
+				<Grid Grid.Row="1"
+					  ColumnDefinitions="*,*,*">
+
+					<StackPanel Grid.Column="0"
+								VerticalAlignment="Center" 
+								HorizontalAlignment="Left">
+						<TextBlock Text="СТАТУС"
+								   FontSize="13"
+								   Foreground="#A8A8A8"/>
+
+						<TextBlock x:Name="GameStatusText"
+								   Text="ЛОББИ"
+								   FontSize="15"
+								   Foreground="#00FF62"/>
+					</StackPanel>
+
+					<StackPanel Grid.Column="1"
+								VerticalAlignment="Center"
+								HorizontalAlignment="Center">
+						<TextBlock Text="ХОД ИГРОКА"
+								   FontSize="13"
+								   Foreground="#A8A8A8"/>
+
+						<TextBlock Text="Игра не началась"
+								   FontSize="15"
+								   Foreground="White"/>
+					</StackPanel>
+
+					<StackPanel Grid.Column="2"
+								VerticalAlignment="Center"
+								HorizontalAlignment="Right">
+						<TextBlock Text="ВРЕМЯ"
+								   FontSize="13"
+								   Foreground="#A8A8A8"/>
+
+						<TextBlock Text="00:15:24"
+								   FontSize="15"
+								   Foreground="White"/>
+					</StackPanel>
+
+				</Grid>
+
 			</Grid>
+
 		</Border>
 
 		<Grid Grid.Row="1" Margin="20,12">
