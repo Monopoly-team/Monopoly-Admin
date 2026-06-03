@@ -428,7 +428,7 @@
 						CornerRadius="10"
 						Click="KickPlayerButton_Click"/>
 
-				<Button Content="Остановить игру"
+				<Button Content="Запустить событие"
 						Height="58"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"
@@ -439,9 +439,10 @@
 						Foreground="White"
 						BorderBrush="#3A3A45"
 						BorderThickness="1"
-						CornerRadius="10"/>
-
-				<Button Content="Запустить событие"
+						CornerRadius="10"
+						Click="StartEventButton_Click"/>
+				
+				<Button Content="Остановить игру"
 						Height="58"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"

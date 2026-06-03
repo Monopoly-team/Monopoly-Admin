@@ -168,6 +168,11 @@ public class NetworkService
 
         _ = Task.Run(() => ReceiveLoopAsync(_cts.Token));
     }
+    public void ClearCachedState()
+    {
+        _lastPlayers = [];
+        _isGameStarted = false;
+    }
 
     private async Task ReceiveLoopAsync(CancellationToken token)
     {

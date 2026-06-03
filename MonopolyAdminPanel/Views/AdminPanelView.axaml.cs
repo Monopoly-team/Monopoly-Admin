@@ -125,7 +125,6 @@ public partial class AdminPanelView : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             _isGameStarted = true;
-            RegisterGameEvent("[СОБЫТИЕ] Игра началась");
 
             UpdateGameStatus();
             UpdateOnlinePlayers(_lastPlayers);
@@ -135,7 +134,7 @@ public partial class AdminPanelView : UserControl
     {
         Dispatcher.UIThread.Post(() =>
         {
-            RegisterGameEvent(text);
+            RegisterGameEvent($"[СОБЫТИЕ] {text}");
         });
     }
 
@@ -621,5 +620,35 @@ public partial class AdminPanelView : UserControl
 
         if (_totalEventsText != null)
             _totalEventsText.Text = _totalEvents.ToString();
+    }
+    private async void StartEventButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_networkService == null)
+            return;
+
+        var dialog = new StartEventDialog();
+
+        var parentWindow = TopLevel.GetTopLevel(this) as Window;
+
+        if (parentWindow == null)
+            return;
+
+        bool confirmed = await dialog.ShowDialog<bool>(parentWindow);
+
+        if (!confirmed)
+            return;
+
+        int? turns = dialog.Turns;
+
+        if (turns == null)
+            return;
+
+        string json =
+            $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"start_event\",\"eventId\":{dialog.EventId},\"title\":\"{dialog.EventTitle}\",\"description\":\"{dialog.EventDescription}\",\"turns\":{turns.Value}}}}}";
+
+        await _networkService.SendAsync(json);
+
+        _totalEvents++;
+        UpdateLocalStatistics();
     }
 }

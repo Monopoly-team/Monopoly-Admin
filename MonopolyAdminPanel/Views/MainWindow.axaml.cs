@@ -71,6 +71,7 @@ public partial class MainWindow : Window
     private void ReturnToLogin()
     {
         _networkService.Disconnect();
+        _networkService.ClearCachedState();
 
         if (_loginContent != null)
             Content = _loginContent;

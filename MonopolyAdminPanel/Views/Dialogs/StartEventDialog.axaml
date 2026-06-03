@@ -1,0 +1,118 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MonopolyAdminPanel.Views.Dialogs.StartEventDialog"
+        Width="700"
+        Height="420"
+        CanResize="False"
+        SystemDecorations="None"
+        Background="Transparent">
+
+    <Border Background="#25252B"
+            BorderBrush="#3A3A45"
+            BorderThickness="1"
+            CornerRadius="12"
+            Padding="24">
+
+        <StackPanel Spacing="18">
+
+            <Border Background="Transparent"
+                    PointerPressed="TitleBar_PointerPressed">
+
+                <TextBlock Text="Запустить событие"
+                           FontSize="22"
+                           FontWeight="SemiBold"
+                           Foreground="White"/>
+            </Border>
+
+            <Grid ColumnDefinitions="1.2*,1*"
+                  ColumnSpacing="22">
+
+                <StackPanel Grid.Column="0"
+                            Spacing="12">
+
+                    <TextBlock Text="Событие"
+                               Foreground="#B8B8B8"/>
+
+                    <ComboBox x:Name="EventsComboBox"
+                              Height="38"
+                              SelectionChanged="EventsComboBox_SelectionChanged"/>
+
+                    <TextBlock Text="Количество ходов"
+                               Foreground="#B8B8B8"
+                               Margin="0,10,0,0"/>
+
+                    <TextBox x:Name="TurnsTextBox"
+                             Height="38"
+                             Text="10"
+                             Watermark="Например: 10"/>
+
+                    <Border Background="#1F1F24"
+                            CornerRadius="8"
+                            Padding="12"
+                            Margin="0,10,0,0">
+
+                        <TextBlock Text="Подсказка: количество ходов показывает, сколько личных ходов каждого игрока будет действовать событие. Например, 5 ходов означает, что событие будет активно, пока каждый игрок не сделает по 5 ходов."
+                                   TextWrapping="Wrap"
+                                   Foreground="#A8A8A8"
+                                   FontSize="13"/>
+                    </Border>
+
+                </StackPanel>
+
+                <Border Grid.Column="1"
+                        Background="#1F1F24"
+                        CornerRadius="10"
+                        Padding="16">
+
+                    <StackPanel Spacing="10">
+
+                        <TextBlock Text="Описание события"
+                                   Foreground="White"
+                                   FontWeight="SemiBold"
+                                   FontSize="16"/>
+
+                        <TextBlock x:Name="EventTitleText"
+                                   Text="Название события"
+                                   Foreground="#00BFFF"
+                                   FontWeight="SemiBold"
+                                   FontSize="15"
+                                   TextWrapping="Wrap"/>
+
+                        <TextBlock x:Name="EventDescriptionText"
+                                   Text="Описание выбранного события"
+                                   Foreground="#CFCFCF"
+                                   FontSize="14"
+                                   TextWrapping="Wrap"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="20"
+                        Margin="0,4,0,0">
+
+                <Button Content="Отмена"
+                        Width="120"
+                        Height="38"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="CancelButton_Click"/>
+
+                <Button Content="Продолжить"
+                        Width="120"
+                        Height="38"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="ConfirmButton_Click"/>
+
+            </StackPanel>
+
+        </StackPanel>
+
+    </Border>
+
+</Window>
