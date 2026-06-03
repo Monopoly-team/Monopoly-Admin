@@ -29,6 +29,7 @@ public class NetworkMessageHandler
     public event Action<string>? ConnectRejected;
     public event Action<string>? ServerError;
     public event Action? ServerDisconnected;
+    public event Action<int, int>? DiceRolled;
 
     public event Action<IReadOnlyList<Player>>? PlayersListReceived;
     public event Action<NetworkMessage>? GameStateReceived;
@@ -186,6 +187,16 @@ public class NetworkMessageHandler
 
     private void HandleGameState(NetworkMessage message)
     {
+        if (message.Payload.ValueKind == JsonValueKind.Object &&
+            message.Payload.TryGetProperty("lastDiceFirst", out JsonElement firstElement) &&
+            message.Payload.TryGetProperty("lastDiceSecond", out JsonElement secondElement))
+        {
+            int first = firstElement.GetInt32();
+            int second = secondElement.GetInt32();
+
+            DiceRolled?.Invoke(first, second);
+        }
+
         GameStateReceived?.Invoke(message);
     }
 

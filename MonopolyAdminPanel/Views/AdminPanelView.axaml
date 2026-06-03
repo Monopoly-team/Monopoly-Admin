@@ -185,19 +185,22 @@
                                 HorizontalAlignment="Center"
                                 Spacing="20">
 
-						<Svg Path="/Assets/dice1.svg"
-                             Width="100"
-                             Height="100"/>
+						<Svg x:Name="FirstDiceSvg"
+							   Path="/Assets/dice1.svg"
+							   Width="100"
+							   Height="100"/>
 
-						<Svg Path="/Assets/dice2.svg"
-                             Width="100"
-                             Height="100"/>
+						<Svg x:Name="SecondDiceSvg"
+							   Path="/Assets/dice2.svg"
+							   Width="100"
+							   Height="100"/>
 					</StackPanel>
 
-					<TextBlock Text="Последний бросок: 3"
-                               HorizontalAlignment="Center"
-                               Foreground="#A8A8A8"
-                               FontSize="15"/>
+					<TextBlock x:Name="LastDiceRollText"
+								 Text="Последний бросок: 3"
+								 HorizontalAlignment="Center"
+								 Foreground="#A8A8A8"
+								 FontSize="15"/>
 				</StackPanel>
 			</Border>
 

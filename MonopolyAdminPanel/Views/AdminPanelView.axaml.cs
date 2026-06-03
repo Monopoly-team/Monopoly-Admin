@@ -45,6 +45,10 @@ public partial class AdminPanelView : UserControl
     private int _totalBonuses;
     private int _totalEvents;
 
+    private Control? _firstDiceSvg;
+    private Control? _secondDiceSvg;
+    private TextBlock? _lastDiceRollText;
+
     private IReadOnlyList<Player> _lastPlayers = [];
 
     public AdminPanelView()
@@ -69,6 +73,7 @@ public partial class AdminPanelView : UserControl
         _networkService.GameEventReceived += OnGameEventReceived;
         _networkService.GamePaused += OnGamePaused;
         _networkService.GameResumed += OnGameResumed;
+        _networkService.DiceRolled += OnDiceRolled;
 
         UpdateConnectionStatus(_networkService.IsConnected);
         UpdateGameStatus();
@@ -104,6 +109,9 @@ public partial class AdminPanelView : UserControl
         _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
         _pauseGameButton = this.FindControl<Button>("PauseGameButton");
+        _firstDiceSvg = this.FindControl<Control>("FirstDiceSvg");
+        _secondDiceSvg = this.FindControl<Control>("SecondDiceSvg");
+        _lastDiceRollText = this.FindControl<TextBlock>("LastDiceRollText");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
@@ -422,6 +430,44 @@ public partial class AdminPanelView : UserControl
 
         UpdateLocalStatistics();
     }
+    private void OnDiceRolled(int first, int second)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            SetSvgPath(_firstDiceSvg, $"/Assets/dice{first}.svg");
+            SetSvgPath(_secondDiceSvg, $"/Assets/dice{second}.svg");
+
+            if (_lastDiceRollText != null)
+                _lastDiceRollText.Text = $"Последний бросок: {first + second} ({first} + {second})";
+        });
+    }
+
+    private void SetSvgPath(Control? svg, string path)
+    {
+        if (svg == null)
+            return;
+
+        var property = svg.GetType().GetProperty("Path");
+
+        property?.SetValue(svg, path);
+    }
+
+    private void RegisterGameEvent(string text)
+    {
+        AddEventLog(text);
+    }
+
+    private void UpdateLocalStatistics()
+    {
+        if (_totalFinesText != null)
+            _totalFinesText.Text = _totalFines.ToString();
+
+        if (_totalBonusesText != null)
+            _totalBonusesText.Text = _totalBonuses.ToString();
+
+        if (_totalEventsText != null)
+            _totalEventsText.Text = _totalEvents.ToString();
+    }
 
     private async void ChangeBalanceButton_Click(object? sender, RoutedEventArgs e)
     {
@@ -632,22 +678,7 @@ public partial class AdminPanelView : UserControl
             UpdateOnlinePlayers(_lastPlayers);
         }
     }
-    private void RegisterGameEvent(string text)
-    {
-        AddEventLog(text);
-    }
-
-    private void UpdateLocalStatistics()
-    {
-        if (_totalFinesText != null)
-            _totalFinesText.Text = _totalFines.ToString();
-
-        if (_totalBonusesText != null)
-            _totalBonusesText.Text = _totalBonuses.ToString();
-
-        if (_totalEventsText != null)
-            _totalEventsText.Text = _totalEvents.ToString();
-    }
+    
     private async void StartEventButton_Click(object? sender, RoutedEventArgs e)
     {
         if (_networkService == null)
@@ -693,7 +724,7 @@ public partial class AdminPanelView : UserControl
         else
         {
             json =
-                "{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{\"action\":\"pause_game\",\"reason\":\"Технический перерыв\"}}";
+                "{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{\"action\":\"pause_game\"}}";
         }
 
         await _networkService.SendAsync(json);
