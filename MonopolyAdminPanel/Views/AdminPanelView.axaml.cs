@@ -219,8 +219,8 @@ public partial class AdminPanelView : UserControl
             _playersTableGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
             AddCell(player.Name, row, 0, Brushes.White);
-            AddCell(player.Balance.ToString(), row, 1, Brushes.White);
-            AddCell(player.Purchases.ToString(), row, 2, Brushes.White);
+            AddCell(player.Purchases.ToString(), row, 1, Brushes.White);
+            AddCell(player.Bonuses.ToString(), row, 2, Brushes.White);
             AddCell(player.Fines.ToString(), row, 3, Brushes.White);
             AddCell(player.OwnedCellsCount.ToString(), row, 4, Brushes.White);
         }
@@ -234,8 +234,8 @@ public partial class AdminPanelView : UserControl
         _playersTableGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
         AddCell("игрок", 0, 0, Brushes.Gray);
-        AddCell("бюджет", 0, 1, Brushes.Gray);
-        AddCell("покупки", 0, 2, Brushes.Gray);
+        AddCell("покупки", 0, 1, Brushes.Gray);
+        AddCell("бонусы", 0, 2, Brushes.Gray);
         AddCell("штрафы", 0, 3, Brushes.Gray);
         AddCell("клетки", 0, 4, Brushes.Gray);
     }
@@ -473,8 +473,13 @@ public partial class AdminPanelView : UserControl
         }
 
         await _networkService.SendAsync(json);
+
+        selectedPlayer.Fines++;
         _totalFines++;
+
+        UpdatePlayersTable(_lastPlayers);
         UpdateLocalStatistics();
+
         if (string.IsNullOrWhiteSpace(reason))
         {
             RegisterGameEvent($"[ADMIN] Выдан штраф игроку {selectedPlayer.Name} на {amount.Value}");
@@ -531,8 +536,13 @@ public partial class AdminPanelView : UserControl
         }
 
         await _networkService.SendAsync(json);
+
+        selectedPlayer.Bonuses++;
         _totalBonuses++;
+
+        UpdatePlayersTable(_lastPlayers);
         UpdateLocalStatistics();
+
         if (string.IsNullOrWhiteSpace(reason))
         {
             RegisterGameEvent($"[ADMIN] Выдан бонус игроку {selectedPlayer.Name} на {amount.Value}");
