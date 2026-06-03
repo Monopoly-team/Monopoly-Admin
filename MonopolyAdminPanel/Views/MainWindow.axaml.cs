@@ -12,9 +12,13 @@ public partial class MainWindow : Window
 
     private readonly NetworkService _networkService = new();
 
+    private Control? _loginContent;
+
     public MainWindow()
     {
         InitializeComponent();
+
+        _loginContent = Content as Control;
 
         _networkService.ErrorReceived += OnNetworkErrorReceived;
     }
@@ -58,7 +62,18 @@ public partial class MainWindow : Window
 
     private void OpenAdminPanel(string ip)
     {
-        Content = new AdminPanelView(_networkService, ip);
+        Content = new AdminPanelView(
+            _networkService,
+            ip,
+            ReturnToLogin);
+    }
+
+    private void ReturnToLogin()
+    {
+        _networkService.Disconnect();
+
+        if (_loginContent != null)
+            Content = _loginContent;
     }
 
     private void OnNetworkErrorReceived(string message)

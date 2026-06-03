@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using MonopolyAdminPanel.Models;
 using MonopolyAdminPanel.Services;
 using MonopolyAdminPanel.Views.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -23,6 +24,7 @@ public partial class AdminPanelView : UserControl
     private StackPanel? _onlinePlayersPanel;
     private StackPanel? _eventsPanel;
     private ScrollViewer? _eventsScrollViewer;
+    private Action? _returnToLogin;
 
     private TextBlock? _totalPlayersText;
     private TextBlock? _bankBalanceText;
@@ -50,10 +52,10 @@ public partial class AdminPanelView : UserControl
         AddTableHeader();
     }
 
-    public AdminPanelView(NetworkService networkService, string serverIp)
-    : this()
+    public AdminPanelView(NetworkService networkService, string serverIp, Action returnToLogin): this()
     {
         _networkService = networkService;
+        _returnToLogin = returnToLogin;
 
         ServerIpText.Text = serverIp;
 
@@ -94,7 +96,7 @@ public partial class AdminPanelView : UserControl
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
     {
-        _networkService?.Disconnect();
+        _returnToLogin?.Invoke();
     }
 
     private void OnConnectionChanged(bool isConnected)
