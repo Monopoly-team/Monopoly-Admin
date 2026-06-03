@@ -69,6 +69,11 @@ public partial class AdminPanelView : UserControl
         {
             OnPlayersListReceived(_networkService.LastPlayers);
         }
+
+        if (_networkService.IsGameStarted)
+        {
+            OnGameStarted();
+        }
     }
 
     private void FindControls()

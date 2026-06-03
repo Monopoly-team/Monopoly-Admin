@@ -22,9 +22,11 @@ public class NetworkService
     private StreamWriter? _writer;
     private CancellationTokenSource? _cts;
     private IReadOnlyList<Player> _lastPlayers = [];
+    private bool _isGameStarted;
 
     public bool IsConnected => _client?.Connected == true;
     public IReadOnlyList<Player> LastPlayers => _lastPlayers;
+    public bool IsGameStarted => _isGameStarted;
 
     public event Action<bool>? ConnectionChanged;
     public event Action<string>? ErrorReceived;
@@ -59,6 +61,9 @@ public class NetworkService
         _messageHandler.GameStarted += () =>
         {
             Debug.WriteLine("[NetworkService] GameStarted event received");
+
+            _isGameStarted = true;
+
             GameStarted?.Invoke();
         };
 
