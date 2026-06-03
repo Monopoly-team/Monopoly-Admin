@@ -17,6 +17,8 @@ public class NetworkMessageHandler
     private const string TypeGameState = "game_state";
     private const string TypeGameStarted = "game_started";
     private const string TypeGameEvent = "game_event";
+    private const string TypeGamePaused = "game_paused";
+    private const string TypeGameResumed = "game_resumed";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -33,6 +35,8 @@ public class NetworkMessageHandler
 
     public event Action? GameStarted;
     public event Action<string>? GameEventReceived;
+    public event Action<string>? GamePaused;
+    public event Action? GameResumed;
 
     public void HandleRawMessage(string json)
     {
@@ -102,6 +106,14 @@ public class NetworkMessageHandler
 
             case TypeGameEvent:
                 HandleGameEvent(message);
+                break;
+
+            case TypeGamePaused:
+                HandleGamePaused(message);
+                break;
+
+            case TypeGameResumed:
+                HandleGameResumed();
                 break;
 
             default:
@@ -207,5 +219,15 @@ public class NetworkMessageHandler
         }
 
         GameEventReceived?.Invoke(text);
+    }
+    private void HandleGamePaused(NetworkMessage message)
+    {
+        string reason = GetPayloadString(message, "reason", "Игра поставлена на паузу");
+        GamePaused?.Invoke(reason);
+    }
+
+    private void HandleGameResumed()
+    {
+        GameResumed?.Invoke();
     }
 }

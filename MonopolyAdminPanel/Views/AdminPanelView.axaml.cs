@@ -34,6 +34,10 @@ public partial class AdminPanelView : UserControl
     private TextBlock? _totalEventsText;
     private TextBlock? _totalTurnsText;
 
+    private Border? _pauseOverlay;
+    private Button? _pauseGameButton;
+    
+    private bool _isGamePaused;
     private bool _isGameStarted;
     private bool _isGameEnded;
 
@@ -63,6 +67,8 @@ public partial class AdminPanelView : UserControl
         _networkService.PlayersListReceived += OnPlayersListReceived;
         _networkService.GameStarted += OnGameStarted;
         _networkService.GameEventReceived += OnGameEventReceived;
+        _networkService.GamePaused += OnGamePaused;
+        _networkService.GameResumed += OnGameResumed;
 
         UpdateConnectionStatus(_networkService.IsConnected);
         UpdateGameStatus();
@@ -75,6 +81,10 @@ public partial class AdminPanelView : UserControl
         if (_networkService.IsGameStarted)
         {
             OnGameStarted();
+        }
+        if (_networkService.IsGamePaused)
+        {
+            OnGamePaused("Игра на паузе");
         }
     }
 
@@ -92,6 +102,8 @@ public partial class AdminPanelView : UserControl
         _totalBonusesText = this.FindControl<TextBlock>("TotalBonusesText");
         _totalEventsText = this.FindControl<TextBlock>("TotalEventsText");
         _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
+        _pauseOverlay = this.FindControl<Border>("PauseOverlay");
+        _pauseGameButton = this.FindControl<Button>("PauseGameButton");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
@@ -129,6 +141,34 @@ public partial class AdminPanelView : UserControl
             UpdateGameStatus();
             UpdateOnlinePlayers(_lastPlayers);
         });
+    }
+    private void OnGamePaused(string reason)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            _isGamePaused = true;
+            UpdatePauseState();
+        });
+    }
+
+    private void OnGameResumed()
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            _isGamePaused = false;
+            UpdatePauseState();
+        });
+    }
+
+    private void UpdatePauseState()
+    {
+        if (_pauseOverlay != null)
+            _pauseOverlay.IsVisible = _isGamePaused;
+
+        if (_pauseGameButton != null)
+            _pauseGameButton.Content = _isGamePaused ? "Запустить игру" : "Остановить игру";
+
+        UpdateGameStatus();
     }
     private void OnGameEventReceived(string text)
     {
@@ -186,7 +226,12 @@ public partial class AdminPanelView : UserControl
         if (GameStatusText == null)
             return;
 
-        if (_isGameStarted)
+        if (_isGamePaused)
+        {
+            GameStatusText.Text = "ИГРА НА ПАУЗЕ";
+            GameStatusText.Foreground = Brushes.Orange;
+        }
+        else if (_isGameStarted)
         {
             GameStatusText.Text = "ИГРА АКТИВНА";
             GameStatusText.Foreground = Brushes.DeepSkyBlue;
@@ -478,15 +523,6 @@ public partial class AdminPanelView : UserControl
 
         UpdatePlayersTable(_lastPlayers);
         UpdateLocalStatistics();
-
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            RegisterGameEvent($"[ADMIN] Выдан штраф игроку {selectedPlayer.Name} на {amount.Value}");
-        }
-        else
-        {
-            RegisterGameEvent($"[ADMIN] Выдан штраф игроку {selectedPlayer.Name} на {amount.Value}. Причина: {reason}");
-        }
     }
 
     private async void BonusPlayerButton_Click(object? sender, RoutedEventArgs e)
@@ -541,15 +577,6 @@ public partial class AdminPanelView : UserControl
 
         UpdatePlayersTable(_lastPlayers);
         UpdateLocalStatistics();
-
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            RegisterGameEvent($"[ADMIN] Выдан бонус игроку {selectedPlayer.Name} на {amount.Value}");
-        }
-        else
-        {
-            RegisterGameEvent($"[ADMIN] Выдан бонус игроку {selectedPlayer.Name} на {amount.Value}. Причина: {reason}");
-        }
     }
 
     private async void KickPlayerButton_Click(object? sender, RoutedEventArgs e)
@@ -650,5 +677,25 @@ public partial class AdminPanelView : UserControl
 
         _totalEvents++;
         UpdateLocalStatistics();
+    }
+    private async void PauseGameButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_networkService == null)
+            return;
+
+        string json;
+
+        if (_isGamePaused)
+        {
+            json =
+                "{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{\"action\":\"resume_game\"}}";
+        }
+        else
+        {
+            json =
+                "{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{\"action\":\"pause_game\",\"reason\":\"Технический перерыв\"}}";
+        }
+
+        await _networkService.SendAsync(json);
     }
 }

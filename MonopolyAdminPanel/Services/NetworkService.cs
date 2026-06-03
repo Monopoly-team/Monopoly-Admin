@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonopolyAdminPanel.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MonopolyAdminPanel.Models;
 
 namespace MonopolyAdminPanel.Services;
 
@@ -23,10 +23,12 @@ public class NetworkService
     private CancellationTokenSource? _cts;
     private IReadOnlyList<Player> _lastPlayers = [];
     private bool _isGameStarted;
+    private bool _isGamePaused;
 
     public bool IsConnected => _client?.Connected == true;
     public IReadOnlyList<Player> LastPlayers => _lastPlayers;
     public bool IsGameStarted => _isGameStarted;
+    public bool IsGamePaused => _isGamePaused;
 
     public event Action<bool>? ConnectionChanged;
     public event Action<string>? ErrorReceived;
@@ -34,6 +36,8 @@ public class NetworkService
     public event Action<string>? GameEventReceived;
 
     public event Action? GameStarted;
+    public event Action<string>? GamePaused;
+    public event Action? GameResumed;
 
     public NetworkService()
     {
@@ -71,6 +75,24 @@ public class NetworkService
         {
             Debug.WriteLine($"[NetworkService] GameEventReceived: {text}");
             GameEventReceived?.Invoke(text);
+        };
+
+        _messageHandler.GamePaused += reason =>
+        {
+            Debug.WriteLine($"[NetworkService] GamePaused: {reason}");
+
+            _isGamePaused = true;
+
+            GamePaused?.Invoke(reason);
+        };
+
+        _messageHandler.GameResumed += () =>
+        {
+            Debug.WriteLine("[NetworkService] GameResumed");
+
+            _isGamePaused = false;
+
+            GameResumed?.Invoke();
         };
     }
 
@@ -172,6 +194,7 @@ public class NetworkService
     {
         _lastPlayers = [];
         _isGameStarted = false;
+        _isGamePaused = false;
     }
 
     private async Task ReceiveLoopAsync(CancellationToken token)

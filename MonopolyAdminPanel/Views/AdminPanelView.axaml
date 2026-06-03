@@ -323,6 +323,32 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 			</Viewbox>
+			
+			<Border x:Name="PauseOverlay"
+					IsVisible="False"
+					Background="#99000000"
+					CornerRadius="8"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch">
+
+				<StackPanel HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Spacing="14">
+
+					<TextBlock Text="⏸"
+							   FontSize="70"
+							   Foreground="White"
+							   HorizontalAlignment="Center"/>
+
+					<TextBlock Text="ИГРА НА ПАУЗЕ"
+							   FontSize="24"
+							   FontWeight="Bold"
+							   Foreground="White"
+							   HorizontalAlignment="Center"/>
+
+				</StackPanel>
+
+			</Border>
 		</Grid>
 
 		<Border Grid.Row="2"
@@ -441,8 +467,9 @@
 						BorderThickness="1"
 						CornerRadius="10"
 						Click="StartEventButton_Click"/>
-				
-				<Button Content="Остановить игру"
+
+				<Button x:Name="PauseGameButton"
+						Content="Остановить игру"
 						Height="58"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Center"
@@ -453,7 +480,8 @@
 						Foreground="White"
 						BorderBrush="#3A3A45"
 						BorderThickness="1"
-						CornerRadius="10"/>
+						CornerRadius="10"
+						Click="PauseGameButton_Click"/>
 
 			</StackPanel>
 		</Border>
