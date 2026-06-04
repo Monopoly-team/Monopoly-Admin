@@ -423,24 +423,11 @@ public partial class AdminPanelView : UserControl
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        string json = CreateChatMessageJson(text);
+        string json = AdminMessageFactory.CreateChatMessage(text);
 
         await _networkService.SendAsync(json);
 
         _adminChatPanel.ClearInput();
-    }
-
-    private static string CreateChatMessageJson(string text)
-    {
-        return JsonSerializer.Serialize(new
-        {
-            type = "chat_message",
-            senderId = 65535,
-            payload = new
-            {
-                text
-            }
-        });
     }
 
     private void AddEventLog(string text)
@@ -528,16 +515,6 @@ public partial class AdminPanelView : UserControl
         UpdateGameInfo(_lastPlayers);
     }
 
-    private static string CreateAdminActionJson(Dictionary<string, object> payload)
-    {
-        return JsonSerializer.Serialize(new
-        {
-            type = "admin_action",
-            senderId = 65535,
-            payload
-        });
-    }
-
     private async void OnChangeBalanceRequested()
     {
         if (_networkService == null)
@@ -580,7 +557,7 @@ public partial class AdminPanelView : UserControl
         if (!string.IsNullOrWhiteSpace(reason))
             payload["reason"] = reason;
 
-        string json = CreateAdminActionJson(payload);
+        string json = AdminMessageFactory.CreateAdminAction(payload);
 
         await _networkService.SendAsync(json);
     }
@@ -627,7 +604,7 @@ public partial class AdminPanelView : UserControl
         if (!string.IsNullOrWhiteSpace(reason))
             payload["reason"] = reason;
 
-        string json = CreateAdminActionJson(payload);
+        string json = AdminMessageFactory.CreateAdminAction(payload);
 
         await _networkService.SendAsync(json);
 
@@ -680,7 +657,7 @@ public partial class AdminPanelView : UserControl
         if (!string.IsNullOrWhiteSpace(reason))
             payload["reason"] = reason;
 
-        string json = CreateAdminActionJson(payload);
+        string json = AdminMessageFactory.CreateAdminAction(payload);
 
         await _networkService.SendAsync(json);
 
@@ -727,7 +704,7 @@ public partial class AdminPanelView : UserControl
         if (!string.IsNullOrWhiteSpace(reason))
             payload["reason"] = reason;
 
-        string json = CreateAdminActionJson(payload);
+        string json = AdminMessageFactory.CreateAdminAction(payload);
 
         await _networkService.SendAsync(json);
 
@@ -773,7 +750,7 @@ public partial class AdminPanelView : UserControl
             ["turns"] = turns.Value
         };
 
-        string json = CreateAdminActionJson(payload);
+        string json = AdminMessageFactory.CreateAdminAction(payload);
 
         await _networkService.SendAsync(json);
 
@@ -792,7 +769,7 @@ public partial class AdminPanelView : UserControl
             ["action"] = action
         };
 
-        string json = CreateAdminActionJson(payload);
+        string json = AdminMessageFactory.CreateAdminAction(payload);
 
         await _networkService.SendAsync(json);
     }
