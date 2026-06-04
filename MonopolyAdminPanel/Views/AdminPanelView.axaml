@@ -302,9 +302,10 @@
 								   FontSize="13"
 								   Foreground="#A8A8A8"/>
 
-						<TextBlock Text="00:15:24"
-								   FontSize="15"
-								   Foreground="White"/>
+						<TextBlock x:Name="GameTimeText"
+									Text="00:00:00"
+									FontSize="15"
+									Foreground="White"/>
 					</StackPanel>
 
 				</Grid>

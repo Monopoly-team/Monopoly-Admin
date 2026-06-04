@@ -37,6 +37,7 @@ public partial class AdminPanelView : UserControl
     private TextBlock? _totalEventsText;
     private TextBlock? _totalTurnsText;
     private TextBlock? _currentPlayerText;
+    private TextBlock? _gameTimeText;
 
     private Border? _pauseOverlay;
     private Button? _pauseGameButton;
@@ -56,6 +57,10 @@ public partial class AdminPanelView : UserControl
     private IReadOnlyList<Player> _lastPlayers = [];
     private readonly Dictionary<int, int> _purchaseCountsByPlayerId = new();
     private readonly Dictionary<int, int> _lastOwnedCellsByPlayerId = new();
+    private DispatcherTimer? _gameSessionTimer;
+    private DateTime? _gameSessionStartTime;
+    private int? _lastCurrentPlayerId;
+    private int _totalTurns;
 
     public AdminPanelView()
     {
@@ -121,10 +126,12 @@ public partial class AdminPanelView : UserControl
         _lastDiceRollText = this.FindControl<TextBlock>("LastDiceRollText");
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
         _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
+        _gameTimeText = this.FindControl<TextBlock>("GameTimeText");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
     {
+        StopGameSessionTimer();
         _returnToLogin?.Invoke();
     }
 
@@ -198,22 +205,86 @@ public partial class AdminPanelView : UserControl
 
             _lastPlayers = players;
 
+            StartGameSessionTimerIfNeeded();
+            UpdateTurnCounterAndCurrentPlayer(message.Payload, players);
+
             UpdatePlayersTable(players);
             UpdateOnlinePlayers(players);
             UpdateGameInfo(players);
 
-            if (message.Payload.TryGetProperty("currentPlayerId", out JsonElement currentPlayerElement))
-            {
-                int currentPlayerId = currentPlayerElement.GetInt32();
-
-                Player? currentPlayer = FindPlayerById(players, currentPlayerId);
-
-                if (_currentPlayerText != null)
-                    _currentPlayerText.Text = currentPlayer?.Name ?? currentPlayerId.ToString();
-            }
-
             _gameBoardView?.UpdateCells(cellsElement, playersElement);
         });
+    }
+
+    private void StartGameSessionTimerIfNeeded()
+    {
+        if (_gameSessionStartTime != null)
+            return;
+
+        _gameSessionStartTime = DateTime.Now;
+
+        UpdateGameSessionTime();
+
+        _gameSessionTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromSeconds(1)
+        };
+
+        _gameSessionTimer.Tick += (_, _) => UpdateGameSessionTime();
+        _gameSessionTimer.Start();
+    }
+
+    private void UpdateGameSessionTime()
+    {
+        if (_gameTimeText == null || _gameSessionStartTime == null)
+            return;
+
+        TimeSpan elapsed = DateTime.Now - _gameSessionStartTime.Value;
+
+        _gameTimeText.Text =
+            $"{(int)elapsed.TotalHours:00}:{elapsed.Minutes:00}:{elapsed.Seconds:00}";
+    }
+
+    private void UpdateTurnCounterAndCurrentPlayer(JsonElement payload, IReadOnlyList<Player> players)
+    {
+        if (!payload.TryGetProperty("currentPlayerId", out JsonElement currentPlayerElement))
+            return;
+
+        if (!TryGetIntValue(currentPlayerElement, out int currentPlayerId))
+            return;
+
+        if (_lastCurrentPlayerId == null)
+        {
+            _lastCurrentPlayerId = currentPlayerId;
+        }
+        else if (_lastCurrentPlayerId.Value != currentPlayerId)
+        {
+            _totalTurns++;
+            _lastCurrentPlayerId = currentPlayerId;
+        }
+
+        Player? currentPlayer = FindPlayerById(players, currentPlayerId);
+
+        if (_currentPlayerText != null)
+            _currentPlayerText.Text = currentPlayer?.Name ?? currentPlayerId.ToString();
+    }
+
+    private static bool TryGetIntValue(JsonElement value, out int result)
+    {
+        if (value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out result))
+            return true;
+
+        if (value.ValueKind == JsonValueKind.String && int.TryParse(value.GetString(), out result))
+            return true;
+
+        result = 0;
+        return false;
+    }
+
+    private void StopGameSessionTimer()
+    {
+        _gameSessionTimer?.Stop();
+        _gameSessionTimer = null;
     }
 
     private IReadOnlyList<Player> KeepKnownPlayersDuringGame(IReadOnlyList<Player> players)
@@ -666,10 +737,7 @@ public partial class AdminPanelView : UserControl
             _totalPurchasesText.Text = totalPurchases.ToString();
 
         if (_totalTurnsText != null)
-            _totalTurnsText.Text = "0";
-
-        if (_bankBalanceText != null)
-            _bankBalanceText.Text = "∞";
+            _totalTurnsText.Text = _totalTurns.ToString();
 
         UpdateLocalStatistics();
     }
