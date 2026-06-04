@@ -289,9 +289,10 @@
 								   FontSize="13"
 								   Foreground="#A8A8A8"/>
 
-						<TextBlock Text="Игра не началась"
-								   FontSize="15"
-								   Foreground="White"/>
+						<TextBlock x:Name="CurrentPlayerText"
+									Text="Игра не началась"
+									FontSize="15"
+									Foreground="White"/>
 					</StackPanel>
 
 					<StackPanel Grid.Column="2"

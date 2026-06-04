@@ -65,10 +65,12 @@
 				</Border>
 
 				<!-- ВЕРХ -->
-				<Border Grid.Row="0" Grid.Column="1" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell21Border" Grid.Row="0" Grid.Column="1" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell21OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/ozon.svg"
 								 Width="70"
 								 Height="70"
@@ -83,10 +85,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="2" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell22Border" Grid.Row="0" Grid.Column="2" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell22OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/yamarket.svg"
 								 Width="70"
 								 Height="70"
@@ -101,10 +105,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="3" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell23Border" Grid.Row="0" Grid.Column="3" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell23OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/wb.svg"
 								 Width="70"
 								 Height="70"
@@ -128,10 +134,12 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="5" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell25Border" Grid.Row="0" Grid.Column="5" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell25OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/university.svg"
 								 Width="70"
 								 Height="70"
@@ -155,10 +163,12 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="7" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell27Border" Grid.Row="0" Grid.Column="7" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell27OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/ozonbank.svg"
 								 Width="70"
 								 Height="70"
@@ -173,10 +183,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="8" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell28Border" Grid.Row="0" Grid.Column="8" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell28OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/alfa.svg"
 								 Width="70"
 								 Height="70"
@@ -191,10 +203,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="9" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell29Border" Grid.Row="0" Grid.Column="9" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell29OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/sber.svg"
 								 Width="70"
 								 Height="70"
@@ -210,10 +224,12 @@
 				</Border>
 
 				<!-- НИЗ -->
-				<Border Grid.Row="10" Grid.Column="1" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell9Border" Grid.Row="10" Grid.Column="1" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#FF8C42"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell9OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/HandM.svg"
 								 Width="70"
 								 Height="70"
@@ -228,10 +244,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="2" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell8Border" Grid.Row="10" Grid.Column="2" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#FF8C42"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell8OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/lamoda.svg"
 								 Width="70"
 								 Height="70"
@@ -246,10 +264,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="3" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell7Border" Grid.Row="10" Grid.Column="3" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#FF8C42"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell7OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/secondhand.svg"
 								 Width="70"
 								 Height="70"
@@ -273,10 +293,12 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="5" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell5Border" Grid.Row="10" Grid.Column="5" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#B56CFF"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell5OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/english.svg"
 								 Width="70"
 								 Height="70"
@@ -300,10 +322,12 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="7" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell3Border" Grid.Row="10" Grid.Column="7" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#50C878"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell3OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/rigla.svg"
 								 Width="70"
 								 Height="70"
@@ -318,10 +342,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="8" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell2Border" Grid.Row="10" Grid.Column="8" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#50C878"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell2OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/eapteka.svg"
 								 Width="70"
 								 Height="70"
@@ -336,10 +362,12 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="9" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell1Border" Grid.Row="10" Grid.Column="9" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#50C878"/>
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1"
+							  x:Name="Cell1OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/aprel.svg"
 								 Width="70"
 								 Height="70"
@@ -355,13 +383,15 @@
 				</Border>
 
 				<!-- ЛЕВО -->
-				<Border Grid.Row="1" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell19Border" Grid.Row="1" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#7B61FF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell19OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/samokat.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -369,13 +399,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="2" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell18Border" Grid.Row="2" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#7B61FF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell18OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/lavka.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -383,13 +415,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="3" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell17Border" Grid.Row="3" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#7B61FF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell17OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/vkusvill.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -406,13 +440,15 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="5" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell15Border" Grid.Row="5" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#B56CFF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell15OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/school.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -429,13 +465,15 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="7" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell13Border" Grid.Row="7" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#FFD166"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell13OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/5erochka.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -443,13 +481,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="8" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell12Border" Grid.Row="8" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#FFD166"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell12OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/magnit.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -457,13 +497,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="9" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell11Border" Grid.Row="9" Grid.Column="0" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
 						<Border Grid.Column="2" Background="#FFD166"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell11OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/diksi.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -472,13 +514,15 @@
 				</Border>
 
 				<!-- ПРАВО -->
-				<Border Grid.Row="1" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell31Border" Grid.Row="1" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#FF6B6B"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell31OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/cd.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -486,13 +530,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="2" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell32Border" Grid.Row="2" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#FF6B6B"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell32OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/rockstar.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -500,13 +546,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="3" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell33Border" Grid.Row="3" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#FF6B6B"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell33OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/valve.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -523,13 +571,15 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="5" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell35Border" Grid.Row="5" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#B56CFF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell35OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/college.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -546,13 +596,15 @@
 							   VerticalAlignment="Center"/>
 				</Border>
 
-				<Border Grid.Row="7" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell37Border" Grid.Row="7" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#6C7BFF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell37OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/nbidia.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -560,13 +612,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="8" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell38Border" Grid.Row="8" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#6C7BFF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell38OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/openai.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -574,13 +628,15 @@
 					</Grid>
 				</Border>
 
-				<Border Grid.Row="9" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+				<Border x:Name="Cell39Border" Grid.Row="9" Grid.Column="10" Background="White" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#6C7BFF"/>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="1"
+							  x:Name="Cell39OwnerArea"
+							  Background="White">
 							<Svg Path="/Assets/microsoft.svg"
-								 Width="70"
-								 Height="70"
+								 Width="50"
+								 Height="50"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>

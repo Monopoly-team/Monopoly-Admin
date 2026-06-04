@@ -36,6 +36,7 @@ public partial class AdminPanelView : UserControl
     private TextBlock? _totalBonusesText;
     private TextBlock? _totalEventsText;
     private TextBlock? _totalTurnsText;
+    private TextBlock? _currentPlayerText;
 
     private Border? _pauseOverlay;
     private Button? _pauseGameButton;
@@ -117,6 +118,7 @@ public partial class AdminPanelView : UserControl
         _secondDiceSvg = this.FindControl<Control>("SecondDiceSvg");
         _lastDiceRollText = this.FindControl<TextBlock>("LastDiceRollText");
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
+        _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
@@ -183,7 +185,35 @@ public partial class AdminPanelView : UserControl
             if (!message.Payload.TryGetProperty("cells", out JsonElement cellsElement))
                 return;
 
-            _gameBoardView?.UpdateCells(cellsElement);
+            if (!message.Payload.TryGetProperty("players", out JsonElement playersElement))
+                return;
+            if (message.Payload.TryGetProperty("currentPlayerId", out JsonElement currentPlayerElement))
+            {
+                int currentPlayerId = currentPlayerElement.GetInt32();
+
+                string currentPlayerName = "Неизвестно";
+
+                foreach (JsonElement player in playersElement.EnumerateArray())
+                {
+                    if (!player.TryGetProperty("id", out JsonElement idElement))
+                        continue;
+
+                    if (idElement.GetInt32() != currentPlayerId)
+                        continue;
+
+                    if (player.TryGetProperty("nickname", out JsonElement nicknameElement))
+                    {
+                        currentPlayerName = nicknameElement.GetString() ?? currentPlayerName;
+                    }
+
+                    break;
+                }
+
+                if (_currentPlayerText != null)
+                    _currentPlayerText.Text = currentPlayerName;
+            }
+
+            _gameBoardView?.UpdateCells(cellsElement, playersElement);
         });
     }
 
