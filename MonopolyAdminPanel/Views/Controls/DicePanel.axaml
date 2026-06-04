@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:svg="clr-namespace:Svg.Controls.Skia.Avalonia;assembly=Svg.Controls.Skia.Avalonia"
+             x:Class="MonopolyAdminPanel.Views.Controls.DicePanel">
+
+	<Border Background="#1C1C22"
+			CornerRadius="14"
+			Padding="18">
+
+		<StackPanel Spacing="18">
+
+			<TextBlock Text="КУБИКИ"
+					   FontSize="18"
+					   FontWeight="Bold"
+					   Foreground="White"/>
+
+			<StackPanel Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Spacing="20">
+
+				<Svg x:Name="FirstDiceSvg"
+					 Path="/Assets/dice1.svg"
+					 Width="100"
+					 Height="100"/>
+
+				<Svg x:Name="SecondDiceSvg"
+					 Path="/Assets/dice2.svg"
+					 Width="100"
+					 Height="100"/>
+
+			</StackPanel>
+
+			<TextBlock x:Name="LastDiceRollText"
+					   Text="Последний бросок: 3"
+					   HorizontalAlignment="Center"
+					   Foreground="#A8A8A8"
+					   FontSize="15"/>
+
+		</StackPanel>
+
+	</Border>
+
+</UserControl>

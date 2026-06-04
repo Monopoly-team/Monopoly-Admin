@@ -168,44 +168,12 @@
 
 
 			<!-- КУБИКИ -->
-			<Border Grid.Row="2"
-                    Background="#1C1C22"
-                    CornerRadius="14"
-                    Padding="18"
-                    Margin="0,0,0,14"
-                    VerticalAlignment="Bottom">
+			<controls:DicePanel x:Name="DicePanel"
+								Grid.Row="2"
+								Margin="0,0,0,14"
+								VerticalAlignment="Bottom"/>
 
-				<StackPanel Spacing="18">
-
-					<TextBlock Text="КУБИКИ"
-                               FontSize="18"
-                               FontWeight="Bold"
-                               Foreground="White"/>
-
-					<StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                Spacing="20">
-
-						<Svg x:Name="FirstDiceSvg"
-							   Path="/Assets/dice1.svg"
-							   Width="100"
-							   Height="100"/>
-
-						<Svg x:Name="SecondDiceSvg"
-							   Path="/Assets/dice2.svg"
-							   Width="100"
-							   Height="100"/>
-					</StackPanel>
-
-					<TextBlock x:Name="LastDiceRollText"
-								 Text="Последний бросок: 3"
-								 HorizontalAlignment="Center"
-								 Foreground="#A8A8A8"
-								 FontSize="15"/>
-				</StackPanel>
-			</Border>
-
-
+			<!-- СОЕДИНЕНИЕ -->
 			<Border Grid.Row="3"
 					Background="#1F1F24"
 					CornerRadius="10"

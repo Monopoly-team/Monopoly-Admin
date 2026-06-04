@@ -26,6 +26,7 @@ public partial class AdminPanelView : UserControl
 
     private EventHistoryPanel? _eventHistoryPanel;
     private ChatPanel? _adminChatPanel;
+    private DicePanel? _dicePanel;
 
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
@@ -51,10 +52,6 @@ public partial class AdminPanelView : UserControl
     private int _totalFines;
     private int _totalBonuses;
     private int _totalEvents;
-
-    private Control? _firstDiceSvg;
-    private Control? _secondDiceSvg;
-    private TextBlock? _lastDiceRollText;
 
     private IReadOnlyList<Player> _lastPlayers = [];
     private readonly Dictionary<int, int> _purchaseCountsByPlayerId = new();
@@ -114,6 +111,7 @@ public partial class AdminPanelView : UserControl
         _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
 
         _eventHistoryPanel = this.FindControl<EventHistoryPanel>("EventHistoryPanel");
+        _dicePanel = this.FindControl<DicePanel>("DicePanel");
 
         _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
         _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
@@ -124,12 +122,10 @@ public partial class AdminPanelView : UserControl
         _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
         _pauseGameButton = this.FindControl<Button>("PauseGameButton");
-        _firstDiceSvg = this.FindControl<Control>("FirstDiceSvg");
-        _secondDiceSvg = this.FindControl<Control>("SecondDiceSvg");
-        _lastDiceRollText = this.FindControl<TextBlock>("LastDiceRollText");
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
         _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
         _gameTimeText = this.FindControl<TextBlock>("GameTimeText");
+
 
         _adminChatPanel = this.FindControl<ChatPanel>("AdminChatPanel");
 
@@ -775,22 +771,8 @@ public partial class AdminPanelView : UserControl
     {
         Dispatcher.UIThread.Post(() =>
         {
-            SetSvgPath(_firstDiceSvg, $"/Assets/dice{first}.svg");
-            SetSvgPath(_secondDiceSvg, $"/Assets/dice{second}.svg");
-
-            if (_lastDiceRollText != null)
-                _lastDiceRollText.Text = $"Последний бросок: {first + second} ({first} + {second})";
+            _dicePanel?.SetDice(first, second);
         });
-    }
-
-    private void SetSvgPath(Control? svg, string path)
-    {
-        if (svg == null)
-            return;
-
-        var property = svg.GetType().GetProperty("Path");
-
-        property?.SetValue(svg, path);
     }
 
     private void RegisterGameEvent(string text)
