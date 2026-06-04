@@ -324,7 +324,8 @@
 										Height="430"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"/>
-			
+
+			<!-- ПАУЗА ПРИМЕРНАЯ -->
 			<Border x:Name="PauseOverlay"
 					IsVisible="False"
 					Background="#99000000"
@@ -352,39 +353,10 @@
 			</Border>
 		</Grid>
 
-		<Border Grid.Row="2"
-		Background="#1F1F24"
-		CornerRadius="10"
-		Padding="16,12,16,6"
-		Margin="20,0">
-
-			<Grid RowDefinitions="Auto,*,Auto">
-
-				<TextBlock Grid.Row="0"
-						   Text="ЧАТ"
-						   Foreground="White"
-						   FontSize="17"
-						   FontWeight="SemiBold"/>
-
-				<ScrollViewer x:Name="ChatScrollViewer"
-							  Grid.Row="1"
-							  Margin="0,6,0,6">
-
-					<StackPanel x:Name="ChatPanel"
-								Spacing="8"/>
-
-				</ScrollViewer>
-
-				<TextBox x:Name="ChatMessageTextBox"
-							Grid.Row="2"
-							Height="36"
-							VerticalAlignment="Bottom"
-							Watermark="Сообщение в общий чат..."
-							FontSize="14"
-							KeyDown="ChatMessageTextBox_KeyDown"/>
-			</Grid>
-
-		</Border>
+		<!-- ЧАТ -->
+		<controls:ChatPanel x:Name="AdminChatPanel"
+					Grid.Row="2"
+					Margin="20,0"/>
 	</Grid>
 
 	<!-- ПРАВАЯ ПАНЕЛЬ -->
