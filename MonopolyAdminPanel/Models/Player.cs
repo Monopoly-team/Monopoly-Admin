@@ -8,6 +8,8 @@ public class Player
 
     public int Balance { get; set; }
 
+    public string Color { get; set; } = "#FFFFFF";
+
     public bool IsConnected { get; set; }
 
     public int Purchases { get; set; }

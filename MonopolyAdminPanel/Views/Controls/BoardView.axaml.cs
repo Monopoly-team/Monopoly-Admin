@@ -238,6 +238,17 @@ public partial class BoardView : UserControl
 
         foreach (JsonElement playerElement in playersElement.EnumerateArray())
         {
+            if (playerElement.TryGetProperty("active", out JsonElement activeElement) && activeElement.ValueKind == JsonValueKind.False)
+            {
+                continue;
+            }
+
+            if (playerElement.TryGetProperty("isConnected", out JsonElement connectedElement) &&
+                connectedElement.ValueKind == JsonValueKind.False)
+            {
+                continue;
+            }
+
             if (!playerElement.TryGetProperty("id", out JsonElement idElement))
                 continue;
 

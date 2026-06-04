@@ -54,6 +54,8 @@ public partial class AdminPanelView : UserControl
     private TextBlock? _lastDiceRollText;
 
     private IReadOnlyList<Player> _lastPlayers = [];
+    private readonly Dictionary<int, int> _purchaseCountsByPlayerId = new();
+    private readonly Dictionary<int, int> _lastOwnedCellsByPlayerId = new();
 
     public AdminPanelView()
     {
@@ -137,11 +139,13 @@ public partial class AdminPanelView : UserControl
 
         Dispatcher.UIThread.Post(() =>
         {
-            _lastPlayers = players;
+            IReadOnlyList<Player> updatedPlayers = KeepKnownPlayersDuringGame(players);
 
-            UpdatePlayersTable(players);
-            UpdateOnlinePlayers(players);
-            UpdateGameInfo(players);
+            _lastPlayers = updatedPlayers;
+
+            UpdatePlayersTable(updatedPlayers);
+            UpdateOnlinePlayers(updatedPlayers);
+            UpdateGameInfo(updatedPlayers);
         });
     }
 
@@ -187,34 +191,195 @@ public partial class AdminPanelView : UserControl
 
             if (!message.Payload.TryGetProperty("players", out JsonElement playersElement))
                 return;
+
+            List<Player> players = ReadPlayersFromGameState(playersElement);
+
+            UpdatePurchaseCounters(players);
+
+            _lastPlayers = players;
+
+            UpdatePlayersTable(players);
+            UpdateOnlinePlayers(players);
+            UpdateGameInfo(players);
+
             if (message.Payload.TryGetProperty("currentPlayerId", out JsonElement currentPlayerElement))
             {
                 int currentPlayerId = currentPlayerElement.GetInt32();
 
-                string currentPlayerName = "Неизвестно";
-
-                foreach (JsonElement player in playersElement.EnumerateArray())
-                {
-                    if (!player.TryGetProperty("id", out JsonElement idElement))
-                        continue;
-
-                    if (idElement.GetInt32() != currentPlayerId)
-                        continue;
-
-                    if (player.TryGetProperty("nickname", out JsonElement nicknameElement))
-                    {
-                        currentPlayerName = nicknameElement.GetString() ?? currentPlayerName;
-                    }
-
-                    break;
-                }
+                Player? currentPlayer = FindPlayerById(players, currentPlayerId);
 
                 if (_currentPlayerText != null)
-                    _currentPlayerText.Text = currentPlayerName;
+                    _currentPlayerText.Text = currentPlayer?.Name ?? currentPlayerId.ToString();
             }
 
             _gameBoardView?.UpdateCells(cellsElement, playersElement);
         });
+    }
+
+    private IReadOnlyList<Player> KeepKnownPlayersDuringGame(IReadOnlyList<Player> players)
+    {
+        if (!_isGameStarted)
+            return players;
+
+        var result = new List<Player>(players);
+
+        foreach (Player oldPlayer in _lastPlayers)
+        {
+            bool alreadyExists = false;
+
+            foreach (Player player in result)
+            {
+                if (player.Id == oldPlayer.Id)
+                {
+                    alreadyExists = true;
+                    break;
+                }
+            }
+
+            if (alreadyExists)
+                continue;
+
+            oldPlayer.IsConnected = false;
+            result.Add(oldPlayer);
+        }
+
+        return result;
+    }
+
+    private List<Player> ReadPlayersFromGameState(JsonElement playersElement)
+    {
+        var players = new List<Player>();
+
+        if (playersElement.ValueKind != JsonValueKind.Array)
+            return players;
+
+        foreach (JsonElement playerElement in playersElement.EnumerateArray())
+        {
+            int id = GetIntProperty(playerElement, "id", 0);
+
+            Player? previousPlayer = FindPlayerById(_lastPlayers, id);
+
+            int ownedCellsCount = GetArrayCountProperty(playerElement, "ownedProperties");
+
+            if (ownedCellsCount == 0)
+                ownedCellsCount = GetArrayCountProperty(playerElement, "ownedCells");
+
+            var player = new Player
+            {
+                Id = id,
+                Name = GetStringProperty(
+                    playerElement,
+                    "nickname",
+                    GetStringProperty(playerElement, "name", previousPlayer?.Name ?? $"Игрок {id}")),
+
+                Balance = GetIntProperty(playerElement, "balance", previousPlayer?.Balance ?? 0),
+
+                Color = GetStringProperty(playerElement, "color", previousPlayer?.Color ?? "#FFFFFF"),
+
+                IsConnected = GetBoolProperty(
+                    playerElement,
+                    "active",
+                    GetBoolProperty(playerElement, "isConnected", previousPlayer?.IsConnected ?? true)),
+
+                OwnedCellsCount = ownedCellsCount,
+
+                Purchases = previousPlayer?.Purchases ?? 0,
+                Fines = previousPlayer?.Fines ?? 0,
+                Bonuses = previousPlayer?.Bonuses ?? 0
+            };
+
+            players.Add(player);
+        }
+
+        return players;
+    }
+
+    private void UpdatePurchaseCounters(IReadOnlyList<Player> players)
+    {
+        foreach (Player player in players)
+        {
+            int currentOwnedCells = player.OwnedCellsCount;
+
+            if (!_purchaseCountsByPlayerId.ContainsKey(player.Id))
+            {
+                _purchaseCountsByPlayerId[player.Id] = currentOwnedCells;
+            }
+
+            if (_lastOwnedCellsByPlayerId.TryGetValue(player.Id, out int previousOwnedCells))
+            {
+                if (currentOwnedCells > previousOwnedCells)
+                {
+                    _purchaseCountsByPlayerId[player.Id] += currentOwnedCells - previousOwnedCells;
+                }
+            }
+
+            _lastOwnedCellsByPlayerId[player.Id] = currentOwnedCells;
+            player.Purchases = _purchaseCountsByPlayerId[player.Id];
+        }
+    }
+
+    private static Player? FindPlayerById(IReadOnlyList<Player> players, int id)
+    {
+        foreach (Player player in players)
+        {
+            if (player.Id == id)
+                return player;
+        }
+
+        return null;
+    }
+
+    private static string GetStringProperty(JsonElement element, string propertyName, string defaultValue)
+    {
+        if (!element.TryGetProperty(propertyName, out JsonElement value))
+            return defaultValue;
+
+        if (value.ValueKind != JsonValueKind.String)
+            return defaultValue;
+
+        return value.GetString() ?? defaultValue;
+    }
+
+    private static int GetIntProperty(JsonElement element, string propertyName, int defaultValue)
+    {
+        if (!element.TryGetProperty(propertyName, out JsonElement value))
+            return defaultValue;
+
+        if (value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out int result))
+            return result;
+
+        if (value.ValueKind == JsonValueKind.String && int.TryParse(value.GetString(), out result))
+            return result;
+
+        return defaultValue;
+    }
+
+    private static bool GetBoolProperty(JsonElement element, string propertyName, bool defaultValue)
+    {
+        if (!element.TryGetProperty(propertyName, out JsonElement value))
+            return defaultValue;
+
+        if (value.ValueKind == JsonValueKind.True)
+            return true;
+
+        if (value.ValueKind == JsonValueKind.False)
+            return false;
+
+        if (value.ValueKind == JsonValueKind.String && bool.TryParse(value.GetString(), out bool result))
+            return result;
+
+        return defaultValue;
+    }
+
+    private static int GetArrayCountProperty(JsonElement element, string propertyName)
+    {
+        if (!element.TryGetProperty(propertyName, out JsonElement value))
+            return 0;
+
+        if (value.ValueKind != JsonValueKind.Array)
+            return 0;
+
+        return value.GetArrayLength();
     }
 
     private void UpdatePauseState()
@@ -379,6 +544,10 @@ public partial class AdminPanelView : UserControl
     {
         Debug.WriteLine($"[AdminPanelView] CreateOnlinePlayerCard: {player.Name}");
 
+        IBrush playerBrush = player.IsConnected && !_isGameEnded
+            ? GetPlayerBrush(player)
+            : Brushes.Gray;
+
         IBrush statusBrush;
 
         if (_isGameEnded)
@@ -389,7 +558,7 @@ public partial class AdminPanelView : UserControl
         {
             statusBrush = player.IsConnected
                 ? Brushes.LimeGreen
-                : Brushes.Red;
+                : Brushes.Gray;
         }
 
         string statusText = GetPlayerStatusText(player);
@@ -404,14 +573,14 @@ public partial class AdminPanelView : UserControl
 
         var grid = new Grid
         {
-            ColumnDefinitions = new ColumnDefinitions("18,*,70")
+            ColumnDefinitions = new ColumnDefinitions("18,*,80")
         };
 
         var dot = new Ellipse
         {
             Width = 10,
             Height = 10,
-            Fill = statusBrush,
+            Fill = playerBrush,
             VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
         };
 
@@ -420,7 +589,7 @@ public partial class AdminPanelView : UserControl
         infoPanel.Children.Add(new TextBlock
         {
             Text = player.Name,
-            Foreground = Brushes.White,
+            Foreground = playerBrush,
             FontWeight = FontWeight.SemiBold
         });
 
@@ -452,6 +621,21 @@ public partial class AdminPanelView : UserControl
         return card;
     }
 
+    private static IBrush GetPlayerBrush(Player player)
+    {
+        if (string.IsNullOrWhiteSpace(player.Color))
+            return Brushes.White;
+
+        try
+        {
+            return new SolidColorBrush(Color.Parse(player.Color));
+        }
+        catch
+        {
+            return Brushes.White;
+        }
+    }
+
     private string GetPlayerStatusText(Player player)
     {
         if (_isGameEnded)
@@ -469,13 +653,23 @@ public partial class AdminPanelView : UserControl
             _totalPlayersText.Text = players.Count.ToString();
 
         if (_bankBalanceText != null)
-            _bankBalanceText.Text = "0";
+            _bankBalanceText.Text = "∞";
+
+        int totalPurchases = 0;
+
+        foreach (Player player in players)
+        {
+            totalPurchases += player.Purchases;
+        }
 
         if (_totalPurchasesText != null)
-            _totalPurchasesText.Text = "0";
+            _totalPurchasesText.Text = totalPurchases.ToString();
 
         if (_totalTurnsText != null)
             _totalTurnsText.Text = "0";
+
+        if (_bankBalanceText != null)
+            _bankBalanceText.Text = "∞";
 
         UpdateLocalStatistics();
     }
