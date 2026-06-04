@@ -1,0 +1,320 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MonopolyAdminPanel.Views.Controls.BoardView">
+
+	<Viewbox Stretch="Uniform">
+		<Grid Width="720"
+              Height="720"
+              Background="#151515">
+
+			<Grid x:Name="BoardGrid" 
+				  RowDefinitions="120,53,53,53,53,53,53,53,53,53,120"
+                  ColumnDefinitions="120,53,53,53,53,53,53,53,53,53,120">
+
+				<!-- УГЛЫ -->
+				<Border Grid.Row="10" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
+					<TextBlock Text="START" Foreground="#2A7C32" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
+					<TextBlock Text="JAIL" Foreground="#111" FontSize="24" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
+					<TextBlock Text="PARKING" Foreground="#514DE0" FontSize="20" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
+					<TextBlock Text="POLICE" Foreground="#111" FontSize="22" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<!-- ВЕРХ -->
+				<Border Grid.Row="0" Grid.Column="1"
+						Background="#F4F4F4"
+						BorderBrush="#111"
+						BorderThickness="1">
+
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#4DDBFF"/>
+					</Grid>
+
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="2" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#4DDBFF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="3" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#4DDBFF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="4" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="?" Foreground="#B85CFF" FontSize="32" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="5" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#B56CFF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="6" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="7" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#6EE7A8"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="8" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#6EE7A8"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="0" Grid.Column="9" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="20,*,8">
+						<Border Grid.Row="0" Background="#2F3136"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#6EE7A8"/>
+					</Grid>
+				</Border>
+
+				<!-- НИЗ -->
+				<Border Grid.Row="10" Grid.Column="1" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#FF8C42"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="2" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#FF8C42"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="3" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#FF8C42"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="4" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="5" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#B56CFF"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="6" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="?" Foreground="#B85CFF" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="7" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#50C878"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="8" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#50C878"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="10" Grid.Column="9" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid RowDefinitions="8,*,20">
+						<Border Grid.Row="0" Background="#50C878"/>
+						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Border Grid.Row="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<!-- ЛЕВО -->
+				<Border Grid.Row="1" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#7B61FF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="2" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#7B61FF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="3" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#7B61FF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="4" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="5" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#B56CFF"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="6" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="?" Foreground="#B85CFF" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="7" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#FFD166"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="8" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#FFD166"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="9" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="20,*,8">
+						<Border Grid.Column="0" Background="#2F3136"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#FFD166"/>
+					</Grid>
+				</Border>
+
+				<!-- ПРАВО -->
+				<Border Grid.Row="1" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#FF6B6B"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="2" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#FF6B6B"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="3" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#FF6B6B"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="4" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="?" Foreground="#B85CFF" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="5" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#B56CFF"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="6" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				</Border>
+
+				<Border Grid.Row="7" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#6C7BFF"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="8" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#6C7BFF"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<Border Grid.Row="9" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
+					<Grid ColumnDefinitions="8,*,20">
+						<Border Grid.Column="0" Background="#6C7BFF"/>
+						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Border Grid.Column="2" Background="#2F3136"/>
+					</Grid>
+				</Border>
+
+				<!-- ЦЕНТР -->
+				<Border Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.RowSpan="9"
+                        Grid.ColumnSpan="9"
+                        Background="#151515"
+                        BorderBrush="#151515"
+                        BorderThickness="2"/>
+
+			</Grid>
+		</Grid>
+	</Viewbox>
+</UserControl>

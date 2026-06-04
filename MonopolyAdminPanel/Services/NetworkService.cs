@@ -39,6 +39,7 @@ public class NetworkService
     public event Action<string>? GamePaused;
     public event Action? GameResumed;
     public event Action<int, int>? DiceRolled;
+    public event Action<NetworkMessage>? GameStateReceived;
 
     public NetworkService()
     {
@@ -100,6 +101,12 @@ public class NetworkService
         {
             Debug.WriteLine($"[NetworkService] DiceRolled: {first}, {second}");
             DiceRolled?.Invoke(first, second);
+        };
+
+        _messageHandler.GameStateReceived += message =>
+        {
+            Debug.WriteLine("[NetworkService] GameStateReceived");
+            GameStateReceived?.Invoke(message);
         };
     }
 

@@ -10,6 +10,8 @@ using MonopolyAdminPanel.Views.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json;
+using MonopolyAdminPanel.Views.Controls;
 
 namespace MonopolyAdminPanel.Views;
 
@@ -25,6 +27,7 @@ public partial class AdminPanelView : UserControl
     private StackPanel? _eventsPanel;
     private ScrollViewer? _eventsScrollViewer;
     private Action? _returnToLogin;
+    private BoardView? _gameBoardView;
 
     private TextBlock? _totalPlayersText;
     private TextBlock? _bankBalanceText;
@@ -74,6 +77,7 @@ public partial class AdminPanelView : UserControl
         _networkService.GamePaused += OnGamePaused;
         _networkService.GameResumed += OnGameResumed;
         _networkService.DiceRolled += OnDiceRolled;
+        _networkService.GameStateReceived += OnGameStateReceived;
 
         UpdateConnectionStatus(_networkService.IsConnected);
         UpdateGameStatus();
@@ -112,6 +116,7 @@ public partial class AdminPanelView : UserControl
         _firstDiceSvg = this.FindControl<Control>("FirstDiceSvg");
         _secondDiceSvg = this.FindControl<Control>("SecondDiceSvg");
         _lastDiceRollText = this.FindControl<TextBlock>("LastDiceRollText");
+        _gameBoardView = this.FindControl<BoardView>("GameBoardView");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
@@ -165,6 +170,20 @@ public partial class AdminPanelView : UserControl
         {
             _isGamePaused = false;
             UpdatePauseState();
+        });
+    }
+
+    private void OnGameStateReceived(NetworkMessage message)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            if (message.Payload.ValueKind != JsonValueKind.Object)
+                return;
+
+            if (!message.Payload.TryGetProperty("cells", out JsonElement cellsElement))
+                return;
+
+            _gameBoardView?.UpdateCells(cellsElement);
         });
     }
 

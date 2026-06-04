@@ -17,12 +17,4 @@ public class AdminPanelViewModel : ViewModelBase
 
     public bool IsConnected { get; set; }
 
-    public AdminPanelViewModel()
-    {
-        GameState = new GameState();
-
-        EventLogs.Add("22:20:11   Malahit1 бросил кубик - 4");
-        EventLogs.Add("22:18:45   Malahit2 заплатил за аренду Malahit1");
-        EventLogs.Add("22:16:03   Malahit2 взял кредит 5000");
-    }
 }
