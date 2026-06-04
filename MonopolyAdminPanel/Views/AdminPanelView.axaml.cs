@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
 using MonopolyAdminPanel.Views.Controls;
+using Avalonia.Input;
+using System.Threading.Tasks;
 
 namespace MonopolyAdminPanel.Views;
 
@@ -25,10 +27,12 @@ public partial class AdminPanelView : UserControl
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
     private StackPanel? _eventsPanel;
+    private StackPanel? _chatPanel;
+    private ScrollViewer? _chatScrollViewer;
     private ScrollViewer? _eventsScrollViewer;
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
-
+    private TextBox? _chatMessageTextBox;
     private TextBlock? _totalPlayersText;
     private TextBlock? _bankBalanceText;
     private TextBlock? _totalPurchasesText;
@@ -82,6 +86,7 @@ public partial class AdminPanelView : UserControl
         _networkService.PlayersListReceived += OnPlayersListReceived;
         _networkService.GameStarted += OnGameStarted;
         _networkService.GameEventReceived += OnGameEventReceived;
+        _networkService.ChatMessageReceived += OnChatMessageReceived;
         _networkService.GamePaused += OnGamePaused;
         _networkService.GameResumed += OnGameResumed;
         _networkService.DiceRolled += OnDiceRolled;
@@ -111,6 +116,7 @@ public partial class AdminPanelView : UserControl
         _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
         _eventsPanel = this.FindControl<StackPanel>("EventsPanel");
         _eventsScrollViewer = this.FindControl<ScrollViewer>("EventsScrollViewer");
+        _chatMessageTextBox = this.FindControl<TextBox>("ChatMessageTextBox");
 
         _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
         _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
@@ -127,6 +133,8 @@ public partial class AdminPanelView : UserControl
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
         _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
         _gameTimeText = this.FindControl<TextBlock>("GameTimeText");
+        _chatPanel = this.FindControl<StackPanel>("ChatPanel");
+        _chatScrollViewer = this.FindControl<ScrollViewer>("ChatScrollViewer");
     }
 
     private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
@@ -468,6 +476,92 @@ public partial class AdminPanelView : UserControl
         Dispatcher.UIThread.Post(() =>
         {
             RegisterGameEvent($"[СОБЫТИЕ] {text}");
+        });
+    }
+
+    private void OnChatMessageReceived(string text)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            AddChatMessage(text);
+        });
+    }
+
+    private void AddChatMessage(string text)
+    {
+        if (_chatPanel == null)
+            return;
+
+        var textBlock = new TextBlock
+        {
+            Text = text,
+            Foreground = Brushes.LightGray,
+            FontSize = 13,
+            TextWrapping = TextWrapping.Wrap
+        };
+
+        bool shouldAutoScroll = true;
+
+        if (_chatScrollViewer != null)
+        {
+            double offset = _chatScrollViewer.Offset.Y;
+            double viewportHeight = _chatScrollViewer.Viewport.Height;
+            double extentHeight = _chatScrollViewer.Extent.Height;
+
+            shouldAutoScroll = offset + viewportHeight >= extentHeight - 40;
+        }
+
+        _chatPanel.Children.Add(textBlock);
+
+        if (shouldAutoScroll)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                _chatScrollViewer?.ScrollToEnd();
+            });
+        }
+    }
+
+    private async void ChatMessageTextBox_KeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter)
+            return;
+
+        e.Handled = true;
+
+        await SendChatMessageAsync();
+    }
+
+    private async Task SendChatMessageAsync()
+    {
+        if (_networkService == null)
+            return;
+
+        if (_chatMessageTextBox == null)
+            return;
+
+        string text = _chatMessageTextBox.Text?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        string json = CreateChatMessageJson(text);
+
+        await _networkService.SendAsync(json);
+
+        _chatMessageTextBox.Text = string.Empty;
+    }
+
+    private static string CreateChatMessageJson(string text)
+    {
+        return JsonSerializer.Serialize(new
+        {
+            type = "chat_message",
+            senderId = 65535,
+            payload = new
+            {
+                text
+            }
         });
     }
 

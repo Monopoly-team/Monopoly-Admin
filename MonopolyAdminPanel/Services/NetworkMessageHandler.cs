@@ -19,6 +19,7 @@ public class NetworkMessageHandler
     private const string TypeGameEvent = "game_event";
     private const string TypeGamePaused = "game_paused";
     private const string TypeGameResumed = "game_resumed";
+    private const string TypeChatMessage = "chat_message";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -38,6 +39,7 @@ public class NetworkMessageHandler
     public event Action<string>? GameEventReceived;
     public event Action<string>? GamePaused;
     public event Action? GameResumed;
+    public event Action<string>? ChatMessageReceived;
 
     public void HandleRawMessage(string json)
     {
@@ -107,6 +109,10 @@ public class NetworkMessageHandler
 
             case TypeGameEvent:
                 HandleGameEvent(message);
+                break;
+
+            case TypeChatMessage:
+                HandleChatMessage(message);
                 break;
 
             case TypeGamePaused:
@@ -231,6 +237,38 @@ public class NetworkMessageHandler
 
         GameEventReceived?.Invoke(text);
     }
+
+    private void HandleChatMessage(NetworkMessage message)
+    {
+        string text = GetPayloadString(message, "text", "");
+
+        if (string.IsNullOrWhiteSpace(text))
+            text = GetPayloadString(message, "message", "");
+
+        if (string.IsNullOrWhiteSpace(text))
+            text = GetPayloadString(message, "content", "");
+
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            ServerError?.Invoke("В chat_message отсутствует текст сообщения");
+            return;
+        }
+
+        string senderName = GetPayloadString(message, "nickname", "");
+
+        if (string.IsNullOrWhiteSpace(senderName))
+            senderName = GetPayloadString(message, "playerName", "");
+
+        if (string.IsNullOrWhiteSpace(senderName))
+            senderName = GetPayloadString(message, "name", "");
+
+        string formattedText = string.IsNullOrWhiteSpace(senderName)
+            ? text
+            : $"{senderName}: {text}";
+
+        ChatMessageReceived?.Invoke(formattedText);
+    }
+
     private void HandleGamePaused(NetworkMessage message)
     {
         string reason = GetPayloadString(message, "reason", "Игра поставлена на паузу");

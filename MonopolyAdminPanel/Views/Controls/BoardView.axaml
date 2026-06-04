@@ -390,8 +390,8 @@
 							  x:Name="Cell19OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/samokat.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -406,8 +406,8 @@
 							  x:Name="Cell18OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/lavka.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -422,8 +422,8 @@
 							  x:Name="Cell17OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/vkusvill.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -447,8 +447,8 @@
 							  x:Name="Cell15OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/school.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -472,8 +472,8 @@
 							  x:Name="Cell13OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/5erochka.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -488,8 +488,8 @@
 							  x:Name="Cell12OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/magnit.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -504,8 +504,8 @@
 							  x:Name="Cell11OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/diksi.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -521,8 +521,8 @@
 							  x:Name="Cell31OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/cd.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -537,8 +537,8 @@
 							  x:Name="Cell32OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/rockstar.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -553,8 +553,8 @@
 							  x:Name="Cell33OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/valve.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -578,8 +578,8 @@
 							  x:Name="Cell35OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/college.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -603,8 +603,8 @@
 							  x:Name="Cell37OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/nbidia.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -619,8 +619,8 @@
 							  x:Name="Cell38OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/openai.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>
@@ -635,8 +635,8 @@
 							  x:Name="Cell39OwnerArea"
 							  Background="White">
 							<Svg Path="/Assets/microsoft.svg"
-								 Width="50"
-								 Height="50"
+								 Width="70"
+								 Height="70"
 								 HorizontalAlignment="Center"
 								 VerticalAlignment="Center"/>
 						</Grid>

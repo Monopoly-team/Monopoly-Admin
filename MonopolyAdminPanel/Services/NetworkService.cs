@@ -34,6 +34,7 @@ public class NetworkService
     public event Action<string>? ErrorReceived;
     public event Action<IReadOnlyList<Player>>? PlayersListReceived;
     public event Action<string>? GameEventReceived;
+    public event Action<string>? ChatMessageReceived;
 
     public event Action? GameStarted;
     public event Action<string>? GamePaused;
@@ -77,6 +78,12 @@ public class NetworkService
         {
             Debug.WriteLine($"[NetworkService] GameEventReceived: {text}");
             GameEventReceived?.Invoke(text);
+        };
+
+        _messageHandler.ChatMessageReceived += text =>
+        {
+            Debug.WriteLine($"[NetworkService] ChatMessageReceived: {text}");
+            ChatMessageReceived?.Invoke(text);
         };
 
         _messageHandler.GamePaused += reason =>
