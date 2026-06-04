@@ -1,6 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
@@ -28,8 +26,8 @@ public partial class AdminPanelView : UserControl
     private GameInfoPanel? _gameInfoPanel;
     private GameStatePanel? _gameStatePanel;
     private PlayerStatsPanel? _playerStatsPanel;
+    private OnlinePlayersPanel? _onlinePlayersPanel;
 
-    private StackPanel? _onlinePlayersPanel;
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
 
@@ -96,14 +94,13 @@ public partial class AdminPanelView : UserControl
 
     private void FindControls()
     {
-        _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
-
         _eventHistoryPanel = this.FindControl<EventHistoryPanel>("EventHistoryPanel");
         _dicePanel = this.FindControl<DicePanel>("DicePanel");
         _connectionPanel = this.FindControl<ConnectionPanel>("ConnectionPanel");
         _gameInfoPanel = this.FindControl<GameInfoPanel>("GameInfoPanel");
         _gameStatePanel = this.FindControl<GameStatePanel>("GameStatePanel");
         _playerStatsPanel = this.FindControl<PlayerStatsPanel>("PlayerStatsPanel");
+        _onlinePlayersPanel = this.FindControl<OnlinePlayersPanel>("OnlinePlayersPanel");
 
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
         _pauseGameButton = this.FindControl<Button>("PauseGameButton");
@@ -556,122 +553,10 @@ public partial class AdminPanelView : UserControl
     {
         Debug.WriteLine($"[AdminPanelView] UpdateOnlinePlayers: {players.Count}");
 
-        if (_onlinePlayersPanel == null)
-            return;
-
-        _onlinePlayersPanel.Children.Clear();
-
-        foreach (Player player in players)
-        {
-            _onlinePlayersPanel.Children.Add(CreateOnlinePlayerCard(player));
-        }
-    }
-
-    private Control CreateOnlinePlayerCard(Player player)
-    {
-        Debug.WriteLine($"[AdminPanelView] CreateOnlinePlayerCard: {player.Name}");
-
-        IBrush playerBrush = player.IsConnected && !_isGameEnded
-            ? GetPlayerBrush(player)
-            : Brushes.Gray;
-
-        IBrush statusBrush;
-
-        if (_isGameEnded)
-        {
-            statusBrush = Brushes.Red;
-        }
-        else
-        {
-            statusBrush = player.IsConnected
-                ? Brushes.LimeGreen
-                : Brushes.Gray;
-        }
-
-        string statusText = GetPlayerStatusText(player);
-
-        var card = new Border
-        {
-            Height = 58,
-            Background = new SolidColorBrush(Color.Parse("#26262D")),
-            CornerRadius = new CornerRadius(6),
-            Padding = new Thickness(12, 8)
-        };
-
-        var grid = new Grid
-        {
-            ColumnDefinitions = new ColumnDefinitions("18,*,80")
-        };
-
-        var dot = new Ellipse
-        {
-            Width = 10,
-            Height = 10,
-            Fill = playerBrush,
-            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
-        };
-
-        var infoPanel = new StackPanel();
-
-        infoPanel.Children.Add(new TextBlock
-        {
-            Text = player.Name,
-            Foreground = playerBrush,
-            FontWeight = FontWeight.SemiBold
-        });
-
-        infoPanel.Children.Add(new TextBlock
-        {
-            Text = $"{player.Balance}$",
-            Foreground = Brushes.LightGray,
-            FontSize = 12
-        });
-
-        var statusBlock = new TextBlock
-        {
-            Text = statusText,
-            Foreground = statusBrush,
-            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
-            FontWeight = FontWeight.SemiBold
-        };
-
-        Grid.SetColumn(dot, 0);
-        Grid.SetColumn(infoPanel, 1);
-        Grid.SetColumn(statusBlock, 2);
-
-        grid.Children.Add(dot);
-        grid.Children.Add(infoPanel);
-        grid.Children.Add(statusBlock);
-
-        card.Child = grid;
-
-        return card;
-    }
-
-    private static IBrush GetPlayerBrush(Player player)
-    {
-        if (string.IsNullOrWhiteSpace(player.Color))
-            return Brushes.White;
-
-        try
-        {
-            return new SolidColorBrush(Color.Parse(player.Color));
-        }
-        catch
-        {
-            return Brushes.White;
-        }
-    }
-
-    private string GetPlayerStatusText(Player player)
-    {
-        if (_isGameEnded)
-            return "Отключен";
-
-        if (!player.IsConnected)
-            return "Вышел";
-
-        return _isGameStarted ? "В игре" : "В лобби";
+        _onlinePlayersPanel?.UpdatePlayers(
+            players,
+            isGameStarted: _isGameStarted,
+            isGameEnded: _isGameEnded);
     }
 
     private void UpdateGameInfo(IReadOnlyList<Player> players)

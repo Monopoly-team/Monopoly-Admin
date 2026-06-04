@@ -198,29 +198,10 @@
 
 			</StackPanel>
 		</Border>
-
-		<Border Grid.Row="1"
-				Background="#1F1F24"
-				CornerRadius="10"
-				Padding="16">
-
-			<Grid RowDefinitions="Auto,*">
-
-				<TextBlock Grid.Row="0"
-						   Text="ИГРОКИ ОНЛАЙН"
-						   FontSize="18"
-						   Foreground="White"
-						   FontWeight="SemiBold"
-						   Margin="0,0,0,12"/>
-
-				<ScrollViewer Grid.Row="1">
-					<StackPanel x:Name="OnlinePlayersPanel"
-								Spacing="12"/>
-				</ScrollViewer>
-
-			</Grid>
-
-		</Border>
+		
+		<!-- ИГРОКИ ОНЛАЙН -->
+		<controls:OnlinePlayersPanel x:Name="OnlinePlayersPanel"
+                              Grid.Row="1"/>
 	</Grid>
 	</Grid>
 </UserControl>
