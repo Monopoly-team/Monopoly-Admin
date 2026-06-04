@@ -1,0 +1,134 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MonopolyAdminPanel.Views.Controls.GameInfoPanel">
+
+	<Border Background="#1C1C22"
+			CornerRadius="14"
+			Padding="24">
+
+		<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+			  ColumnDefinitions="*,140">
+
+			<TextBlock Grid.Row="0"
+					   Grid.ColumnSpan="2"
+					   Text="ИНФОРМАЦИЯ ОБ ИГРЕ"
+					   FontSize="18"
+					   FontWeight="Bold"
+					   Foreground="White"
+					   Margin="0,0,0,17"/>
+
+			<TextBlock Grid.Row="1" Grid.Column="0"
+					   Text="Всего игроков"
+					   FontSize="14"
+					   Foreground="#CFCFCF"/>
+
+			<TextBlock Grid.Row="1" Grid.Column="1"
+					   x:Name="TotalPlayersText"
+					   Text="0"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+			<TextBlock Grid.Row="2" Grid.Column="0"
+					   Text="Бюджет банка"
+					   FontSize="14"
+					   Foreground="#CFCFCF"
+					   Margin="0,14,0,0"/>
+
+			<TextBlock Grid.Row="2" Grid.Column="1"
+					   x:Name="BankBalanceText"
+					   Text="∞"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,14,0,0"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+			<TextBlock Grid.Row="3" Grid.Column="0"
+					   Text="Всего покупок"
+					   FontSize="14"
+					   Foreground="#CFCFCF"
+					   Margin="0,14,0,0"/>
+
+			<TextBlock Grid.Row="3" Grid.Column="1"
+					   x:Name="TotalPurchasesText"
+					   Text="0"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,14,0,0"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+			<TextBlock Grid.Row="4" Grid.Column="0"
+					   Text="Всего штрафов"
+					   FontSize="14"
+					   Foreground="#CFCFCF"
+					   Margin="0,14,0,0"/>
+
+			<TextBlock Grid.Row="4" Grid.Column="1"
+					   x:Name="TotalFinesText"
+					   Text="0"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,14,0,0"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+			<TextBlock Grid.Row="5" Grid.Column="0"
+					   Text="Всего бонусов"
+					   FontSize="14"
+					   Foreground="#CFCFCF"
+					   Margin="0,14,0,0"/>
+
+			<TextBlock Grid.Row="5" Grid.Column="1"
+					   x:Name="TotalBonusesText"
+					   Text="0"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,14,0,0"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+			<TextBlock Grid.Row="6" Grid.Column="0"
+					   Text="Всего событий"
+					   FontSize="14"
+					   Foreground="#CFCFCF"
+					   Margin="0,14,0,0"/>
+
+			<TextBlock Grid.Row="6" Grid.Column="1"
+					   x:Name="TotalEventsText"
+					   Text="0"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,14,0,0"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+			<TextBlock Grid.Row="7" Grid.Column="0"
+					   Text="Всего ходов"
+					   FontSize="14"
+					   Foreground="#CFCFCF"
+					   Margin="0,14,0,0"/>
+
+			<TextBlock Grid.Row="7" Grid.Column="1"
+					   x:Name="TotalTurnsText"
+					   Text="0"
+					   FontSize="14"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,14,0,0"
+					   HorizontalAlignment="Right"
+					   TextAlignment="Right"/>
+
+		</Grid>
+
+	</Border>
+
+</UserControl>

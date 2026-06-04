@@ -25,18 +25,13 @@ public partial class AdminPanelView : UserControl
     private ChatPanel? _adminChatPanel;
     private DicePanel? _dicePanel;
     private ConnectionPanel? _connectionPanel;
+    private GameInfoPanel? _gameInfoPanel;
 
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
-    private TextBlock? _totalPlayersText;
-    private TextBlock? _bankBalanceText;
-    private TextBlock? _totalPurchasesText;
-    private TextBlock? _totalFinesText;
-    private TextBlock? _totalBonusesText;
-    private TextBlock? _totalEventsText;
-    private TextBlock? _totalTurnsText;
+
     private TextBlock? _currentPlayerText;
     private TextBlock? _gameTimeText;
 
@@ -110,20 +105,15 @@ public partial class AdminPanelView : UserControl
 
         _eventHistoryPanel = this.FindControl<EventHistoryPanel>("EventHistoryPanel");
         _dicePanel = this.FindControl<DicePanel>("DicePanel");
+        _connectionPanel = this.FindControl<ConnectionPanel>("ConnectionPanel");
+        _gameInfoPanel = this.FindControl<GameInfoPanel>("GameInfoPanel");
 
-        _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
-        _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
-        _totalPurchasesText = this.FindControl<TextBlock>("TotalPurchasesText");
-        _totalFinesText = this.FindControl<TextBlock>("TotalFinesText");
-        _totalBonusesText = this.FindControl<TextBlock>("TotalBonusesText");
-        _totalEventsText = this.FindControl<TextBlock>("TotalEventsText");
-        _totalTurnsText = this.FindControl<TextBlock>("TotalTurnsText");
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
         _pauseGameButton = this.FindControl<Button>("PauseGameButton");
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
         _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
         _gameTimeText = this.FindControl<TextBlock>("GameTimeText");
-        _connectionPanel = this.FindControl<ConnectionPanel>("ConnectionPanel");
+        
 
         if (_connectionPanel != null)
             _connectionPanel.DisconnectRequested += OnDisconnectRequested;
@@ -743,12 +733,6 @@ public partial class AdminPanelView : UserControl
 
     private void UpdateGameInfo(IReadOnlyList<Player> players)
     {
-        if (_totalPlayersText != null)
-            _totalPlayersText.Text = players.Count.ToString();
-
-        if (_bankBalanceText != null)
-            _bankBalanceText.Text = "∞";
-
         int totalPurchases = 0;
 
         foreach (Player player in players)
@@ -756,13 +740,13 @@ public partial class AdminPanelView : UserControl
             totalPurchases += player.Purchases;
         }
 
-        if (_totalPurchasesText != null)
-            _totalPurchasesText.Text = totalPurchases.ToString();
-
-        if (_totalTurnsText != null)
-            _totalTurnsText.Text = _totalTurns.ToString();
-
-        UpdateLocalStatistics();
+        _gameInfoPanel?.UpdateInfo(
+            totalPlayers: players.Count,
+            totalPurchases: totalPurchases,
+            totalFines: _totalFines,
+            totalBonuses: _totalBonuses,
+            totalEvents: _totalEvents,
+            totalTurns: _totalTurns);
     }
     private void OnDiceRolled(int first, int second)
     {
@@ -779,14 +763,7 @@ public partial class AdminPanelView : UserControl
 
     private void UpdateLocalStatistics()
     {
-        if (_totalFinesText != null)
-            _totalFinesText.Text = _totalFines.ToString();
-
-        if (_totalBonusesText != null)
-            _totalBonusesText.Text = _totalBonuses.ToString();
-
-        if (_totalEventsText != null)
-            _totalEventsText.Text = _totalEvents.ToString();
+        UpdateGameInfo(_lastPlayers);
     }
 
     private static string CreateAdminActionJson(Dictionary<string, object> payload)
