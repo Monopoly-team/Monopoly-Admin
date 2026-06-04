@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MonopolyAdminPanel.Views.Controls.GameStatePanel">
+
+	<Border Background="#1F1F24"
+			CornerRadius="10"
+			Padding="20">
+
+		<Grid RowDefinitions="Auto,*">
+
+			<TextBlock Grid.Row="0"
+					   Text="ТЕКУЩЕЕ СОСТОЯНИЕ ИГРЫ"
+					   FontSize="18"
+					   FontWeight="SemiBold"
+					   Foreground="White"
+					   Margin="0,0,0,4"/>
+
+			<Grid Grid.Row="1"
+				  ColumnDefinitions="*,*,*">
+
+				<StackPanel Grid.Column="0"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Left">
+					<TextBlock Text="СТАТУС"
+							   FontSize="13"
+							   Foreground="#A8A8A8"/>
+
+					<TextBlock x:Name="GameStatusText"
+							   Text="ЛОББИ"
+							   FontSize="15"
+							   Foreground="#00FF62"/>
+				</StackPanel>
+
+				<StackPanel Grid.Column="1"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center">
+					<TextBlock Text="ХОД ИГРОКА"
+							   FontSize="13"
+							   Foreground="#A8A8A8"/>
+
+					<TextBlock x:Name="CurrentPlayerText"
+							   Text="Игра не началась"
+							   FontSize="15"
+							   Foreground="White"/>
+				</StackPanel>
+
+				<StackPanel Grid.Column="2"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Right">
+					<TextBlock Text="ВРЕМЯ"
+							   FontSize="13"
+							   Foreground="#A8A8A8"/>
+
+					<TextBlock x:Name="GameTimeText"
+							   Text="00:00:00"
+							   FontSize="15"
+							   Foreground="White"/>
+				</StackPanel>
+
+			</Grid>
+
+		</Grid>
+
+	</Border>
+
+</UserControl>

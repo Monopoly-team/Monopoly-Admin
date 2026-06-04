@@ -26,14 +26,12 @@ public partial class AdminPanelView : UserControl
     private DicePanel? _dicePanel;
     private ConnectionPanel? _connectionPanel;
     private GameInfoPanel? _gameInfoPanel;
+    private GameStatePanel? _gameStatePanel;
 
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
-
-    private TextBlock? _currentPlayerText;
-    private TextBlock? _gameTimeText;
 
     private Border? _pauseOverlay;
     private Button? _pauseGameButton;
@@ -107,13 +105,11 @@ public partial class AdminPanelView : UserControl
         _dicePanel = this.FindControl<DicePanel>("DicePanel");
         _connectionPanel = this.FindControl<ConnectionPanel>("ConnectionPanel");
         _gameInfoPanel = this.FindControl<GameInfoPanel>("GameInfoPanel");
+        _gameStatePanel = this.FindControl<GameStatePanel>("GameStatePanel");
 
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
         _pauseGameButton = this.FindControl<Button>("PauseGameButton");
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
-        _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
-        _gameTimeText = this.FindControl<TextBlock>("GameTimeText");
-        
 
         if (_connectionPanel != null)
             _connectionPanel.DisconnectRequested += OnDisconnectRequested;
@@ -231,13 +227,15 @@ public partial class AdminPanelView : UserControl
 
     private void UpdateGameSessionTime()
     {
-        if (_gameTimeText == null || _gameSessionStartTime == null)
+        if (_gameSessionStartTime == null)
             return;
 
         TimeSpan elapsed = DateTime.Now - _gameSessionStartTime.Value;
 
-        _gameTimeText.Text =
+        string timeText =
             $"{(int)elapsed.TotalHours:00}:{elapsed.Minutes:00}:{elapsed.Seconds:00}";
+
+        _gameStatePanel?.SetTime(timeText);
     }
 
     private void UpdateTurnCounterAndCurrentPlayer(JsonElement payload, IReadOnlyList<Player> players)
@@ -260,8 +258,7 @@ public partial class AdminPanelView : UserControl
 
         Player? currentPlayer = FindPlayerById(players, currentPlayerId);
 
-        if (_currentPlayerText != null)
-            _currentPlayerText.Text = currentPlayer?.Name ?? currentPlayerId.ToString();
+        _gameStatePanel?.SetCurrentPlayer(currentPlayer?.Name ?? currentPlayerId.ToString());
     }
 
     private static bool TryGetIntValue(JsonElement value, out int result)
@@ -529,24 +526,25 @@ public partial class AdminPanelView : UserControl
 
     private void UpdateGameStatus()
     {
-        if (GameStatusText == null)
+        if (_isGameEnded)
+        {
+            _gameStatePanel?.SetStatus("ИГРА ЗАКОНЧЕНА", Brushes.Red);
             return;
+        }
 
         if (_isGamePaused)
         {
-            GameStatusText.Text = "ИГРА НА ПАУЗЕ";
-            GameStatusText.Foreground = Brushes.Orange;
+            _gameStatePanel?.SetStatus("ИГРА НА ПАУЗЕ", Brushes.Orange);
+            return;
         }
-        else if (_isGameStarted)
+
+        if (_isGameStarted)
         {
-            GameStatusText.Text = "ИГРА АКТИВНА";
-            GameStatusText.Foreground = Brushes.DeepSkyBlue;
+            _gameStatePanel?.SetStatus("ИГРА АКТИВНА", Brushes.DeepSkyBlue);
+            return;
         }
-        else
-        {
-            GameStatusText.Text = "ЛОББИ";
-            GameStatusText.Foreground = Brushes.LimeGreen;
-        }
+
+        _gameStatePanel?.SetStatus("ЛОББИ", Brushes.LimeGreen);
     }
 
     private void UpdatePlayersTable(IReadOnlyList<Player> players)
@@ -974,8 +972,7 @@ public partial class AdminPanelView : UserControl
             _isGameStarted = false;
             _isGameEnded = true;
 
-            GameStatusText.Text = "ИГРА ЗАКОНЧЕНА";
-            GameStatusText.Foreground = Brushes.Red;
+            UpdateGameStatus();
 
             UpdateOnlinePlayers(_lastPlayers);
         }
