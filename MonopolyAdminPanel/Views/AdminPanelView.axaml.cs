@@ -19,14 +19,12 @@ namespace MonopolyAdminPanel.Views;
 
 public partial class AdminPanelView : UserControl
 {
-    private const string ConnectedText = "● Подключено";
-    private const string DisconnectedText = "● Не подключено";
-
     private NetworkService? _networkService;
 
     private EventHistoryPanel? _eventHistoryPanel;
     private ChatPanel? _adminChatPanel;
     private DicePanel? _dicePanel;
+    private ConnectionPanel? _connectionPanel;
 
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
@@ -75,7 +73,7 @@ public partial class AdminPanelView : UserControl
         _networkService = networkService;
         _returnToLogin = returnToLogin;
 
-        ServerIpText.Text = serverIp;
+        _connectionPanel?.SetServerIp(serverIp);
 
         _networkService.ConnectionChanged += OnConnectionChanged;
         _networkService.PlayersListReceived += OnPlayersListReceived;
@@ -125,7 +123,10 @@ public partial class AdminPanelView : UserControl
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
         _currentPlayerText = this.FindControl<TextBlock>("CurrentPlayerText");
         _gameTimeText = this.FindControl<TextBlock>("GameTimeText");
+        _connectionPanel = this.FindControl<ConnectionPanel>("ConnectionPanel");
 
+        if (_connectionPanel != null)
+            _connectionPanel.DisconnectRequested += OnDisconnectRequested;
 
         _adminChatPanel = this.FindControl<ChatPanel>("AdminChatPanel");
 
@@ -133,7 +134,7 @@ public partial class AdminPanelView : UserControl
             _adminChatPanel.SendRequested += OnChatSendRequested;
     }
 
-    private void DisconnectButton_Click(object? sender, RoutedEventArgs e)
+    private void OnDisconnectRequested()
     {
         StopGameSessionTimer();
         _returnToLogin?.Invoke();
@@ -533,11 +534,7 @@ public partial class AdminPanelView : UserControl
 
     private void UpdateConnectionStatus(bool isConnected)
     {
-        if (ConnectionStatusText == null)
-            return;
-
-        ConnectionStatusText.Text = isConnected ? ConnectedText : DisconnectedText;
-        ConnectionStatusText.Foreground = isConnected ? Brushes.LimeGreen : Brushes.Red;
+        _connectionPanel?.SetConnectionStatus(isConnected);
     }
 
     private void UpdateGameStatus()

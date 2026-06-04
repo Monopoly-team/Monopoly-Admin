@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MonopolyAdminPanel.Views.Controls.ConnectionPanel">
+
+	<Border Background="#1F1F24"
+			CornerRadius="10"
+			Padding="16">
+
+		<StackPanel Spacing="10">
+
+			<TextBlock Text="СОЕДИНЕНИЕ С СЕРВЕРОМ"
+					   FontSize="17"
+					   Foreground="White"
+					   FontWeight="SemiBold"/>
+
+			<Grid ColumnDefinitions="100,*">
+				<TextBlock Grid.Column="0"
+						   Text="Статус:"
+						   Foreground="#CFCFCF"/>
+
+				<TextBlock x:Name="ConnectionStatusText"
+						   Grid.Column="1"
+						   Text="● Подключено"
+						   Foreground="#00FF62"/>
+			</Grid>
+
+			<Grid ColumnDefinitions="100,*">
+				<TextBlock Grid.Column="0"
+						   Text="IP-адрес:"
+						   Foreground="#CFCFCF"/>
+
+				<TextBlock x:Name="ServerIpText"
+						   Grid.Column="1"
+						   Text="192.168.0.1"
+						   Foreground="White"/>
+			</Grid>
+
+			<Button Content="⏻  ОТКЛЮЧИТЬСЯ"
+					Height="38"
+					Margin="0,8,0,0"
+					Background="#3A1F24"
+					Foreground="#FF4A4A"
+					BorderBrush="#7A2D38"
+					BorderThickness="1"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					Click="DisconnectButton_Click"/>
+
+		</StackPanel>
+
+	</Border>
+
+</UserControl>
