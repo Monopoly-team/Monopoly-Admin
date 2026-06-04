@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
 using MonopolyAdminPanel.Models;
@@ -27,12 +26,12 @@ public partial class AdminPanelView : UserControl
     private GameStatePanel? _gameStatePanel;
     private PlayerStatsPanel? _playerStatsPanel;
     private OnlinePlayersPanel? _onlinePlayersPanel;
+    private AdminActionsPanel? _adminActionsPanel;
 
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
 
     private Border? _pauseOverlay;
-    private Button? _pauseGameButton;
     
     private bool _isGamePaused;
     private bool _isGameStarted;
@@ -103,8 +102,18 @@ public partial class AdminPanelView : UserControl
         _onlinePlayersPanel = this.FindControl<OnlinePlayersPanel>("OnlinePlayersPanel");
 
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
-        _pauseGameButton = this.FindControl<Button>("PauseGameButton");
         _gameBoardView = this.FindControl<BoardView>("GameBoardView");
+        _adminActionsPanel = this.FindControl<AdminActionsPanel>("AdminActionsPanel");
+
+        if (_adminActionsPanel != null)
+        {
+            _adminActionsPanel.ChangeBalanceRequested += OnChangeBalanceRequested;
+            _adminActionsPanel.FinePlayerRequested += OnFinePlayerRequested;
+            _adminActionsPanel.BonusPlayerRequested += OnBonusPlayerRequested;
+            _adminActionsPanel.KickPlayerRequested += OnKickPlayerRequested;
+            _adminActionsPanel.StartEventRequested += OnStartEventRequested;
+            _adminActionsPanel.PauseGameRequested += OnPauseGameRequested;
+        }
 
         if (_connectionPanel != null)
             _connectionPanel.DisconnectRequested += OnDisconnectRequested;
@@ -445,11 +454,11 @@ public partial class AdminPanelView : UserControl
         if (_pauseOverlay != null)
             _pauseOverlay.IsVisible = _isGamePaused;
 
-        if (_pauseGameButton != null)
-            _pauseGameButton.Content = _isGamePaused ? "Запустить игру" : "Остановить игру";
+        _adminActionsPanel?.SetPauseButtonText(_isGamePaused);
 
         UpdateGameStatus();
     }
+
     private void OnGameEventReceived(string text)
     {
         Dispatcher.UIThread.Post(() =>
@@ -604,7 +613,7 @@ public partial class AdminPanelView : UserControl
         });
     }
 
-    private async void ChangeBalanceButton_Click(object? sender, RoutedEventArgs e)
+    private async void OnChangeBalanceRequested()
     {
         if (_networkService == null)
             return;
@@ -651,7 +660,7 @@ public partial class AdminPanelView : UserControl
         await _networkService.SendAsync(json);
     }
 
-    private async void FinePlayerButton_Click(object? sender, RoutedEventArgs e)
+    private async void OnFinePlayerRequested()
     {
         if (_networkService == null)
             return;
@@ -704,7 +713,7 @@ public partial class AdminPanelView : UserControl
         UpdateLocalStatistics();
     }
 
-    private async void BonusPlayerButton_Click(object? sender, RoutedEventArgs e)
+    private async void OnBonusPlayerRequested()
     {
         if (_networkService == null)
             return;
@@ -757,7 +766,7 @@ public partial class AdminPanelView : UserControl
         UpdateLocalStatistics();
     }
 
-    private async void KickPlayerButton_Click(object? sender, RoutedEventArgs e)
+    private async void OnKickPlayerRequested()
     {
         if (_networkService == null)
             return;
@@ -807,8 +816,8 @@ public partial class AdminPanelView : UserControl
             UpdateOnlinePlayers(_lastPlayers);
         }
     }
-    
-    private async void StartEventButton_Click(object? sender, RoutedEventArgs e)
+
+    private async void OnStartEventRequested()
     {
         if (_networkService == null)
             return;
@@ -846,7 +855,7 @@ public partial class AdminPanelView : UserControl
         _totalEvents++;
         UpdateLocalStatistics();
     }
-    private async void PauseGameButton_Click(object? sender, RoutedEventArgs e)
+    private async void OnPauseGameRequested()
     {
         if (_networkService == null)
             return;

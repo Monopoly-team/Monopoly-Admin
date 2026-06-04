@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MonopolyAdminPanel.Views.Controls.AdminActionsPanel">
+
+	<Border Background="#1C1C22"
+			CornerRadius="14"
+			Padding="20">
+
+		<StackPanel Spacing="14">
+
+			<TextBlock Text="ДЕЙСТВИЯ АДМИНИСТРАТОРА"
+					   FontSize="18"
+					   Foreground="White"
+					   FontWeight="Bold"
+					   Margin="0,0,0,4"/>
+
+			<Button Content="Изменить баланс"
+					Height="58"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="16"
+					FontWeight="SemiBold"
+					Background="#26262D"
+					Foreground="White"
+					BorderBrush="#3A3A45"
+					BorderThickness="1"
+					CornerRadius="10"
+					Click="ChangeBalanceButton_Click"/>
+
+			<Button Content="Выдать штраф"
+					Height="58"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="16"
+					FontWeight="SemiBold"
+					Background="#26262D"
+					Foreground="White"
+					BorderBrush="#3A3A45"
+					BorderThickness="1"
+					CornerRadius="10"
+					Click="FinePlayerButton_Click"/>
+
+			<Button Content="Выдать бонус"
+					Height="58"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="16"
+					FontWeight="SemiBold"
+					Background="#26262D"
+					Foreground="White"
+					BorderBrush="#3A3A45"
+					BorderThickness="1"
+					CornerRadius="10"
+					Click="BonusPlayerButton_Click"/>
+
+			<Button Content="Кикнуть игрока"
+					Height="58"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="16"
+					FontWeight="SemiBold"
+					Background="#26262D"
+					Foreground="White"
+					BorderBrush="#3A3A45"
+					BorderThickness="1"
+					CornerRadius="10"
+					Click="KickPlayerButton_Click"/>
+
+			<Button Content="Запустить событие"
+					Height="58"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="16"
+					FontWeight="SemiBold"
+					Background="#26262D"
+					Foreground="White"
+					BorderBrush="#3A3A45"
+					BorderThickness="1"
+					CornerRadius="10"
+					Click="StartEventButton_Click"/>
+
+			<Button x:Name="PauseGameButton"
+					Content="Остановить игру"
+					Height="58"
+					HorizontalAlignment="Stretch"
+					HorizontalContentAlignment="Center"
+					VerticalContentAlignment="Center"
+					FontSize="16"
+					FontWeight="SemiBold"
+					Background="#26262D"
+					Foreground="White"
+					BorderBrush="#3A3A45"
+					BorderThickness="1"
+					CornerRadius="10"
+					Click="PauseGameButton_Click"/>
+
+		</StackPanel>
+
+	</Border>
+
+</UserControl>
