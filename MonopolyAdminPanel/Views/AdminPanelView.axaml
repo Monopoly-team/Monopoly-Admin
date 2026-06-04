@@ -20,17 +20,10 @@
 									Margin="0,0,0,16"/>
 
 			<!-- ТАБЛИЦА ИГРОКОВ -->
-			<Border Grid.Row="1"
-					Height="280"
-					Background="#1C1C22"
-					CornerRadius="14"
-					Padding="16"
-					Margin="0,0,0,14">
-
-					<Grid x:Name="PlayersTableGrid"
-						  ColumnDefinitions="1.8*,1.3*,1.1*,1.1*,1.1*"/>
-
-			</Border>
+			<controls:PlayerStatsPanel x:Name="PlayerStatsPanel"
+									   Grid.Row="1"
+									   Height="280"
+									   Margin="0,0,0,14"/>
 
 
 			<!-- КУБИКИ -->

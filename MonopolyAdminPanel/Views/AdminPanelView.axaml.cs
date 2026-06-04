@@ -27,8 +27,8 @@ public partial class AdminPanelView : UserControl
     private ConnectionPanel? _connectionPanel;
     private GameInfoPanel? _gameInfoPanel;
     private GameStatePanel? _gameStatePanel;
+    private PlayerStatsPanel? _playerStatsPanel;
 
-    private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
@@ -57,8 +57,6 @@ public partial class AdminPanelView : UserControl
         InitializeComponent();
 
         FindControls();
-
-        AddTableHeader();
     }
 
     public AdminPanelView(NetworkService networkService, string serverIp, Action returnToLogin): this()
@@ -98,7 +96,6 @@ public partial class AdminPanelView : UserControl
 
     private void FindControls()
     {
-        _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
         _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
 
         _eventHistoryPanel = this.FindControl<EventHistoryPanel>("EventHistoryPanel");
@@ -106,6 +103,7 @@ public partial class AdminPanelView : UserControl
         _connectionPanel = this.FindControl<ConnectionPanel>("ConnectionPanel");
         _gameInfoPanel = this.FindControl<GameInfoPanel>("GameInfoPanel");
         _gameStatePanel = this.FindControl<GameStatePanel>("GameStatePanel");
+        _playerStatsPanel = this.FindControl<PlayerStatsPanel>("PlayerStatsPanel");
 
         _pauseOverlay = this.FindControl<Border>("PauseOverlay");
         _pauseGameButton = this.FindControl<Button>("PauseGameButton");
@@ -551,60 +549,7 @@ public partial class AdminPanelView : UserControl
     {
         Debug.WriteLine($"[AdminPanelView] UpdatePlayersTable: {players.Count}");
 
-        if (_playersTableGrid == null)
-            return;
-
-        _playersTableGrid.Children.Clear();
-        _playersTableGrid.RowDefinitions.Clear();
-
-        AddTableHeader();
-
-        for (int i = 0; i < players.Count; i++)
-        {
-            Player player = players[i];
-            int row = i + 1;
-
-            _playersTableGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-
-            AddCell(player.Name, row, 0, Brushes.White);
-            AddCell(player.Purchases.ToString(), row, 1, Brushes.White);
-            AddCell(player.Bonuses.ToString(), row, 2, Brushes.White);
-            AddCell(player.Fines.ToString(), row, 3, Brushes.White);
-            AddCell(player.OwnedCellsCount.ToString(), row, 4, Brushes.White);
-        }
-    }
-
-    private void AddTableHeader()
-    {
-        if (_playersTableGrid == null)
-            return;
-
-        _playersTableGrid.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-
-        AddCell("игрок", 0, 0, Brushes.Gray);
-        AddCell("покупки", 0, 1, Brushes.Gray);
-        AddCell("бонусы", 0, 2, Brushes.Gray);
-        AddCell("штрафы", 0, 3, Brushes.Gray);
-        AddCell("клетки", 0, 4, Brushes.Gray);
-    }
-
-    private void AddCell(string text, int row, int column, IBrush foreground)
-    {
-        if (_playersTableGrid == null)
-            return;
-
-        var textBlock = new TextBlock
-        {
-            Text = text,
-            Foreground = foreground,
-            FontWeight = row == 0 ? FontWeight.SemiBold : FontWeight.Normal,
-            Margin = new Thickness(0, 7, 0, 7)
-        };
-
-        Grid.SetRow(textBlock, row);
-        Grid.SetColumn(textBlock, column);
-
-        _playersTableGrid.Children.Add(textBlock);
+        _playerStatsPanel?.UpdatePlayers(players);
     }
 
     private void UpdateOnlinePlayers(IReadOnlyList<Player> players)
