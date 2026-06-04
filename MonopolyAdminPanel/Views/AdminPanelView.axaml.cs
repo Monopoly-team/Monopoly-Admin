@@ -780,6 +780,16 @@ public partial class AdminPanelView : UserControl
             _totalEventsText.Text = _totalEvents.ToString();
     }
 
+    private static string CreateAdminActionJson(Dictionary<string, object> payload)
+    {
+        return JsonSerializer.Serialize(new
+        {
+            type = "admin_action",
+            senderId = 65535,
+            payload
+        });
+    }
+
     private async void ChangeBalanceButton_Click(object? sender, RoutedEventArgs e)
     {
         if (_networkService == null)
@@ -810,20 +820,19 @@ public partial class AdminPanelView : UserControl
         if (balance == null)
             return;
 
-        string reason = dialog.Reason;
+        string reason = dialog.Reason.Trim();
 
-        string json;
+        var payload = new Dictionary<string, object>
+        {
+            ["action"] = "set_balance",
+            ["playerId"] = selectedPlayer.Id,
+            ["balance"] = balance.Value
+        };
 
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"set_balance\",\"playerId\":{selectedPlayer.Id},\"balance\":{balance.Value}}}}}";
-        }
-        else
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"set_balance\",\"playerId\":{selectedPlayer.Id},\"balance\":{balance.Value},\"reason\":\"{reason}\"}}}}";
-        }
+        if (!string.IsNullOrWhiteSpace(reason))
+            payload["reason"] = reason;
+
+        string json = CreateAdminActionJson(payload);
 
         await _networkService.SendAsync(json);
     }
@@ -858,20 +867,19 @@ public partial class AdminPanelView : UserControl
         if (amount == null)
             return;
 
-        string reason = dialog.Reason;
+        string reason = dialog.Reason.Trim();
 
-        string json;
+        var payload = new Dictionary<string, object>
+        {
+            ["action"] = "fine",
+            ["playerId"] = selectedPlayer.Id,
+            ["amount"] = amount.Value
+        };
 
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"fine\",\"playerId\":{selectedPlayer.Id},\"amount\":{amount.Value}}}}}";
-        }
-        else
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"fine\",\"playerId\":{selectedPlayer.Id},\"amount\":{amount.Value},\"reason\":\"{reason}\"}}}}";
-        }
+        if (!string.IsNullOrWhiteSpace(reason))
+            payload["reason"] = reason;
+
+        string json = CreateAdminActionJson(payload);
 
         await _networkService.SendAsync(json);
 
@@ -912,20 +920,19 @@ public partial class AdminPanelView : UserControl
         if (amount == null)
             return;
 
-        string reason = dialog.Reason;
+        string reason = dialog.Reason.Trim();
 
-        string json;
+        var payload = new Dictionary<string, object>
+        {
+            ["action"] = "bonus",
+            ["playerId"] = selectedPlayer.Id,
+            ["amount"] = amount.Value
+        };
 
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"bonus\",\"playerId\":{selectedPlayer.Id},\"amount\":{amount.Value}}}}}";
-        }
-        else
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"bonus\",\"playerId\":{selectedPlayer.Id},\"amount\":{amount.Value},\"reason\":\"{reason}\"}}}}";
-        }
+        if (!string.IsNullOrWhiteSpace(reason))
+            payload["reason"] = reason;
+
+        string json = CreateAdminActionJson(payload);
 
         await _networkService.SendAsync(json);
 
@@ -963,18 +970,16 @@ public partial class AdminPanelView : UserControl
 
         string reason = dialog.Reason.Trim();
 
-        string json;
+        var payload = new Dictionary<string, object>
+        {
+            ["action"] = "kick",
+            ["playerId"] = selectedPlayer.Id
+        };
 
-        if (string.IsNullOrWhiteSpace(reason))
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"kick\",\"playerId\":{selectedPlayer.Id}}}}}";
-        }
-        else
-        {
-            json =
-                $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"kick\",\"playerId\":{selectedPlayer.Id},\"reason\":\"{reason}\"}}}}";
-        }
+        if (!string.IsNullOrWhiteSpace(reason))
+            payload["reason"] = reason;
+
+        string json = CreateAdminActionJson(payload);
 
         await _networkService.SendAsync(json);
 
@@ -1012,8 +1017,16 @@ public partial class AdminPanelView : UserControl
         if (turns == null)
             return;
 
-        string json =
-            $"{{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{{\"action\":\"start_event\",\"eventId\":{dialog.EventId},\"title\":\"{dialog.EventTitle}\",\"description\":\"{dialog.EventDescription}\",\"turns\":{turns.Value}}}}}";
+        var payload = new Dictionary<string, object>
+        {
+            ["action"] = "start_event",
+            ["eventId"] = dialog.EventId,
+            ["title"] = dialog.EventTitle,
+            ["description"] = dialog.EventDescription,
+            ["turns"] = turns.Value
+        };
+
+        string json = CreateAdminActionJson(payload);
 
         await _networkService.SendAsync(json);
 
@@ -1025,18 +1038,14 @@ public partial class AdminPanelView : UserControl
         if (_networkService == null)
             return;
 
-        string json;
+        string action = _isGamePaused ? "resume_game" : "pause_game";
 
-        if (_isGamePaused)
+        var payload = new Dictionary<string, object>
         {
-            json =
-                "{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{\"action\":\"resume_game\"}}";
-        }
-        else
-        {
-            json =
-                "{\"type\":\"admin_action\",\"senderId\":65535,\"payload\":{\"action\":\"pause_game\"}}";
-        }
+            ["action"] = action
+        };
+
+        string json = CreateAdminActionJson(payload);
 
         await _networkService.SendAsync(json);
     }
