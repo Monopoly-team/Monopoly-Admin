@@ -12,44 +12,91 @@
                   ColumnDefinitions="120,53,53,53,53,53,53,53,53,53,120">
 
 				<!-- УГЛЫ -->
-				<Border Grid.Row="10" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
-					<TextBlock Text="START" Foreground="#2A7C32" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<Border Grid.Row="10" Grid.Column="10"
+						Background="#F4F4F4"
+						BorderBrush="#111"
+						BorderThickness="2">
+					<Grid>
+						<Svg Path="/Assets/start.svg"
+							 Width="90"
+							 Height="90"
+							 HorizontalAlignment="Center"
+							 VerticalAlignment="Center"/>
+					</Grid>
 				</Border>
 
-				<Border Grid.Row="10" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
-					<TextBlock Text="JAIL" Foreground="#111" FontSize="24" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<Border Grid.Row="10" Grid.Column="0"
+						Background="#F4F4F4"
+						BorderBrush="#111"
+						BorderThickness="2">
+					<Grid>
+						<Svg Path="/Assets/jail.svg"
+							 Width="90"
+							 Height="90"
+							 HorizontalAlignment="Center"
+							 VerticalAlignment="Center"/>
+					</Grid>
 				</Border>
 
-				<Border Grid.Row="0" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
-					<TextBlock Text="PARKING" Foreground="#514DE0" FontSize="20" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<Border Grid.Row="0" Grid.Column="0"
+						Background="#F4F4F4"
+						BorderBrush="#111"
+						BorderThickness="2">
+					<Grid>
+						<Svg Path="/Assets/parking.svg"
+							 Width="90"
+							 Height="90"
+							 HorizontalAlignment="Center"
+							 VerticalAlignment="Center"/>
+					</Grid>
 				</Border>
-
-				<Border Grid.Row="0" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="2">
-					<TextBlock Text="POLICE" Foreground="#111" FontSize="22" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				
+				<Border Grid.Row="0" Grid.Column="10"
+						Background="#F4F4F4"
+						BorderBrush="#111"
+						BorderThickness="2">
+					<Grid>
+						<Svg Path="/Assets/police.svg"
+							 Width="90"
+							 Height="90"
+							 HorizontalAlignment="Center"
+							 VerticalAlignment="Center"/>
+					</Grid>
 				</Border>
 
 				<!-- ВЕРХ -->
-				<Border Grid.Row="0" Grid.Column="1"
-						Background="#F4F4F4"
-						BorderBrush="#111"
-						BorderThickness="1">
-
+				<Border Grid.Row="0" Grid.Column="1" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/ozon.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#4DDBFF"/>
 					</Grid>
-
 				</Border>
 
 				<Border Grid.Row="0" Grid.Column="2" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/yamarket.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#4DDBFF"/>
 					</Grid>
 				</Border>
@@ -57,33 +104,71 @@
 				<Border Grid.Row="0" Grid.Column="3" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/wb.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#4DDBFF"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="0" Grid.Column="4" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="?" Foreground="#B85CFF" FontSize="32" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="?"
+							   Foreground="#B85CFF"
+							   FontSize="32"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="0" Grid.Column="5" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/university.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#B56CFF"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="0" Grid.Column="6" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="!"
+							   Foreground="#3BD174"
+							   FontSize="28"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="0" Grid.Column="7" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/ozonbank.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#6EE7A8"/>
 					</Grid>
 				</Border>
@@ -91,7 +176,17 @@
 				<Border Grid.Row="0" Grid.Column="8" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/alfa.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#6EE7A8"/>
 					</Grid>
 				</Border>
@@ -99,7 +194,17 @@
 				<Border Grid.Row="0" Grid.Column="9" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="20,*,8">
 						<Border Grid.Row="0" Background="#2F3136"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/sber.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#6EE7A8"/>
 					</Grid>
 				</Border>
@@ -108,7 +213,17 @@
 				<Border Grid.Row="10" Grid.Column="1" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#FF8C42"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/HandM.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -116,7 +231,17 @@
 				<Border Grid.Row="10" Grid.Column="2" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#FF8C42"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/lamoda.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -124,33 +249,71 @@
 				<Border Grid.Row="10" Grid.Column="3" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#FF8C42"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/secondhand.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="10" Grid.Column="4" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="!"
+							   Foreground="#3BD174"
+							   FontSize="28"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="10" Grid.Column="5" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#B56CFF"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/english.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="10" Grid.Column="6" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="?" Foreground="#B85CFF" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="?"
+							   Foreground="#B85CFF"
+							   FontSize="32"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="10" Grid.Column="7" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#50C878"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/rigla.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -158,7 +321,17 @@
 				<Border Grid.Row="10" Grid.Column="8" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#50C878"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/eapteka.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -166,7 +339,17 @@
 				<Border Grid.Row="10" Grid.Column="9" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid RowDefinitions="8,*,20">
 						<Border Grid.Row="0" Background="#50C878"/>
-						<Border Grid.Row="1" Background="#F4F4F4"/>
+						<Grid Grid.Row="1">
+							<Svg Path="/Assets/aprel.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center">
+								<Svg.RenderTransform>
+									<RotateTransform Angle="-90"/>
+								</Svg.RenderTransform>
+							</Svg>
+						</Grid>
 						<Border Grid.Row="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -174,67 +357,117 @@
 				<!-- ЛЕВО -->
 				<Border Grid.Row="1" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#7B61FF"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/samokat.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="2" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#7B61FF"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/lavka.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="3" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#7B61FF"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/vkusvill.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="4" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="!"
+							   Foreground="#3BD174"
+							   FontSize="28"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="5" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#B56CFF"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/school.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="6" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="?" Foreground="#B85CFF" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="?"
+							   Foreground="#B85CFF"
+							   FontSize="32"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="7" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#FFD166"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/5erochka.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="8" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#FFD166"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/magnit.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="9" Grid.Column="0" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="20,*,8">
-						<Border Grid.Column="0" Background="#2F3136"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
 						<Border Grid.Column="2" Background="#FFD166"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/diksi.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
+						<Border Grid.Column="0" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
@@ -242,7 +475,13 @@
 				<Border Grid.Row="1" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#FF6B6B"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/cd.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -250,7 +489,13 @@
 				<Border Grid.Row="2" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#FF6B6B"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/rockstar.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -258,33 +503,59 @@
 				<Border Grid.Row="3" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#FF6B6B"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/valve.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="4" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="?" Foreground="#B85CFF" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="?"
+							   Foreground="#B85CFF"
+							   FontSize="32"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="5" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#B56CFF"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/college.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
 
 				<Border Grid.Row="6" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
-					<TextBlock Text="!" Foreground="#3BD174" FontSize="28" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBlock Text="!"
+							   Foreground="#3BD174"
+							   FontSize="28"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"/>
 				</Border>
 
 				<Border Grid.Row="7" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#6C7BFF"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/nbidia.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -292,7 +563,13 @@
 				<Border Grid.Row="8" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#6C7BFF"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/openai.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
@@ -300,7 +577,13 @@
 				<Border Grid.Row="9" Grid.Column="10" Background="#F4F4F4" BorderBrush="#111" BorderThickness="1">
 					<Grid ColumnDefinitions="8,*,20">
 						<Border Grid.Column="0" Background="#6C7BFF"/>
-						<Border Grid.Column="1" Background="#F4F4F4"/>
+						<Grid Grid.Column="1">
+							<Svg Path="/Assets/microsoft.svg"
+								 Width="70"
+								 Height="70"
+								 HorizontalAlignment="Center"
+								 VerticalAlignment="Center"/>
+						</Grid>
 						<Border Grid.Column="2" Background="#2F3136"/>
 					</Grid>
 				</Border>
