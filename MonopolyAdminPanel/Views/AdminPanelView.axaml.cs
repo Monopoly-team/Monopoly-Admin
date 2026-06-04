@@ -44,6 +44,8 @@ public partial class AdminPanelView : UserControl
     private IReadOnlyList<Player> _lastPlayers = [];
     private readonly Dictionary<int, int> _purchaseCountsByPlayerId = new();
     private readonly Dictionary<int, int> _lastOwnedCellsByPlayerId = new();
+    private readonly Dictionary<int, int> _fineCountsByPlayerId = new();
+    private readonly Dictionary<int, int> _bonusCountsByPlayerId = new();
     private DispatcherTimer? _gameSessionTimer;
     private DateTime? _gameSessionStartTime;
     private int? _lastCurrentPlayerId;
@@ -143,6 +145,8 @@ public partial class AdminPanelView : UserControl
         {
             IReadOnlyList<Player> updatedPlayers = KeepKnownPlayersDuringGame(players);
 
+            ApplyLocalPlayerCounters(updatedPlayers);
+
             _lastPlayers = updatedPlayers;
 
             UpdatePlayersTable(updatedPlayers);
@@ -194,8 +198,9 @@ public partial class AdminPanelView : UserControl
             if (!message.Payload.TryGetProperty("players", out JsonElement playersElement))
                 return;
 
-            List<Player> players = ReadPlayersFromGameState(playersElement);
+            List<Player> players = GameStateParser.ReadPlayers(playersElement, _lastPlayers);
 
+            ApplyLocalPlayerCounters(players);
             UpdatePurchaseCounters(players);
 
             _lastPlayers = players;
@@ -260,7 +265,7 @@ public partial class AdminPanelView : UserControl
             _lastCurrentPlayerId = currentPlayerId;
         }
 
-        Player? currentPlayer = FindPlayerById(players, currentPlayerId);
+        Player? currentPlayer = GameStateParser.FindPlayerById(players, currentPlayerId);
 
         _gameStatePanel?.SetCurrentPlayer(currentPlayer?.Name ?? currentPlayerId.ToString());
     }
@@ -313,54 +318,6 @@ public partial class AdminPanelView : UserControl
         return result;
     }
 
-    private List<Player> ReadPlayersFromGameState(JsonElement playersElement)
-    {
-        var players = new List<Player>();
-
-        if (playersElement.ValueKind != JsonValueKind.Array)
-            return players;
-
-        foreach (JsonElement playerElement in playersElement.EnumerateArray())
-        {
-            int id = GetIntProperty(playerElement, "id", 0);
-
-            Player? previousPlayer = FindPlayerById(_lastPlayers, id);
-
-            int ownedCellsCount = GetArrayCountProperty(playerElement, "ownedProperties");
-
-            if (ownedCellsCount == 0)
-                ownedCellsCount = GetArrayCountProperty(playerElement, "ownedCells");
-
-            var player = new Player
-            {
-                Id = id,
-                Name = GetStringProperty(
-                    playerElement,
-                    "nickname",
-                    GetStringProperty(playerElement, "name", previousPlayer?.Name ?? $"Игрок {id}")),
-
-                Balance = GetIntProperty(playerElement, "balance", previousPlayer?.Balance ?? 0),
-
-                Color = GetStringProperty(playerElement, "color", previousPlayer?.Color ?? "#FFFFFF"),
-
-                IsConnected = GetBoolProperty(
-                    playerElement,
-                    "active",
-                    GetBoolProperty(playerElement, "isConnected", previousPlayer?.IsConnected ?? true)),
-
-                OwnedCellsCount = ownedCellsCount,
-
-                Purchases = previousPlayer?.Purchases ?? 0,
-                Fines = previousPlayer?.Fines ?? 0,
-                Bonuses = previousPlayer?.Bonuses ?? 0
-            };
-
-            players.Add(player);
-        }
-
-        return players;
-    }
-
     private void UpdatePurchaseCounters(IReadOnlyList<Player> players)
     {
         foreach (Player player in players)
@@ -385,68 +342,36 @@ public partial class AdminPanelView : UserControl
         }
     }
 
-    private static Player? FindPlayerById(IReadOnlyList<Player> players, int id)
+    private void ApplyLocalPlayerCounters(IReadOnlyList<Player> players)
     {
         foreach (Player player in players)
         {
-            if (player.Id == id)
-                return player;
+            if (_fineCountsByPlayerId.TryGetValue(player.Id, out int fines))
+                player.Fines = fines;
+
+            if (_bonusCountsByPlayerId.TryGetValue(player.Id, out int bonuses))
+                player.Bonuses = bonuses;
         }
-
-        return null;
     }
 
-    private static string GetStringProperty(JsonElement element, string propertyName, string defaultValue)
+    private void IncrementPlayerFines(int playerId)
     {
-        if (!element.TryGetProperty(propertyName, out JsonElement value))
-            return defaultValue;
+        if (!_fineCountsByPlayerId.ContainsKey(playerId))
+            _fineCountsByPlayerId[playerId] = 0;
 
-        if (value.ValueKind != JsonValueKind.String)
-            return defaultValue;
+        _fineCountsByPlayerId[playerId]++;
 
-        return value.GetString() ?? defaultValue;
+        ApplyLocalPlayerCounters(_lastPlayers);
     }
 
-    private static int GetIntProperty(JsonElement element, string propertyName, int defaultValue)
+    private void IncrementPlayerBonuses(int playerId)
     {
-        if (!element.TryGetProperty(propertyName, out JsonElement value))
-            return defaultValue;
+        if (!_bonusCountsByPlayerId.ContainsKey(playerId))
+            _bonusCountsByPlayerId[playerId] = 0;
 
-        if (value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out int result))
-            return result;
+        _bonusCountsByPlayerId[playerId]++;
 
-        if (value.ValueKind == JsonValueKind.String && int.TryParse(value.GetString(), out result))
-            return result;
-
-        return defaultValue;
-    }
-
-    private static bool GetBoolProperty(JsonElement element, string propertyName, bool defaultValue)
-    {
-        if (!element.TryGetProperty(propertyName, out JsonElement value))
-            return defaultValue;
-
-        if (value.ValueKind == JsonValueKind.True)
-            return true;
-
-        if (value.ValueKind == JsonValueKind.False)
-            return false;
-
-        if (value.ValueKind == JsonValueKind.String && bool.TryParse(value.GetString(), out bool result))
-            return result;
-
-        return defaultValue;
-    }
-
-    private static int GetArrayCountProperty(JsonElement element, string propertyName)
-    {
-        if (!element.TryGetProperty(propertyName, out JsonElement value))
-            return 0;
-
-        if (value.ValueKind != JsonValueKind.Array)
-            return 0;
-
-        return value.GetArrayLength();
+        ApplyLocalPlayerCounters(_lastPlayers);
     }
 
     private void UpdatePauseState()
@@ -706,7 +631,7 @@ public partial class AdminPanelView : UserControl
 
         await _networkService.SendAsync(json);
 
-        selectedPlayer.Fines++;
+        IncrementPlayerFines(selectedPlayer.Id);
         _totalFines++;
 
         UpdatePlayersTable(_lastPlayers);
@@ -759,7 +684,7 @@ public partial class AdminPanelView : UserControl
 
         await _networkService.SendAsync(json);
 
-        selectedPlayer.Bonuses++;
+        IncrementPlayerBonuses(selectedPlayer.Id);
         _totalBonuses++;
 
         UpdatePlayersTable(_lastPlayers);
