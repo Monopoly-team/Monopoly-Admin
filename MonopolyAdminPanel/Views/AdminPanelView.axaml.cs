@@ -24,12 +24,12 @@ public partial class AdminPanelView : UserControl
 
     private NetworkService? _networkService;
 
+    private EventHistoryPanel? _eventHistoryPanel;
+
     private Grid? _playersTableGrid;
     private StackPanel? _onlinePlayersPanel;
-    private StackPanel? _eventsPanel;
     private StackPanel? _chatPanel;
     private ScrollViewer? _chatScrollViewer;
-    private ScrollViewer? _eventsScrollViewer;
     private Action? _returnToLogin;
     private BoardView? _gameBoardView;
     private TextBox? _chatMessageTextBox;
@@ -114,9 +114,8 @@ public partial class AdminPanelView : UserControl
     {
         _playersTableGrid = this.FindControl<Grid>("PlayersTableGrid");
         _onlinePlayersPanel = this.FindControl<StackPanel>("OnlinePlayersPanel");
-        _eventsPanel = this.FindControl<StackPanel>("EventsPanel");
-        _eventsScrollViewer = this.FindControl<ScrollViewer>("EventsScrollViewer");
         _chatMessageTextBox = this.FindControl<TextBox>("ChatMessageTextBox");
+        _eventHistoryPanel = this.FindControl<EventHistoryPanel>("EventHistoryPanel");
 
         _totalPlayersText = this.FindControl<TextBlock>("TotalPlayersText");
         _bankBalanceText = this.FindControl<TextBlock>("BankBalanceText");
@@ -567,36 +566,7 @@ public partial class AdminPanelView : UserControl
 
     private void AddEventLog(string text)
     {
-        if (_eventsPanel == null)
-            return;
-
-        var textBlock = new TextBlock
-        {
-            Text = text,
-            Foreground = Brushes.LightGray,
-            FontSize = 14
-        };
-
-        bool shouldAutoScroll = true;
-
-        if (_eventsScrollViewer != null)
-        {
-            double offset = _eventsScrollViewer.Offset.Y;
-            double viewportHeight = _eventsScrollViewer.Viewport.Height;
-            double extentHeight = _eventsScrollViewer.Extent.Height;
-
-            shouldAutoScroll = offset + viewportHeight >= extentHeight - 40;
-        }
-
-        _eventsPanel.Children.Add(textBlock);
-
-        if (shouldAutoScroll)
-        {
-            Dispatcher.UIThread.Post(() =>
-            {
-                _eventsScrollViewer?.ScrollToEnd();
-            });
-        }
+        _eventHistoryPanel?.AddEvent(text);
     }
 
     private void UpdateConnectionStatus(bool isConnected)

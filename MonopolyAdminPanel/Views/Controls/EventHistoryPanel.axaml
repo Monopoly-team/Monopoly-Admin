@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MonopolyAdminPanel.Views.Controls.EventHistoryPanel">
+
+	<Border Background="#DD1F1F24"
+			CornerRadius="14"
+			Padding="16">
+
+		<Grid RowDefinitions="Auto,*">
+
+			<TextBlock Grid.Row="0"
+					   Text="ИСТОРИЯ СОБЫТИЙ"
+					   Foreground="White"
+					   FontSize="17"
+					   FontWeight="SemiBold"/>
+
+			<ScrollViewer x:Name="EventsScrollViewer"
+						  Grid.Row="1"
+						  Margin="0,10,0,0">
+
+				<StackPanel x:Name="EventsPanel"
+							Spacing="8"/>
+
+			</ScrollViewer>
+
+		</Grid>
+
+	</Border>
+
+</UserControl>
