@@ -35,20 +35,68 @@ public partial class BoardView : UserControl
 
             int id = idElement.GetInt32();
 
-            if (cellElement.TryGetProperty("price", out JsonElement priceElement))
-            {
-                int price = priceElement.GetInt32();
-                SetCellPrice(id, price);
-            }
-
             int ownerId = 0;
 
-            if (cellElement.TryGetProperty("ownerId", out JsonElement ownerIdElement))
-                ownerId = ownerIdElement.GetInt32();
+            if (TryReadIntProperty(cellElement, "ownerId", out int parsedOwnerId))
+                ownerId = parsedOwnerId;
 
+            int displayAmount = ownerId > 0
+                ? GetCellRent(cellElement)
+                : GetCellPrice(cellElement);
+
+            SetCellPrice(id, displayAmount);
             SetCellOwnerColor(id, ownerId, playerBrushes);
         }
         UpdatePlayerTokens(playersElement);
+    }
+
+    private static int GetCellPrice(JsonElement cellElement)
+    {
+        if (TryReadIntProperty(cellElement, "price", out int price))
+            return price;
+
+        return 0;
+    }
+
+    private static int GetCellRent(JsonElement cellElement)
+    {
+        string[] rentPropertyNames =
+        {
+        "rent",
+        "currentRent",
+        "rentPrice",
+        "finalRent",
+        "actualRent"
+    };
+
+        foreach (string propertyName in rentPropertyNames)
+        {
+            if (TryReadIntProperty(cellElement, propertyName, out int rent) && rent > 0)
+                return rent;
+        }
+
+        int price = GetCellPrice(cellElement);
+
+        if (price <= 0)
+            return 0;
+
+        return Math.Max(1, price / 10);
+    }
+
+    private static bool TryReadIntProperty(JsonElement element, string propertyName, out int result)
+    {
+        result = 0;
+
+        if (!element.TryGetProperty(propertyName, out JsonElement value))
+            return false;
+
+        if (value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out result))
+            return true;
+
+        if (value.ValueKind == JsonValueKind.String && int.TryParse(value.GetString(), out result))
+            return true;
+
+        return false;
     }
 
     private static Dictionary<int, IBrush> CreatePlayerBrushes(JsonElement playersElement)
